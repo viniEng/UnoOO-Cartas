@@ -53,4 +53,17 @@ public class Carta{
 	public void setNumero(int n){
 		this.numero = n;
 	}
+	
+	@Override
+	public String toString() {
+		String carta;
+		if(this.cor == null) {
+			carta = "CESC: " + this.acao;
+		} else if(this.acao == null) {
+			carta = "CNCC: " + this.numero + " " + this.cor;
+		} else {
+			carta = "CECC: " + this.acao + " " + this.cor;
+		}
+		return carta;
+	}
 }
