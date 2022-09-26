@@ -1,10 +1,11 @@
 package acao;
+import base.Roda;
 
 public class Inverter extends Acao {
   public Inverter() {
   }
 
-  public int inversao() {
-    return -1;
+  public void inversao(Roda roda) {
+    roda.inverter();
   }
 }

@@ -1,20 +1,15 @@
 package acao;
-//import java.util.Scanner;
+import base.Roda;
+//import base.Jogada;
 
 public class Mais4 extends Acao {
   public Mais4() {
   }
 
-  public String mudarCor(String cor) {
-    /*
-     * Scanner sc;
-     * sc = new Scanner(System.in);
-     * cor = sc.nextLine();
-     */
-    return cor;
+  public void compra4(Roda roda) {
+    for(int cont = 0; cont<4 ; cont++){
+    roda.comprarCarta(roda.proximoJogador());
+    //Jogada.mudarCor();
   }
-
-  public int Soma() {
-    return 4;
-  }
+  roda.pular();
 }

@@ -1,17 +1,11 @@
 package acao;
-
-//import java.util.Scanner;
+//import base.Jogada;
 
 public class TrocaCor extends Acao {
   public TrocaCor() {
   }
 
   public String mudarCor(String cor) {
-    /*
-     * Scanner sc;
-     * sc = new Scanner(System.in);
-     * cor = sc.nextLine();
-     */
-    return cor;
+    //Jogada.mudarCor();
   }
 }

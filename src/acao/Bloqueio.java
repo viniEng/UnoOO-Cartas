@@ -6,6 +6,6 @@ public class Bloqueio extends Acao {
   }
 
   public void block(Roda roda) {
-    roda.proximoJogador();
+    roda.pular();
   }
 }
