@@ -1,10 +1,11 @@
-package acao;
+package Acao;
+import base.Roda;
 
 public class Bloqueio extends Acao {
   public Bloqueio() {
   }
 
-  public int block() {
-    return 1;
+  public void block(Roda roda) {
+    roda.proximoJogador();
   }
 }
