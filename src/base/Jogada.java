@@ -1,3 +1,5 @@
+package base;
+
 public class Jogada{
     /*Classe: jogada de compra;
         Função da classe: caso o jogador não detiver de nenhuma carta que combine com a que está na 

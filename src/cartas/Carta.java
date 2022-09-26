@@ -1,6 +1,6 @@
-package base;
+package cartas;
 
-public class Carta{
+public class Carta {
 	public final static String MAIS2 = "+2";
 	public final static String MAIS4 = "+4";
 	public final static String BLOQ = "bloqueio";
@@ -15,24 +15,6 @@ public class Carta{
 	private String cor;
 	private int numero;
 	private String acao;
-	
-	public Carta(String c, int n){//Carta normal com cor
-		this.cor = c;
-		this.numero = n;
-		this.acao = null;
-	}
-	
-	public Carta(String c, String ac){//Carta especial com cor
-		this.cor = c;
-		this.acao = ac;
-		this.numero = -1;
-	}
-	
-	public Carta(String ac){//Carta especial sem cor
-		this.cor = null;
-		this.acao = ac;
-		this.numero = -1;
-	}
 	
 	public String getCor(){
 		return this.cor;

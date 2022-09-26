@@ -1,7 +1,9 @@
+package base;
+
 public class Jogo{
 
     private Baralho baralho;
-    private Jogador[] jogadores = new Jogador[n];
+    private Jogador[] jogadores = new Jogador[8];
     private Roda roda;
 
     public void iniciarBaralho(); //instancia baralho 

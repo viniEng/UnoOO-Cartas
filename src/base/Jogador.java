@@ -1,4 +1,4 @@
-package jogador;
+package base;
 
 public class Jogador {
     MaoCartas maoCartas = new MaoCartas();
