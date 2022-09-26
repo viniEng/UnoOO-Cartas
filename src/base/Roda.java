@@ -1,8 +1,10 @@
 package base;
 
+import cartas.Carta;
+
 /**
  * 
- * @author Luciano
+ * @author
  *
  */
 public class Roda {

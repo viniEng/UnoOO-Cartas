@@ -1,5 +1,7 @@
 package base;
 
+import cartas.Carta;
+
 public class MaoCartas {
 	Carta[] cartas = new Carta[112];
 

@@ -3,7 +3,7 @@ package cartas;
 public class CartaEspecialSemCor extends CartaComAcao {
 
 	public CartaEspecialSemCor(String ac){//Carta especial sem cor
-		super.setCor(null);
+		//super.setCor(null);
 		super.setNumero(-1);
 		super.setAcao(ac);
 	}
