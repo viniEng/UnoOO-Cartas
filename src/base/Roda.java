@@ -1,82 +1,62 @@
+package base;
+
 import java.util.ArrayList;
+import cartas.*;
 public class Roda {
-	Baralho compra, descarte;// o baralho enviado pelo "jogo" nada mais é um baralho de compra, que retiramos
-							 // as cartas iniciais dos jogadores
+	Baralho compra;
+	Baralho descarte = new Baralho(false);
+
             
 	ArrayList<Jogador> jogadores = new ArrayList<>();
 
-	private int sentido;// é um valor, que varia entre positivo e negativo, e é somado á posição do
-	// ultimo jogador para definir o próximo a jogar
-    private int posicaoAtual;
+	private int sentido;
 
-  
-  /**
-   * 
-   * @return
-   */
-  public Carta comprarCarta() {
-	  return(compra.pegarCarta(0));
-	}
-  
-	
-	
+    private int posicaoAtual;
 	/**
 	 * 
 	 * @param recebido
 	 * @param jogadoresRecebidos
 	 */
-   public Roda(Baralho recebido, Jogador jogadoresRecebidos[]){
+    public Roda(Baralho recebido, Jogador jogadoresRecebidos[]){
 	  compra = recebido;
       for(int i = 0; i < jogadoresRecebidos.length; i++){
         this.jogadores.add(jogadoresRecebidos[i]);
       }
 	 for(int i = 0; i < jogadores.size(); i ++){
          for(int j = 0; j < 7; j++){
-		 jogadores.get(i).adicionarCarta(comprarCarta());
+		 //jogadores.get(i).adicionarCarta(comprarCartaRoda());
          }
 	   }
 	 do{
-	   descarte.adicionarCarta(comprarCarta());
-	 }while(descarte.getCarta().getNumero() == -1);
-  }
+	   descarte.receberCarta(compra.comprarCarta());
+	 }while(descarte.getCartas().get(descarte.quantCarta() - 1).getAcao() != "Esta carta não possui ação");
+   }
+
   	/**
 	   * 
 	   * @param recebida
 	   */
 	public void descartarCarta(Carta recebida) {
-	  // recebe uma carta e coloca no "descarte"
-	}
-  
-	public void verificarCompra() {
-	  // verifica se já está na hora de "transformar" o "descarte" em compra, tipo, se
-	  // tiver menos que 10 cartas na "compra" esta função chama a função
-	  // tranformaDescarte
+	  descarte.receberCarta(recebida);
 	}
   
 	public void transformaDescarte() {
-	  // pega as cartas de descarte, exceto a ultima, e coloca na "compra"
+	
 	}
 	/**
 	 * 
-	 * @param sentido
 	 */
-	public void inverter(int sentido) {
-        sentido *= -1;
+	public void inverter() {
+        	sentido *= -1;
 	}
 	/**
 	 * 
-	 * @param sentido
-	 * @param idJogador
-	 * @param numJogadores
 	 */
 	public void pular() {
 	  
 	}
 	/**
 	 * 
-	 * @param sentido
-	 * @param idJogador
-	 * @param numJogadores
 	 */
 	public void circular() {
 
@@ -85,13 +65,9 @@ public class Roda {
   
 	/**
 	 * 
-	 * @param sentido
-	 * @param idJogador
-	 * @param numJogadores
-	 * @return
 	 */
 	public Jogador proximoJogador() {
-        return jogadores.get(posicaoAtual + 1);
+            return jogadores.get(posicaoAtual + 1);
 	}
 	/**
 	 * 
