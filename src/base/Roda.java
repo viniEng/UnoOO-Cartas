@@ -24,7 +24,7 @@ public class Roda {
       }
 	 for(int i = 0; i < jogadores.size(); i ++){
          for(int j = 0; j < 7; j++){
-		 //jogadores.get(i).adicionarCarta(comprarCartaRoda());
+		 //jogadores.get(i).adicionarCarta(comprarCarta());
          }
 	   }
 	 do{
