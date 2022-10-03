@@ -14,6 +14,7 @@ public abstract class Carta {
 	public final static String TROCACOR = "trocaCor";
 
 	private Cor cor;
+
 	private int numero;
 	private String acao;
 
@@ -21,6 +22,11 @@ public abstract class Carta {
 
 	public abstract String getAcao();
 
+	/**
+	 * 
+	 * @return
+	 * @throws CartaSemNumero
+	 */
 	public abstract int getNumero() throws CartaSemNumero;
 
 	public abstract void setCor(Cor c);
@@ -31,6 +37,7 @@ public abstract class Carta {
 
 	@Override
 	public String toString() {
+		
 		String carta;
 		if (this.cor == null) {
 			carta = "CESC: " + this.acao;
