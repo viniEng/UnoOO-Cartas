@@ -37,6 +37,29 @@ public class Baralho {
 	 * Esse método somente será chamado quando o baralho criado for do tipo inicial.
 	 */
 	public void gerarCartas() {
+		ArrayList<String> cores = new ArrayList<String>();
+		cores.add(Carta.AZUL);
+		cores.add(Carta.AMARELO);
+		cores.add(Carta.VERMELHO);
+		cores.add(Carta.AZUL);
+
+		int i = 0;
+		for (int j = 0; j < 4; j++) {
+			for (int k = 0; k < 2; k++) {
+				for (int n = 0; n <= 9; n++) {
+					cartas.add(new Carta(cores.get(i), n));
+				}
+
+				cartas.add(new Carta(cores.get(j), Carta.MAIS2));
+				cartas.add(new Carta(cores.get(j), Carta.INVERTE));
+				cartas.add(new Carta(cores.get(j), Carta.BLOQ));
+			}
+
+			cartas.add(new Carta(cores.get(j), Carta.MAIS4));
+			cartas.add(new Carta(cores.get(j), Carta.TROCACOR));
+
+			i++;
+		}
 	}
 
 	public void embaralhar() {
