@@ -1,13 +1,27 @@
 package cartas;
 
+
+/**
+ * Representa a abstração de uma Carta Especial com Cor
+ * 
+ * @author grupo Cartas
+ *
+ */
 public class CartaEspecialComCor extends CartaComAcao {
 	
+	
+	
 
-	public CartaEspecialComCor(Cor c, String ac){
+	/**
+	 * 
+	 * @param c do tipo Cor
+	 * @param ac do tipo Acao
+	 */
+	public CartaEspecialComCor(Cor c, Acao ac){
 		
-		super.setCor(c);
+		this.cor = c;
 		//super.setNumero(-1);
-		super.setAcao(ac);
+		this.acao = ac;
 	}
 
 	@Override
@@ -17,7 +31,7 @@ public class CartaEspecialComCor extends CartaComAcao {
 	}
 
 	@Override
-	public String getAcao() {
+	public Acao getAcao() {
 		// TODO Auto-generated method stub
 		return super.getAcao();
 	}
@@ -29,17 +43,10 @@ public class CartaEspecialComCor extends CartaComAcao {
 	}
 
 	@Override
-	public void setAcao(String ac) {
+	public void setAcao(Acao ac) {
 		// TODO Auto-generated method stub
 		super.setAcao(ac);
 	}
 
-	@Override
-	public void setNumero(int n) {
-		// TODO Auto-generated method stub
-		super.setNumero(n);
-	}
-	
-	
 
 }
