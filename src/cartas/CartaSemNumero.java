@@ -1,22 +1,16 @@
-/**
- * 
- */
 package cartas;
 
 /**
- * @author luciano.silva
- *
+ * 
+ * @author grupo Cartas
+ * 
  */
+
 public class CartaSemNumero extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 244530299810171827L;
-
-	/**
-	 * 
-	 */
+	
+	private static final long serialVersionUID = 1L;
+	
 	public CartaSemNumero() {
 		// TODO Auto-generated constructor stub
 	}
