@@ -1,12 +1,11 @@
-/**
- * 
- */
 package cartas;
 
 /**
- * @author luciano.silva
+ * @author grupo Cartas
  *
  */
 public enum Cor {
-	AMARELO, AZUL, VERDE, VERMELHO
+	AMARELO, AZUL, VERDE, VERMELHO, Sem_Cor
 }
+
+
