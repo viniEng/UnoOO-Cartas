@@ -5,7 +5,7 @@ package cartas;
  *
  */
 public enum Cor {
-	AMARELO, AZUL, VERDE, VERMELHO, SemCor
+	AMARELO, AZUL, VERDE, VERMELHO, SEMCOR
 }
 
 
