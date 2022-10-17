@@ -26,12 +26,13 @@ public class Roda {
       jogadores = jogadoresRecebidos;
 	 for(int i = 0; i < jogadores.size(); i ++){
          for(int j = 0; j < 7; j++){
-		 //jogadores.get(i).adicionarCarta(comprarCarta());
+		    //jogadores.get(i).comprarCarta(compra.comprarCarta());
          }
 	   }
 	 do{
-	   descarte.receberCarta(compra.comprarCarta());
-	 }while(descarte.getCartas().get(descarte.quantCarta() - 1).getAcao() != "Esta carta não possui ação");
+	    descarte.receberCarta(compra.comprarCarta());
+	 }while(descarte.ultimaCarta().getAcao() != "Esta carta não possui ação");
+     
    }
 
   	/**
@@ -100,9 +101,9 @@ public class Roda {
      * @param jogadorRecebido Jogador
      * @return Posição do jogador na roda
      */
-	public Jogador proximoJogador(Jogador jogadorRecebido) {
+	public Jogador jogadorDaVez() {
         int i = 0;
-        while(jogadorRecebido != jogadores.get(i)){
+        while( != jogadores.get(i)){
             i++;
         } 
         i = proximo(i);
@@ -110,6 +111,18 @@ public class Roda {
             sentido /= 2;
         }
         return jogadores.get(i);   
+    }
+
+
+
+    public Carta getUltimaCarta(){
+        return this.descarte.ultimaCarta();
+    }
+
+    public void comprar(int qtd, Jogador jogador){
+        for(int i =0; i<qtd; i++){
+            //jogador.comprarCarta(compra.comprarCarta());
+        }
     }
 
   }
