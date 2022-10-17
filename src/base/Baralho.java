@@ -1,8 +1,8 @@
 package base;
-
 import java.util.ArrayList;
-
 import cartas.Carta;
+import java.util.Collections;
+
 
 /**
  * Representa a abstração de um conjunto de cartas
@@ -38,32 +38,34 @@ public class Baralho {
 	 */
 	public void gerarCartas() {
 		ArrayList<String> cores = new ArrayList<String>();
-		cores.add(Carta.AZUL);
-		cores.add(Carta.AMARELO);
-		cores.add(Carta.VERMELHO);
-		cores.add(Carta.AZUL);
 
-		int i = 0;
-		for (int j = 0; j < 4; j++) {
-			for (int k = 0; k < 2; k++) {
-				for (int n = 0; n <= 9; n++) {
-					cartas.add(new Carta(cores.get(i), n));
-				}
+    		cores.add(Carta.AZUL);
+    		cores.add(Carta.AMARELO);
+    		cores.add(Carta.VERMELHO);
+    		cores.add(Carta.AZUL);
 
-				cartas.add(new Carta(cores.get(j), Carta.MAIS2));
-				cartas.add(new Carta(cores.get(j), Carta.INVERTE));
-				cartas.add(new Carta(cores.get(j), Carta.BLOQ));
-			}
+    	int i = 0;
+    	for (int j = 0; j < 4; j++) {
+      	for (int k = 0; k < 2; k++) {
+        for (int n = 0; n <= 9; n++) {
+          cartas.add(new Carta(cores.get(i), n));
+        }
 
-			cartas.add(new Carta(cores.get(j), Carta.MAIS4));
-			cartas.add(new Carta(cores.get(j), Carta.TROCACOR));
+        cartas.add(new Carta(cores.get(j), Carta.MAIS2));
+        cartas.add(new Carta(cores.get(j), Carta.INVERTE));
+        cartas.add(new Carta(cores.get(j), Carta.BLOQ));
+      }
 
-			i++;
-		}
-	}
+      	cartas.add(new Carta(cores.get(j), Carta.MAIS4));
+      	cartas.add(new Carta(cores.get(j), Carta.TROCACOR));
+
+      	i++;
+    }
+  }
 
 	public void embaralhar() {
 		Collections.shuffle(cartas);
+
 	}
 
 	/**
@@ -77,7 +79,6 @@ public class Baralho {
 	 * @return a primeira carta do baralho
 	 */
 	public Carta comprarCarta() {
-
 		return this.cartas.remove(0);
 	}
 
@@ -91,7 +92,14 @@ public class Baralho {
 
 	public int quantCarta() { // para verificar a quantidade de cartas
 		return this.cartas.size();
+		
 	}
+
+  	public Carta ultimaCarta() { // para verificar a última carta
+  		Carta ultima = cartas.get(quantCarta()-1);
+		System.out.println(ultima.getNumero() +" "+ultima.getCor()+" "+ultima.getAcao());
+		return ultima;
+		}
 
 	/**
 	 * @return the baralho
