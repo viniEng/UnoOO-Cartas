@@ -4,28 +4,26 @@ import java.util.ArrayList;
 import cartas.*;
 public class Roda {
 	Baralho compra;
-	Baralho descarte = new Baralho(false);
+	Baralho descarte = new Baralho(Baralho.NORMAL);
 
             
-	ArrayList<Jogador> jogadores = new ArrayList<>();
+	ArrayList<Jogador> jogadores;
 
 	private int sentido;
 
     private int posicaoAtual;
 	/**
-	 * Método construtor: Recebe um objeto do tipo baralho, e uma lista de objetos do tipo Jogador.
+	 * Método construtor: 
      * Cria o "monte de compra" e determina uma sequência para os jogadores
      * Distribui sete cartas para cada jogador.
      * Define a primeira carta do monte de descarte para que o jogo possa ser de fato inicializado.
      * Verifica se a primeria carta do monte de descarte é numérica e com cor.
-	 * @param recebido
-	 * @param jogadoresRecebidos
+	 * @param recebido Baralho inicial recebido pelo jogo
+	 * @param jogadoresRecebidos ArrayList<Jogador> recebido pelo jogo
 	 */
-    public Roda(Baralho recebido, Jogador jogadoresRecebidos[]){
+    public Roda(Baralho recebido, ArrayList<Jogador> jogadoresRecebidos){
 	  compra = recebido;
-      for(int i = 0; i < jogadoresRecebidos.length; i++){
-        this.jogadores.add(jogadoresRecebidos[i]);
-      }
+      jogadores = jogadoresRecebidos;
 	 for(int i = 0; i < jogadores.size(); i ++){
          for(int j = 0; j < 7; j++){
 		 //jogadores.get(i).adicionarCarta(comprarCarta());
@@ -37,15 +35,19 @@ public class Roda {
    }
 
   	/**
-	   * Recebe uma carta e a insere no monte de descarte.
-	   * @param recebida
+	   * Insere uma carta no monte de descarte.
+	   * @param recebida Carta recebida para inserir no monte de descarte
 	   */
 	public void descartarCarta(Carta recebida) {
 	  descarte.receberCarta(recebida);
 	}
   
+	/**
+	 * 
+	 * @return Primeira carta do monte de compra
+	 */
     public Carta entregarCarta(){
-        if(compra.size() < 1){
+        if(compra.getCartas().size() < 1){
             transformaDescarte();
         }
         return compra.comprarCarta();
@@ -53,7 +55,7 @@ public class Roda {
 
 
 	public void transformaDescarte() {
-        for(int i = 0; i < desarte.size()-1; i++){
+        for(int i = 0; i < descarte.getCartas().size()-1; i++){
             compra.receberCarta(descarte.comprarCarta());
         }
         compra.embaralhar();
@@ -71,9 +73,9 @@ public class Roda {
 
 
 	/**
-     * Retorna o índice do próximo jogador e verifica se a posição atual não extrapola o tamanho do vetor de jogadores
-     * @param i
-     * @return
+     * Verifica se a posição atual não extrapola o tamanho do vetor de jogadores
+     * @param i Posição atual
+     * @return Índice do próximo jogador 
      */
 	public int proximo(int i) {
       int x = i + sentido;  
@@ -95,9 +97,8 @@ public class Roda {
 
   
 	/**
-     * Recebe um jogador, e determina sua posição na roda
-     * @param jogadorRecebido
-     * @return
+     * @param jogadorRecebido Jogador
+     * @return Posição do jogador na roda
      */
 	public Jogador proximoJogador(Jogador jogadorRecebido) {
         int i = 0;
@@ -111,5 +112,4 @@ public class Roda {
         return jogadores.get(i);   
     }
 
-    //Perguntar par ao professor qual é a classe responsável pelo acúmulo de cartas que devem ser compradas
   }
