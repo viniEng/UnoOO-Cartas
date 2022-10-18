@@ -74,11 +74,6 @@ public class Baralho {
 		Collections.shuffle(cartas);
 	}
 
-	/**
-	 * @deprecated quem distribui é a roda, excluir este método
-	 */
-	public void distribuir() {
-	}
 
 	/**
 	 * 
