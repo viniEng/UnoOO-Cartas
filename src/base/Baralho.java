@@ -37,35 +37,41 @@ public class Baralho {
 	 * Esse método somente será chamado quando o baralho criado for do tipo inicial.
 	 */
 	public void gerarCartas() {
-		ArrayList<String> cores = new ArrayList<String>();
+		for (int i = 0; i < 2; i++){
+        		for (int n = 0; n < 10; n++) {
+          			cartas.add(new CartaNormal(cartas.Cor.AMARELO, n));
+          			cartas.add(new CartaNormal(Cor.VERDE, n));
+          			cartas.add(new CartaNormal(Cor.AZUL, n));
+          			cartas.add(new CartaNormal(Cor.VERMELHO, n));
+        		}
+        	}
 
-    		cores.add(Carta.AZUL);
-    		cores.add(Carta.AMARELO);
-    		cores.add(Carta.VERMELHO);
-    		cores.add(Carta.AZUL);
+        	for(i=0; i<2; i++){
+        		cartas.add(new CartaEspecialComCor(Cor.AMARELO, Carta.MAIS2));
+    			cartas.add(new CartaEspecialComCor(Cor.AZUL, Carta.MAIS2));
+    			cartas.add(new CartaEspecialComCor(Cor.VERDE, Carta.MAIS2));
+    			cartas.add(new CartaEspecialComCor(Cor.VERMELHO, Carta.MAIS2));
+	
+        		cartas.add(new CartaEspecialComCor(Cor.AZUL, Carta.INVERTE));
+        		cartas.add(new CartaEspecialComCor(Cor.AMARELO, Carta.INVERTE));
+        		cartas.add(new CartaEspecialComCor(Cor.VERDE, Carta.INVERTE));
+        		cartas.add(new CartaEspecialComCor(Cor.VERMELHO, Carta.INVERTE));
+	
+        		cartas.add(new CartaEspecialComCor(Cor.VERMELHO, Carta.BLOQ));
+        		cartas.add(new CartaEspecialComCor(Cor.VERDE, Carta.BLOQ));
+        		cartas.add(new CartaEspecialComCor(Cor.AZUL, Carta.BLOQ));
+        		cartas.add(new cartas.CartaEspecialComCor(Carta.Cor.AMARELO, Carta.BLOQ));
+      			}
 
-    	int i = 0;
-    	for (int j = 0; j < 4; j++) {
-      	for (int k = 0; k < 2; k++) {
-        for (int n = 0; n <= 9; n++) {
-          cartas.add(new Carta(cores.get(i), n));
-        }
-
-        cartas.add(new Carta(cores.get(j), Carta.MAIS2));
-        cartas.add(new Carta(cores.get(j), Carta.INVERTE));
-        cartas.add(new Carta(cores.get(j), Carta.BLOQ));
+      		for(i=0; i<4; i++){
+      			cartas.add(new CartaEspecialSemCor(Carta.MAIS4));
+      			cartas.add(new CartaEspecialSemCor(Carta.TROCACOR));
+      			}
       }
 
-      	cartas.add(new Carta(cores.get(j), Carta.MAIS4));
-      	cartas.add(new Carta(cores.get(j), Carta.TROCACOR));
-
-      	i++;
-    }
-  }
 
 	public void embaralhar() {
 		Collections.shuffle(cartas);
-
 	}
 
 	/**
