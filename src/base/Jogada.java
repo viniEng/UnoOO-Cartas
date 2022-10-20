@@ -1,3 +1,5 @@
+package base;
+
 public class JogadaCompra{
     private String comprar;
     private String jogar;
