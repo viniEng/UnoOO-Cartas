@@ -8,12 +8,14 @@ import acao.Inverter;
 import acao.TrocaCor;
 
 
+
 /**
  * Representa a abstração de uma Carta, tendo em vista o agrupamento de todos os tipos
  * 
  * @author grupo Cartas
  *
  */
+
 
 public abstract class Carta {
 
@@ -23,6 +25,7 @@ public abstract class Carta {
 	public final static Acao BLOQ = new Bloqueio();
 	public final static Acao INVERTE = new Inverter();
 	public final static Acao TROCACOR = new TrocaCor();
+
 
 	protected Cor cor;
 	protected int numero;
@@ -47,6 +50,7 @@ public abstract class Carta {
 	 * 
 	 * @return o número da carta
 	 * @throws Carta Sem Numero caso uma carta sem numero use o getNumero
+
 	 */
 	public abstract int getNumero() throws CartaSemNumero;
 
@@ -74,6 +78,7 @@ public abstract class Carta {
 
 	@Override
 	public String toString() {
+		
 		String carta;
 		if (this.cor == null) {
 			carta = "CESC: " + this.acao;
