@@ -1,5 +1,7 @@
 package cartas;
 
+import acao.Acao;
+
 /**
  * Representa a abstração de uma Carta Especial Sem Cor
  * 
@@ -17,6 +19,6 @@ public class CartaEspecialSemCor extends CartaComAcao {
 	}
 	@Override
 	public Cor getCor() {
-		return Cor.Sem_Cor;
+		return Cor.SEMCOR;
 	}
 }

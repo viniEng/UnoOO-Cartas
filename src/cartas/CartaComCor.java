@@ -1,5 +1,7 @@
 package cartas;
 
+import acao.Acao;
+
 /**
  * Representa a abstração de uma Carta com Cor, que na nossa abstração não ira conter ação
  * 

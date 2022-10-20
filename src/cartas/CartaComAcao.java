@@ -1,5 +1,7 @@
 package cartas;
 
+import acao.Acao;
+
 /**
  * Representa a abstração de uma Carta com Ação, ou seja, não possui número
  * 

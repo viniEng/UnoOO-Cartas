@@ -1,5 +1,6 @@
 package cartas;
 
+import acao.Acao;
 
 /**
  * Representa a abstração de uma Carta Especial com Cor
