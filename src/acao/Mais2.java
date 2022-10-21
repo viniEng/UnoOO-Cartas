@@ -23,14 +23,16 @@ public class Mais2 extends Acao {
     roda.comprar(n, roda.jogadores[roda.proximoJogador]);
     roda.pular(); 
   }
-  public void realizar(Roda roda, int n) {
-    return;
-  }
   public void realizar (Jogada jogada) {
+    System.out.println("Você está utilizando os parâmetros errados");
     return;
   }
   public void realizar (Jogada jogada, Roda roda, int n) {
+    System.out.println("Você está utilizando os parâmetros errados");
     return;
   }
- 
+  public void realizar (Roda roda) {
+    System.out.println("Você está utilizando os parâmetros errados");
+    return;
+  }
 }
