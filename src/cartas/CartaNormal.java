@@ -13,6 +13,13 @@ public class CartaNormal extends CartaComCor {
 	 * @param c do tipo Cor
 	 * @param n do tipo int 
 	 */
+
+	Cor cor;
+	int numero;
+
+	public CartaNormal(){
+
+	}
 	public CartaNormal(Cor c, int n){//Carta normal com cor
 		this.cor = c;
 		this.numero = n;
@@ -33,7 +40,7 @@ public class CartaNormal extends CartaComCor {
 
 
 	@Override
-	public void setNumero(int n) throws CartaSemNumero {
+	public void setNumero(int n) {
 		this.numero = n;
 		
 	}

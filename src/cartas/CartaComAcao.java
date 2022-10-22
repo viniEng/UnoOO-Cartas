@@ -1,6 +1,6 @@
 package cartas;
 
-import acao.Acao;
+import acao.*;
 
 /**
  * Representa a abstração de uma Carta com Ação, ou seja, não possui número
@@ -26,16 +26,8 @@ public abstract class CartaComAcao extends Carta {
 		throw new CartaSemNumero("Cartas de Ação não possuem número");
 	}
 	
-	@Override
-	public Acao getAcao()  {
-		return this.acao;
-	}
-	
-	@Override
-	public void setAcao(Acao ac)  {
-		this.acao = ac;
-	}
 
+	/* 
 	@Override
 	public Cor getCor()  {
 		return this.cor;
@@ -45,5 +37,5 @@ public abstract class CartaComAcao extends Carta {
 	public void setCor(Cor c)  {
 		 this.cor = c;
 	}
-	
+	*/
 }

@@ -1,12 +1,6 @@
 package cartas;
 
-import acao.Acao;
-import acao.Mais2;
-import acao.Mais4;
-import acao.Bloqueio;
-import acao.Inverter;
-import acao.TrocaCor;
-
+import acao.*;
 
 
 /**

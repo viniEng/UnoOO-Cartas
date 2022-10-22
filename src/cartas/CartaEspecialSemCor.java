@@ -1,6 +1,6 @@
 package cartas;
 
-import acao.Acao;
+import acao.*;
 
 /**
  * Representa a abstração de uma Carta Especial Sem Cor
@@ -10,13 +10,36 @@ import acao.Acao;
  */
 public class CartaEspecialSemCor extends CartaComAcao {
 	
+	private Acao ac;
+
+
+
+	public CartaEspecialSemCor (){
+
+	}
+
+	public CartaEspecialSemCor(Acao ac){
+		this.acao = ac;
+	}
+
+	@Override
+	public Acao getAcao()  {
+		return this.acao;
+	}
+	
+	@Override
+	public void setAcao(Acao ac)  {
+		this.acao = ac;
+	}
+	@Override public final void setCor(Cor c){
+		return;
+	}
+
+
 	/**
 	 * 
 	 * @param ac do tipo Acao
 	 */
-	public CartaEspecialSemCor(Acao ac){//Carta especial sem cor
-		this.acao = ac;
-	}
 	@Override
 	public Cor getCor() {
 		return Cor.SEMCOR;

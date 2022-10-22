@@ -1,6 +1,6 @@
 package cartas;
 
-import acao.Acao;
+import acao.*;
 
 /**
  * Representa a abstração de uma Carta Especial com Cor
@@ -11,6 +11,8 @@ import acao.Acao;
 public class CartaEspecialComCor extends CartaComAcao {
 	
 	
+	private Acao acao;
+	private Cor cor;
 	
 
 	/**
@@ -18,36 +20,45 @@ public class CartaEspecialComCor extends CartaComAcao {
 	 * @param c do tipo Cor
 	 * @param ac do tipo Acao
 	 */
+
+
+
+	 public CartaEspecialComCor (){
+
+	 }
+
+
 	public CartaEspecialComCor(Cor c, Acao ac){
 		
 		this.cor = c;
-		//super.setNumero(-1);
 		this.acao = ac;
 	}
 
-	@Override
-	public Cor getCor() {
-		// TODO Auto-generated method stub
-		return super.getCor();
-	}
+
+
+
 
 	@Override
 	public Acao getAcao() {
-		// TODO Auto-generated method stub
-		return super.getAcao();
+		return this.acao;
 	}
 
 	@Override
 	public void setCor(Cor c) {
-		// TODO Auto-generated method stub
-		super.setCor(c);
+		this.cor = c;
 	}
 
 	@Override
 	public void setAcao(Acao ac) {
-		// TODO Auto-generated method stub
-		super.setAcao(ac);
+		this.acao = ac;
 	}
+
+	@Override
+	public Cor getCor(){
+		return this.cor;
+	}
+
+
 
 
 }
