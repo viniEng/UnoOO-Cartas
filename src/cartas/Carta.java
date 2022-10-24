@@ -1,47 +1,88 @@
 package cartas;
 
-public class Carta {
-	public final static String MAIS2 = "+2";
-	public final static String MAIS4 = "+4";
-	public final static String BLOQ = "bloqueio";
-	public final static String INVERTE = "reverso";
-	public final static String TROCACOR = "trocaCor";
+import acao.Acao;
+import acao.Mais2;
+import acao.Mais4;
+import acao.Bloqueio;
+import acao.Inverter;
+import acao.TrocaCor;
+
+
+
+/**
+ * Representa a abstração de uma Carta, tendo em vista o agrupamento de todos os tipos
+ * 
+ * @author grupo Cartas
+ *
+ */
+
+
+public abstract class Carta {
+
 	
-	public final static String AZUL = "azul";
-	public final static String AMARELO = "amarelo";
-	public final static String VERMELHO = "vermelho";
-	public final static String VERDE = "verde";
+	public final static Acao MAIS2 = new Mais2();
+	public final static Acao MAIS4 = new Mais4();
+	public final static Acao BLOQ = new Bloqueio();
+	public final static Acao INVERTE = new Inverter();
+	public final static Acao TROCACOR = new TrocaCor();
+
+
+	protected Cor cor;
+	protected int numero;
+	//protected String acao;
+	protected Acao acao;
 	
-	private String cor;
-	private int numero;
-	private String acao;
+    
+	/**
+	 * 
+	 * @return a cor da carta 
+	 */
+	public abstract Cor getCor();
+    
+	/**
+	 * 
+	 * @return a ação da carta
+	 * @throws Carta Sem Ação caso uma carta sem ação use o getAcao
+	 */
+	public abstract Acao getAcao() throws CartaSemAcao;
 	
-	public String getCor(){
-		return this.cor;
-	}
-	public String getAcao(){
-		return this.acao;
-	}
-	public int getNumero(){
-		return this.numero;
-	}
-	
-	public void setCor(String c){
-		this.cor = c;
-	}
-	public void setAcao(String ac){
-		this.acao = ac;
-	}
-	public void setNumero(int n){
-		this.numero = n;
-	}
-	
+	/**
+	 * 
+	 * @return o número da carta
+	 * @throws Carta Sem Numero caso uma carta sem numero use o getNumero
+
+	 */
+	public abstract int getNumero() throws CartaSemNumero;
+
+	/**
+	 * 
+	 * @param c
+	 */
+	public abstract void setCor(Cor c);
+
+	/**
+	* @param ac
+	* 
+    *
+	* @throws Carta Sem Acao caso uma carta sem Acao use o setAcao
+	 */
+	public abstract void setAcao(Acao ac) throws CartaSemAcao;
+
+	/**
+	 * @param n
+	 * 
+	 *
+	 * @throws Carta Sem Numero caso uma carta sem numero use o setNumero
+	 */
+	public abstract void setNumero(int n) throws CartaSemNumero;
+
 	@Override
 	public String toString() {
+		
 		String carta;
-		if(this.cor == null) {
+		if (this.cor == null) {
 			carta = "CESC: " + this.acao;
-		} else if(this.acao == null) {
+		} else if (this.acao == null) {
 			carta = "CNCC: " + this.numero + " " + this.cor;
 		} else {
 			carta = "CECC: " + this.acao + " " + this.cor;

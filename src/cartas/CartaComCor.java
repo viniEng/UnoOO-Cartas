@@ -1,11 +1,25 @@
 package cartas;
 
-public class CartaComCor extends Carta {
+import acao.Acao;
 
+/**
+ * Representa a abstração de uma Carta com Cor, que na nossa abstração não ira conter ação
+ * 
+ * @author grupo Cartas
+ *
+ */
+public abstract class CartaComCor extends Carta {
 	
 	
-	public String getAcao() {
-		return "Esta carta não possui ação";
+	
+	@Override
+	public final Acao getAcao() throws CartaSemAcao {
+		throw new CartaSemAcao("Cartas com cor e número não possuem ação");
+	}
+	
+	@Override
+	public final void setAcao(Acao c) throws CartaSemAcao {
+	   throw new CartaSemAcao("Cartas com cor e número não possuem ação");
 	}
 	
 }

@@ -1,18 +1,68 @@
 package base;
 
-public class Jogada{
-    /*Classe: jogada de compra;
-        Função da classe: caso o jogador não detiver de nenhuma carta que combine com a que está na 
-    mesa, ou outro jogador anterior lançar uma das cartas especiais (+2 ou +4), deve ser retirado uma 
-    carta do baralho de compra e adicionada ao baralho do jogador em questão.*/  
-    
-    /*Classe: jogada de descarte; 
-        Função da classe: caso o jogador detiver de alguma carta que combine com a que foi jogada 
-    anteriormente, a carta deve ser selecionada e retirada do baralho do jogador e colocada no baralho 
-    de descarte, caso o jogador detiver de mais uma carta que combine com a da mesa, ele deve 
-    selecionar um das duas. */
+public class JogadaCompra{
+    private String comprar;
+    private String jogar;
+    private int qtdCompras;
+    int acumularCompras = 1;
 
-    /*Não foi escritro o codigo pois necessitariamos de mais informações
-     sobre o jogador, entre outros
-    */
+    //private int acumularCompras;
+    //private String passarVez;
+    public JogadaCompra(String compra, int qtdCompras){ //Comprar uma carta, porém não é uma carta possível de se jogar ou compra forçada por carta especial
+        this.comprar = compra;
+        this.jogar = null;
+        this.qtdCompras = qtdCompras;
+    }
+    public JogadaCompra(String jogada, String compra){ //Comprar uma carta, que é possível de se jogar
+        this.comprar = compra;
+        this.jogar = jogada;
+        this.qtdCompras = 1;
+        //this.acumularCompras = 0;
+    }
+    public JogadaCompra(String jogada, int qtdCompras, String compra){// Não comprar, mas acumular compra com outra carta especial ou simplesmente joga uma carta.
+        this.comprar = null;
+        this.jogar = jogada;
+        this.qtdCompras += qtdCompras;
+    }
+    
+    public int getqtdCompras(){
+        return this.qtdCompras;
+    }
+    public String getcomprar(){
+        return this.comprar;
+    }
+    public String getjogar(){
+        return this.jogar;
+    }
+    public void setqtdCompras(int compra){
+		this.qtdCompras = compra;
+	}
+	public void setcomprar(String comprar){
+		this.comprar = comprar;
+	}
+	public void setjogar(String jogada){
+		this.jogar = jogada;
+	}
+public static void main(String[] args){
+    //JogadaCompra apenasCompra = new JogadaCompra(null, 0);
+    //JogadaCompra compraEJogada = new JogadaCompra(null, null);
+    //JogadaCompra acumularCompra = new JogadaCompra(null, 0, null);
+    
+
+    }
 }
+
+
+
+
+//quando tiver método @return p/ o que ele retorna| pesquisar javadocs tags|    @author separando nomes por vírgulas| parâmetro e retorno são os mais importantes   
+/*public JogadaCompra(String compra, int qtdCompras){ //Comprar cartas acumuladas por cartas especiais de compra
+    this.comprar = compra;
+    this.jogar = null;
+    this.qtdCompras = qtdCompras;
+}*/
+
+/**
+*embrarlhar caso o baralho de  compra ==0
+*(embaralhar as cartas do vetor de descarte com excessao da posição 0)
+*/

@@ -1,14 +1,24 @@
 package cartas;
 
-public class CartaEspecialSemCor extends CartaComAcao {
+import acao.Acao;
 
-	public CartaEspecialSemCor(String ac){//Carta especial sem cor
-		super.setCor(null);
-		super.setNumero(-1);
-		super.setAcao(ac);
-	}
+/**
+ * Representa a abstração de uma Carta Especial Sem Cor
+ * 
+ * @author grupo Cartas
+ *
+ */
+public class CartaEspecialSemCor extends CartaComAcao {
 	
-	public String getCor() {
-		return "Esta carta não possui uma cor";
+	/**
+	 * 
+	 * @param ac do tipo Acao
+	 */
+	public CartaEspecialSemCor(Acao ac){//Carta especial sem cor
+		this.acao = ac;
+	}
+	@Override
+	public Cor getCor() {
+		return Cor.SEMCOR;
 	}
 }

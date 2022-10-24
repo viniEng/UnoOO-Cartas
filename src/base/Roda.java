@@ -1,96 +1,127 @@
 package base;
 
+import java.util.ArrayList;
+
+import cartas.Carta;
+import cartas.CartaEspecialSemCor;
+
 /**
  * 
  * @author Luciano
  *
  */
 public class Roda {
-	Baralho compra, descarte;// o baralho enviado pelo "jogo" nada mais é um baralho de compra, que retiramos
-								// as cartas iniciais dos jogadores
-	Jogador jogadores[];
-	int idJogador;// usado para inserir os jogadores recebidos de "jogo" no vetor jogadores, e
-					// quando o jogo começa, é o índice do ultimo jogadr que jogou
-	int sentido;// é um valor, que varia entre positivo e negativo, e é somado á posição do
-				// ultimo jogador para definir o próximo a jogar
+	Baralho compra;
+	Baralho descarte = new Baralho(Baralho.NORMAL);
+
+	ArrayList<Jogador> jogadores;
+
+	private int sentido;
+
+	private int posicaoAtual;
 
 	/**
-	 * receber baralho do "jogo"
+	 * Método construtor: Cria o "monte de compra" e determina uma sequência para os
+	 * jogadores Distribui sete cartas para cada jogador. Define a primeira carta do
+	 * monte de descarte para que o jogo possa ser de fato inicializado. Verifica se
+	 * a primeria carta do monte de descarte é numérica e com cor.
 	 * 
-	 * @param recebido
+	 * @param recebido           Baralho inicial recebido pelo jogo
+	 * @param jogadoresRecebidos ArrayList<Jogador> recebido pelo jogo
 	 */
-	public Roda(Baralho recebido) {
+	public Roda(Baralho recebido, ArrayList<Jogador> jogadoresRecebidos) {
 		compra = recebido;
-	}
-
-	/**
-	 * adicionar jogadores na roda, e sua ordem será a posição no vetor
-	 * 
-	 * @param recebido
-	 * @param nJogadores
-	 */
-	public Roda(Jogador recebido, int nJogadores) {
-		jogadores[idJogador] = recebido;
-		idJogador++;
-	}
-
-	public void distribuirCartas() {
+		jogadores = jogadoresRecebidos;
+		this.posicaoAtual = 0;
+		for (int i = 0; i < jogadores.size(); i++) {
+			for (int j = 0; j < 7; j++) {
+				//jogadores.get(i).comprarCarta(entregarCarta());
+			}
+		}
+		do {
+			descarte.receberCarta(compra.comprarCarta());
+		} while (descarte.ultimaCarta() instanceof CartaEspecialSemCor);
 
 	}
 
 	/**
-	 * calcula a posição atual mais o sentido e retorna a posição do próximo
-	 * jogador; caso o incremento possua valor maior que 1, informa o próximo
-	 * jogador e altera o sentido(que é nosso incremento) para 1
+	 * Insere uma carta no monte de descarte.
 	 * 
-	 * @return
+	 * @param recebida Carta recebida para inserir no monte de descarte
 	 */
-	public int proximoJogador() {
-		return 0;
-	}
-
-	public void comprarCarta(Jogador comprador) {
-		// recebe o jogador, tira a ultima carta da "compra" e adiciona uma carta na sua
-		// "mão"
-	}
-
 	public void descartarCarta(Carta recebida) {
-		// recebe uma carta e coloca no "descarte"
+		descarte.receberCarta(recebida);
 	}
 
-	public void verificarCompra() {
-		// verifica se já está na hora de "transformar" o "descarte" em compra, tipo, se
-		// tiver menos que 3 cartas na "compra" esta função chama a função
-		// tranformaDescarte
+	/**
+	 * 
+	 * @return Primeira carta do monte de compra
+	 */
+	public Carta entregarCarta() {
+		if (compra.getCartas().size() < 1) {
+			transformaDescarte();
+		}
+		return compra.comprarCarta();
 	}
 
 	public void transformaDescarte() {
-		// pega as cartas de descarte, exceto a ultima, e coloca na "compra"
+		for (int i = 0; i < descarte.getCartas().size() - 1; i++) {
+			compra.receberCarta(descarte.comprarCarta());
+		}
+		compra.embaralhar();
 	}
 
+	/**
+	 * Altera o sentido do jogo(horário e anti-horário)
+	 */
 	public void inverter() {
-		// esta função é chamada pela classe ação, e altera o valor de sentido,
-		// multiplicando por -1
+		sentido *= -1;
 	}
 
+	/**
+	 * Verifica se a posição atual não extrapola o tamanho do vetor de jogadores
+	 * 
+	 * @param i Posição atual
+	 * @return Índice do próximo jogador
+	 */
+	public int proximo(int i) {
+		int x = i + sentido;
+		if (x > jogadores.size()) {
+			x = x - jogadores.size();
+		}
+		if (x < 0) {
+			x = x + jogadores.size();
+		}
+		return x;
+	}
+
+	/**
+	 * Método chamado pela classe ação para informar que pulou um jogador
+	 */
 	public void pular() {
-		// altera o valo de sentido, adicionando mais 1 no valor, pois o sentido é o
-		// incremento, e ao invés de passar para a próxima pessoa, ele irá passar para a
-		// asegunda próxima pessoa
+		sentido *= 2;
 	}
 
-	public void circular() {
-		// método responsável por tranformar o vetor em um "círculo", pois verifica se o
-		// "próximo jogador" excede o vetor, caso positivamente, volta para o primero,
-		// ou o segundo caso a ultima carta seja um "pular", e caso exceda
-		// negativamente, ele volta para a última posição do vetor dos jogadores, ou
-		// para a penúltima, caso a última carta seja um "pular"
+	/**
+	 * @param jogadorRecebido Jogador
+	 * @return Posição do jogador na roda
+	 */
+	public Jogador jogadorDaVez() {
+		int proxPosicao;
+		proxPosicao = (this.posicaoAtual + this.sentido) % this.jogadores.size();
+
+		return jogadores.get(proxPosicao);
 	}
 
-	public void chamarJogadaJogador() {
-		// chama o próximo jogador para realizar a sua jogada
-		// utiliza o valor retornado pela função proximoJogador
+	public Carta getUltimaCarta() {
+		return this.descarte.ultimaCarta();
+	}
 
+	public void comprar(int qtd, Jogador jogador) {
+		for (int i = 0; i < qtd; i++) {
+			//jogador.comprarCarta(entregarCarta());
+		}
 	}
 
 }
+
