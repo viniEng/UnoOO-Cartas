@@ -19,7 +19,7 @@ public class Mais4 extends Acao {
  * Resumo: O primeiro jogador muda a cor, o segundo compra as cartas e se passa a jogada para um terceiro jogador
  */
   public void realizar(Roda roda, int n) {
-    .mudarCor(); /** Precisamos conversar com outros integrantes para realizar mudanças nessa etapa (apenas exemplo, provavelmente está errado e será modificado)*/
+    //.mudarCor(); /** Precisamos conversar com outros integrantes para realizar mudanças nessa etapa (apenas exemplo, provavelmente está errado e será modificado)*/
     int x;
     x = roda.proximoJogador();  /** jogador 1 -> jogador 2 --- a função retorna inteiro que identifica o jogador */
     for (int cont = 0; cont < n ; cont++) {

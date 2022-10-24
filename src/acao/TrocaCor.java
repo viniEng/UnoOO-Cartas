@@ -16,7 +16,7 @@ public class TrocaCor extends Acao {
    */
 
   public void realizar() {
-    .mudarCor(); /** jogador atual irá escolher para qual cor deseja alterar (apenas exemplo, provavelmente está errado e será modificado)*/ 
+    //.mudarCor(); /** jogador atual irá escolher para qual cor deseja alterar (apenas exemplo, provavelmente está errado e será modificado)*/ 
   }
   public String getAcao(){
     return "TrocaCor"; /** para representar que a ação 'TrocaCor' foi realizada */
