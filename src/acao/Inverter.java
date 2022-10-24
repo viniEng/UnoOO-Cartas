@@ -21,11 +21,11 @@ public class Inverter extends Acao {
     return;
   }
 
-  public void realizar (Jogada jogada) {
+  public void realizar () {
     return;
   }
   
-  public void realizar (Jogada jogada, Roda roda, int n) {
+  public void realizar (Roda roda, int n) {
     return;
   }
   

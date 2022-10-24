@@ -31,11 +31,11 @@ public class Bloqueio extends Acao {
     System.out.println("Você está utilizando os parâmetros errados");
     return;
   }
-  public void realizar (Jogada jogada) {
+  public void realizar () {
     System.out.println("Você está utilizando os parâmetros errados");
     return;
   }
-  public void realizar (Jogada jogada, Roda roda, int n) {
+  public void realizar (Roda roda, int n) {
     System.out.println("Você está utilizando os parâmetros errados");
     return;
   }

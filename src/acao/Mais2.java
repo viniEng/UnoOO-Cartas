@@ -11,7 +11,7 @@ public class Mais2 extends Acao {
 /**
  * @param roda é um objeto da Classe Roda que é um vetor um ciclo (roda do jogo).
  * A função faz o proximo Jogador da roda comprar 2 cartas, após a compra o mesmo perde a vez,
- * pulando para o proximo jogador - roda.pular - 
+ * pulando p ara o proximo jogador - roda.pular - 
  * 
  */
 
@@ -20,14 +20,14 @@ public class Mais2 extends Acao {
   }
 
   public void relizar(Roda roda, int n) { 
-    roda.comprar(n, roda.jogadores[roda.proximoJogador]);
+    roda.comprar(n*2, jogadorDaVez());
     roda.pular(); 
   }
-  public void realizar (Jogada jogada) {
+  public void realizar () {
     System.out.println("Você está utilizando os parâmetros errados");
     return;
   }
-  public void realizar (Jogada jogada, Roda roda, int n) {
+  public void realizar (Roda roda, int n) {
     System.out.println("Você está utilizando os parâmetros errados");
     return;
   }
