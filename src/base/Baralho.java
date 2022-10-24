@@ -89,7 +89,7 @@ public class Baralho {
 
 	/**
 	 * 
-	 * @param c a carta
+	 * @param c a carta.
 	 */
 	public void receberCarta(Carta c) {
 		this.cartas.add(c);
