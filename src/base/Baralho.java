@@ -22,8 +22,6 @@ public class Baralho {
 	private ArrayList<Carta> cartas = new ArrayList<>();
 	private boolean tipo;
 
-	// private Carta[] baralho = new Carta[112];
-
 	/**
 	 * 
 	 * @param tipo Baralho.INICIAL se for baralho inicial, ou Baralho.Normal para os
@@ -73,7 +71,10 @@ public class Baralho {
 			cartas.add(new CartaEspecialSemCor(Carta.TROCACOR));
 		}
 	}
-
+	
+	/**
+	 * Esse método somente será chamado quando o baralho criado for do tipo inicial.
+	 */
 	public void embaralhar() {
 		Collections.shuffle(cartas);
 	}
@@ -93,12 +94,20 @@ public class Baralho {
 	public void receberCarta(Carta c) {
 		this.cartas.add(c);
 	}
-
+	
+	/**
+	 * 
+	 * @return o tamanhho do arraylist cartas
+	 */
 	public int quantCarta() { // para verificar a quantidade de cartas
 		return this.cartas.size();
 
 	}
-
+	
+	/**
+	 * 
+	 * @return a última carta do baralho
+	 */
 	public Carta ultimaCarta() { // para verificar a última carta
 		return cartas.get(quantCarta() - 1);
 
