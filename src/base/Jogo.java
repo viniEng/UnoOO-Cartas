@@ -1,7 +1,8 @@
 //UnoOO
 //Disciplina de LPOO 2022.2
-    
+package acao;    
 package base;
+package cartas;
 
 import java.util.ArrayList;
 import java.util.List;
