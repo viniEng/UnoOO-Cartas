@@ -11,7 +11,6 @@ public class Mais4 extends Acao {
 /**
  * @deprecated
  * @param roda representa objeto do tipo referente a classe Roda que funciona de forma cíclica
- * @param jogada representa objeto do tipo referente a classe Jogada
  * @param n variável usada para marcar o acúmulo total de cartas +4
  */
 
@@ -19,12 +18,12 @@ public class Mais4 extends Acao {
  /**
  * Resumo: O primeiro jogador muda a cor, o segundo compra as cartas e se passa a jogada para um terceiro jogador
  */
-  public void realizar(Roda roda, Jogada jogada, int n) {
-    jogada.mudarCor(); /** Precisamos conversar com outros integrantes para realizar mudanças nessa etapa (apenas exemplo, provavelmente está errado e será modificado)*/
+  public void realizar(Roda roda, int n) {
+    .mudarCor(); /** Precisamos conversar com outros integrantes para realizar mudanças nessa etapa (apenas exemplo, provavelmente está errado e será modificado)*/
     int x;
     x = roda.proximoJogador();  /** jogador 1 -> jogador 2 --- a função retorna inteiro que identifica o jogador */
     for (int cont = 0; cont < n ; cont++) {
-      roda.comprarCarta(roda.jogadores[x]); /** jogador 2 recebe cartas --- acessa-se o jogador correspondente no vetor */
+      roda.comprar(n*4, jogadorDaVez()); /** jogador 2 recebe cartas --- acessa-se o jogador correspondente no vetor */
     }
     roda.pular(); /**  jogador 2 -> jogador 3 */
   }
@@ -51,7 +50,7 @@ public class Mais4 extends Acao {
   /**
    * @param jogada
    */
-  public void realizar (Jogada jogada) {
+  public void realizar () {
     System.out.println("Você está utilizando os parâmetros errados");
     return;
   }
@@ -70,7 +69,7 @@ public class Mais4 extends Acao {
    * @param roda
    * @param n
    */
-  void realizar(Jogada jogada, Roda roda, int n) {
+  void realizar(Roda roda, int n) {
     
   }
 
