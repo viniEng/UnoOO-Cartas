@@ -66,7 +66,7 @@ public class Jogador {//implements Jogada{
 
      /**
     *
-    * Descarta uma carta, retirando uma carta a maoJogador,
+    * Descarta uma carta, retirando uma carta de maoJogador,
     * adicionando-a ao monte de descarte
     * @see MaoCartas
     **/
