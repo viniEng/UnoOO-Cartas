@@ -2,7 +2,7 @@ package acao;
 import base.Roda;
 /**
   * @author Pedro;
-  * @version 2.0;
+  * @version 5.0;
   */
 
 public class Inverter extends Acao {
@@ -25,9 +25,6 @@ public class Inverter extends Acao {
     return;
   }
   
-  public void realizar (Roda roda, int n) {
-    return;
-  }
   
   /**
   * Função para retornar qual a ação da carta
