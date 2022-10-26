@@ -63,7 +63,7 @@ public class Jogo {
 		this.roda = new Roda(this.baralho, this.jogadores);
 	}
 
-	public int confereFim() {
+	public boolean confereFim() {
 		if (baralho.quantCarta() == 0) {
 			return false;
 		} else {
