@@ -3,7 +3,7 @@ import base.Roda;
 import base.Jogada;
 /**
  * @author Lucas Patrizi
- * @version 2.0
+ * @version 3.0
  * @since 03/10/22
  * @see Roda
  */
@@ -21,31 +21,4 @@ public class Bloqueio extends Acao {
     roda.pular();
   }
 
-  /**
-   * Função realizar para cartas de compras (não faz nada em Bloqueio);
-   * 
-   * @param roda
-   * @param n
-   */
-  public void realizar(Roda roda, int n) {
-    System.out.println("Você está utilizando os parâmetros errados");
-    return;
-  }
-  public void realizar () {
-    System.out.println("Você está utilizando os parâmetros errados");
-    return;
-  }
-  public void realizar (Roda roda, int n) {
-    System.out.println("Você está utilizando os parâmetros errados");
-    return;
-  }
-
-  /**
-   * função que retorna qual o tipo da ação
-   * 
-   * @return String bloqueio
-   */
-  public String getAcao() {
-    return "Bloqueio";
-  }
 }
