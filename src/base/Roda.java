@@ -30,7 +30,6 @@ public class Roda {
 	 */
 	private int posicaoAtual;
 
-
 	/**
 	 * Getter do baralho de compra.
 	 * @return Baralho de compra da roda.
@@ -130,23 +129,6 @@ public class Roda {
 	}
 
 	/**
-	 * Verifica se a posição atual não extrapola o tamanho do vetor de jogadores
-	 * e retorna o proximo indice da roda.
-	 * @param i Posição atual
-	 * @return Índice do próximo jogador
-	 */
-	public int proximo(int i) {
-		int x = i + this.sentido;
-		if (x > this.jogadores.size()) {
-			x = x - this.jogadores.size();
-		}
-		if (x < 0) {
-			x = x + this.jogadores.size();
-		}
-		return x;
-	}
-
-	/**
 	 * Dobra o sentido.
 	 */
 	public void pular() {
@@ -161,7 +143,8 @@ public class Roda {
 	public Jogador jogadorDaVez() {
 		int proxPosicao;
 		proxPosicao = (this.posicaoAtual + this.sentido) % this.jogadores.size();
-
+		if(sentido%2==0)
+			this.sentido/=2;
 		return this.jogadores.get(proxPosicao);
 	}
 
@@ -171,7 +154,6 @@ public class Roda {
 	public Carta getUltimaCarta() {
 		return this.descarte.ultimaCarta();
 	}
-
 
 	/**
 	 * Compra um numero de cartas e entrega a um jogador.
