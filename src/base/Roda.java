@@ -1,5 +1,4 @@
 package base;
-
 import java.util.ArrayList;
 
 import cartas.Carta;
@@ -35,7 +34,7 @@ public class Roda {
 		this.posicaoAtual = 0;
 		for (int i = 0; i < jogadores.size(); i++) {
 			for (int j = 0; j < 7; j++) {
-				//jogadores.get(i).comprarCarta(entregarCarta());
+				jogadores.get(i).comprar(entregarCarta());
 			}
 		}
 		do {
@@ -117,9 +116,15 @@ public class Roda {
 		return this.descarte.ultimaCarta();
 	}
 
+
+	/**
+	 * 
+	 * @param qtd Quantidade de cartas a serem compradas
+	 * @param jogador Jogador que vai comprar
+	 */
 	public void comprar(int qtd, Jogador jogador) {
 		for (int i = 0; i < qtd; i++) {
-			//jogador.comprarCarta(entregarCarta());
+			jogador.comprar(entregarCarta());
 		}
 	}
 
