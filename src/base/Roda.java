@@ -3,8 +3,15 @@ import java.util.ArrayList;
 import cartas.Carta;
 import cartas.CartaEspecialSemCor;
 import base.jogador.Jogador;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Roda {
+	/**
+	 * Logger da classe Roda.
+	 */
+	private static final Logger LOGGER = LoggerFactory.getLogger(Roda.class);
+
 	/**
 	 * Baralho de compra.
 	 */
@@ -35,6 +42,7 @@ public class Roda {
 	 * @return Baralho de compra da roda.
 	 */
 	public Baralho getCompra(){
+		LOGGER.info("Get Compra");
 		return this.compra;
 	}
 
@@ -43,6 +51,7 @@ public class Roda {
 	 * @return Baralho de descarte da roda.
 	 */
 	public Baralho getDescarte(){
+		LOGGER.info("Get descarte");
 		return this.descarte;
 	}
 
@@ -51,6 +60,7 @@ public class Roda {
 	 * @return Arraylist de jogadores da roda.
 	 */
 	public ArrayList<Jogador> getJogadores(){
+		LOGGER.info("Get jogadores");
 		return this.jogadores;
 	}
 
@@ -59,6 +69,7 @@ public class Roda {
 	 * @return Sentido da roda.
 	 */
 	public int getSentido(){
+		LOGGER.info("Get sentido");
 		return this.sentido;
 	}
 
@@ -67,6 +78,7 @@ public class Roda {
 	 * @return Posicao Atual da roda.
 	 */
 	public int getPosicaoAtual(){
+		LOGGER.info(("Get posicao"));
 		return this.posicaoAtual;
 	}
 
@@ -78,14 +90,17 @@ public class Roda {
 	 * @param jogadoresRecebidos ArrayList<Jogador> jogadores recebidos pelo jogo.
 	 */
 	public Roda(Baralho recebido, ArrayList<Jogador> jogadoresRecebidos) {
+		LOGGER.info("Iniciando roda");
 		this.compra = recebido;
 		this.jogadores = jogadoresRecebidos;
 		this.posicaoAtual = 0;
+		LOGGER.info("Distribuindo cartas iniciais");
 		for (int i = 0; i < this.jogadores.size(); i++) {
 			for (int j = 0; j < 7; j++) {
 				this.jogadores.get(i).comprar(entregarCarta());
 			}
 		}
+		LOGGER.info("Jogando primeira carta");
 		do {
 			this.descarte.receberCarta(this.compra.comprarCarta());
 		} while (this.descarte.ultimaCarta() instanceof CartaEspecialSemCor);
@@ -97,6 +112,7 @@ public class Roda {
 	 * @param recebida Carta recebida para inserir no monte de descarte.
 	 */
 	public void descartarCarta(Carta recebida) {
+		LOGGER.info("Descartando carta");
 		this.descarte.receberCarta(recebida);
 	}
 
@@ -105,6 +121,7 @@ public class Roda {
 	 * @return Primeira carta do monte de compra.
 	 */
 	public Carta entregarCarta() {
+		LOGGER.info("Entregando carta");
 		if (this.compra.getCartas().size() < 1) {
 			transformaDescarte();
 		}
@@ -115,6 +132,7 @@ public class Roda {
 	 * Transforma o baralho de descarte no baralho de compra.
 	 */
 	public void transformaDescarte() {
+		LOGGER.info("Transformando monte de descarte em monte de compra");
 		for (int i = 0; i < this.descarte.getCartas().size() - 1; i++) {
 			this.compra.receberCarta(this.descarte.comprarCarta());
 		}
@@ -125,6 +143,7 @@ public class Roda {
 	 * Altera o sentido do jogo(horário e anti-horário).
 	 */
 	public void inverter() {
+		LOGGER.info("Invertendo sentido");
 		this.sentido *= -1;
 	}
 
@@ -141,6 +160,7 @@ public class Roda {
 	 * @return Posição do jogador na roda
 	 */
 	public Jogador jogadorDaVez() {
+		LOGGER.info("Jogador da vez");
 		int proxPosicao;
 		proxPosicao = (this.posicaoAtual + this.sentido) % this.jogadores.size();
 		if(sentido%2==0)
@@ -152,6 +172,7 @@ public class Roda {
 	 * @return Ultima carta do baralho de descarte.
 	 */
 	public Carta getUltimaCarta() {
+		LOGGER.info("Get ultima carta");
 		return this.descarte.ultimaCarta();
 	}
 
@@ -161,6 +182,7 @@ public class Roda {
 	 * @param jogador Jogador que vai comprar.
 	 */
 	public void comprar(int qtd, Jogador jogador) {
+		LOGGER.info("Comprando carta");
 		for (int i = 0; i < qtd; i++) {
 			jogador.comprar(entregarCarta());
 		}
