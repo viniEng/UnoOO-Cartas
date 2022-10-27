@@ -23,7 +23,6 @@ public class Jogo {
 	private ArrayList<Jogador> jogadores = new ArrayList<>();
 	public static Roda roda;
 	private Jogador jogadorAtual;
-
 	private ArrayList<Acao> acumulo = new ArrayList<>();
 
 	/**
@@ -67,7 +66,7 @@ public class Jogo {
 	            *define o próximo jogador
 	            */
 		    LOGGER.info("Alterando para próximo jogador");		
-	            setJogadorAtual(proximoJogador());
+	            jogadorAtual = roda.jogadorDaVez();
 		     /**
 	            *Jogador atual realiza a jogada (entra em contato com a roda para ver se há acumulo e decide se compra, joga ou executa as ações acumuladas
 		    *@see Jogador.java
@@ -80,8 +79,8 @@ public class Jogo {
 	           LOGGER.info("Conferindo se acabou as cartas na mão do jogador");
 	            if(confereFim()==false)
 	            {
-	                System.out.print("O jogador %s ganhou.", jogadorAtual); /*printar o jogador que ficou sem cartas na mão*/
-	                exit(0);
+	                System.out.printf("O jogador %S ganhou.",jogadorAtual.getNome()); /*printar o jogador que ficou sem cartas na mão*/
+	                break;
 	            }
 
 	            
