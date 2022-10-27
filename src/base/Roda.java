@@ -123,5 +123,9 @@ public class Roda {
 		}
 	}
 
+	public Baralho getDescarte(){
+		return this.descarte;
+	}
+
 }
 
