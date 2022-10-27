@@ -22,7 +22,7 @@ public class Jogo {
 	private ArrayList<Jogador> jogadores = new ArrayList<>();
 	public static Roda roda;
 	private int numeroJogadores;
-	private Jogador jogadorAtual;// já tem essa no roda.java
+	private Jogador jogadorAtual;
 
 	private ArrayList<Acao> acumulo = new ArrayList<>();
 
