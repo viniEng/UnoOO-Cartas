@@ -63,7 +63,7 @@ public class Jogo {
 		this.roda = new Roda(this.baralho, this.jogadores);
 	}
 
-	public boolean confereFim() {
+	public int confereFim() {
 		if (baralho.quantCarta() == 0) {
 			return false;
 		} else {
@@ -73,70 +73,17 @@ public class Jogo {
 
 	public void run() {
 		 while(true){
-			 Carta ultimaCarta = roda.getUltimaCarta();
-			 
-			 /**
-			  * Se houver acumulo
-			  */
-			 if(this.acumulo.isEmpty()) {
-				 jogadorAtual.executarJogada(this.roda);
-			 }
-			 else {
-				 jogadorAtual.excutarJogadaAcumulada(this.acumulo.get(0));
-				 
-			 }
-
-
-	            
-
-	            /*por enquanto não temos acesso ao tipo de retorno das cartas para poder definir a comparação e os métodos para executar */
-	            
-	            /**
-	            *verificar AcaoAcumulada
-	            *@see Acao.java
-	            *@see Jogador.java
+			
+		    /**
+	            *define o próximo jogador
 	            */
-	            if(getAcumulo()==0)/*se não tem acumulo*/
-	            {
-	                jogadorAtual.realizarJogada();/*jogador joga uma carta ou compra UMA da pilha de compra */
-	                
-	                if(/*se a carta descartada for reverso, bloqueio ou troca cor*/)
-	                {
-	                    jogadorAtual.executarAcao(); /*executar a ação da carta, 
-	                    no caso das cartas +4 e escolher Cor, essa carta já é passada com uma cor definida pelo jogador*/
-	                }
-	                else if(/*se a carta descartada for +2 ou +4*/)
-	                {
-	                    setAcumulo( getAcumulo() + ultimaCarta.getValor());
-	                }
-	            } 
-
-	            else /*se tem acumulo*/
-	            {
-	                /**
-	                *Jogador decide se joga uma carta do mesmo tipo e acumula, 
-	                ou compra a quantidade acumulada 
-	                *@see Jogador.java
-	                *@see Acao.java
-	                */
-	                realizarJogada(); 
-	                if(/*se nao tem carta igual para jogar*/)
-	                    /**
-	                    *Roda executa a ação acumulada
-	                    *@see Roda.java
-	                    */
-	                    jogadorAtual.executaAcaoAcumulada(); 
-
-	                else
-	                {
-	                    /**
-	                    *Jogador joga carta
-	                    *@see Jogador.java
-	                    *@see Mao.java
-	                    */
-	                    jogadorAtual.realizarJogada();
-	                }
-	            }
+	            setJogadorAtual(proximoJogador());
+		     /**
+	            *Jogador atual realiza a jogada (entra em contato com a roda para ver se há acumulo e decide se compra, joga ou executa as ações acumuladas
+		    *@see Jogador.java
+	            */
+	            jogadorAtual.realizarJogada();
+		
 
 	            confereFim();
 	            /**
@@ -150,10 +97,7 @@ public class Jogo {
 	                exit(0);
 	            }
 
-	            /**
-	            *define o próximo jogador
-	            */
-	            setJogadorAtual(proximoJogador());
+	            
 
 	          }
 	}
