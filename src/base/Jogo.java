@@ -22,18 +22,13 @@ public class Jogo {
 	private Baralho baralho;
 	private ArrayList<Jogador> jogadores = new ArrayList<>();
 	public static Roda roda;
-	private int numeroJogadores;
 	private Jogador jogadorAtual;
 
 	private ArrayList<Acao> acumulo = new ArrayList<>();
 
 	/**
-	 * Inicia o Baralho, lendo número de jogadores em 'numeroJogadores' e lendo o
-	 * nome dos jogadores em 'nome', passando por parâmetro para a classe Jogador
-	 * passando por parâmetro para a classe Roda(baralho, jogador)
-	 * 
+	 * Prepara o jogo, instanciando o baralho e a roda 
 	 * @see Baralho.java
-	 * @see Jogador.java
 	 * @see Roda.java
 	 */
 	public void prepararJogo() {
@@ -41,22 +36,6 @@ public class Jogo {
 		 * Inicia o baralho
 		 */
 		this.baralho = new Baralho(Baralho.INICIAL);
-
-		/**
-		 * definir quantidade de jogadores
-		 */
-		System.out.println("Quantos jogadores?\n");
-		Scanner sc = new Scanner(System.in);
-		this.numeroJogadores = sc.nextInt();
-
-		/**
-		 * instanciar jogadores
-		 */
-		for (int i = 0; i < numeroJogadores; i++) {
-
-			jogadores.add(new Jogador());
-
-		}
 
 		/**
 		 * instanciar a roda e mandar baralho e lista de jogadores
@@ -109,7 +88,9 @@ public class Jogo {
 
 	          }
 	}
-	
+	/**
+		 * construtor da classe Jogo
+		 */
 	public Jogo(ArrayList<Jogador> j){
 		this.jogadores = j;
 		LOGGER.info("Preparando o jogo");
