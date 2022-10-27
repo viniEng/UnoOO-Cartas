@@ -14,7 +14,7 @@ public class Mais2 extends Acao {
  */
 
   public void realizar (Roda roda) {
-    roda.compra(2, roda.jogadorDaVez);
+    roda.comprar(2, roda.jogadorDaVez());
     return;
   }
 }
