@@ -1,14 +1,14 @@
 package acao;
 import base.Roda;
 
-abstract class Acao {
+public abstract class Acao {
   /**
    * Função que serve para padronizar a forma dos métodos da ação.
    * Bloqueio pula o próximo jogador da roda.
    * Inverter reverte o sentido da roda.
    * @param roda
    */
-  abstract void realizar (Roda roda);
+  public abstract void realizar (Roda roda);
 }
 
 /**
