@@ -27,6 +27,14 @@ public class MaoCartas extends Baralho{
         this.cartas.add(carta);
     }
     /**
+     * Realiza a adição de uma lista de cartas na lista de cartas
+     * interna de MaoCartas.
+     * @param listaCartas - Lista de cartas a ser adicionada em MaoCartas
+     */
+    public void receberCartas(ArrayList<Carta> listaCartas){
+        this.cartas.addAll(listaCartas);
+    }
+    /**
      * Retorna a quantidade atual de cartas na lista de cartas
      * de MaoCartas
      * @return
