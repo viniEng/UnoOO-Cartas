@@ -63,14 +63,20 @@ public class Jogo {
 		this.roda = new Roda(this.baralho, this.jogadores);
 	}
 
-	public int confereFim() {
+	/**
+	* função que confere se ainda há cartas na mão do jogador 
+	*/
+	public boolean confereFim() {
 		if (baralho.quantCarta() == 0) {
 			return false;
 		} else {
 			return true;
 		}
 	}
-
+	
+	/**
+	* função que faz a execução do jogo
+	*/
 	public void run() {
 		 while(true){
 			
