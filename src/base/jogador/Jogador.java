@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import base.*;
 import cartas.*;
 
-public class Jogador implements Jogada{
+public class Jogador {//implements Jogada{
 
     private String nome;
     private MaoCartas maoJogador;
@@ -24,7 +24,7 @@ public class Jogador implements Jogada{
      * @param nome (nome a ser atualizado para o jogador)
      */
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = nome.toLowerCase().trim();;
     }
 
     /**
@@ -45,43 +45,55 @@ public class Jogador implements Jogada{
     private void inicializarMao(){
         this.maoJogador = new MaoCartas();
     }
+
     /**
     *
-    * Compra n cartas, adicionando as cartas na MaoJogador
-    * @deprecated - deve ser consultado futaramente com Jogo, ou Roda.
+    * Compra uma lista de cartas, adicionando-as a maoJogador
+    * @see MaoCartas
     **/
-    @Override
-    public void comprar(int quant){
-        for(int i = 0; i<quant; i++){
-            //maojogador.add(carta do topo do monte de compras)
-            // Retirar carta do topo do monte de compras
-        }
+    public void comprar(ArrayList<Carta> listaCartas){
+        this.maoJogador.receberCartas(listaCartas);
     }
-        /**
+
+    /**
     *
-    * Compra uma carta, adicionando uma carta a MaoJogador,
-    *
+    * Compra uma carta, adicionando uma carta a maoJogador,
+    * @see MaoCartas
     **/
     public void comprar(Carta carta){
-        
+        this.maoJogador.receberCarta(carta);
     }
+
      /**
     *
-    * Descarta uma carta, retirando uma carta a MaoJogador,
+    * Descarta uma carta, retirando uma carta de maoJogador,
     * adicionando-a ao monte de descarte
-    *
+    * @see MaoCartas
     **/
-    @Override
+    //@Override
     public void descartar(){
         //
     }
+
     /**
      * Retorna a quantidade de cartas atual do jogador
      * @return Quantidade de cartas que o jogador possui atualmente
      */
     public int getQuantidadeCartas(){
-        return 0;
+        return this.maoJogador.getQuantidadeCartas();
     }
+
+    /**
+     * Realiza uma jogada a partir da analize da situação atual
+     * da Roda do Jogo.
+     * @see Roda
+     * @see Jogo
+     * @see Acao
+     */
+    public void realizarJogada(){
+
+    }
+
     /**
      * Construtor que recebe um nome para o jogador e um objeto de MaoCartas
      * @see MaoCartas
@@ -92,6 +104,7 @@ public class Jogador implements Jogada{
         this.nome = nome.toLowerCase().trim();
         this.maoJogador = maoInicial;
     }
+
     /**
      * Construtor que recebe o nome do jogador
      * e inicializa uma maoJogador (objeto de MaoCartas) sem
