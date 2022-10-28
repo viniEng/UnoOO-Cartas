@@ -42,7 +42,6 @@ public class Roda {
 	 * @return Baralho de compra da roda.
 	 */
 	public Baralho getCompra(){
-		LOGGER.info("Get Compra");
 		return this.compra;
 	}
 
@@ -51,7 +50,6 @@ public class Roda {
 	 * @return Baralho de descarte da roda.
 	 */
 	public Baralho getDescarte(){
-		LOGGER.info("Get descarte");
 		return this.descarte;
 	}
 
@@ -60,7 +58,6 @@ public class Roda {
 	 * @return Arraylist de jogadores da roda.
 	 */
 	public ArrayList<Jogador> getJogadores(){
-		LOGGER.info("Get jogadores");
 		return this.jogadores;
 	}
 
@@ -69,7 +66,6 @@ public class Roda {
 	 * @return Sentido da roda.
 	 */
 	public int getSentido(){
-		LOGGER.info("Get sentido");
 		return this.sentido;
 	}
 
@@ -78,7 +74,6 @@ public class Roda {
 	 * @return Posicao Atual da roda.
 	 */
 	public int getPosicaoAtual(){
-		LOGGER.info(("Get posicao"));
 		return this.posicaoAtual;
 	}
 
@@ -92,18 +87,28 @@ public class Roda {
 	public Roda(Baralho recebido, ArrayList<Jogador> jogadoresRecebidos) {
 		LOGGER.info("Iniciando roda");
 		this.compra = recebido;
+		LOGGER.info("{} Cartas foram recebidas do baralho inicial", recebido.quantCarta());
 		this.jogadores = jogadoresRecebidos;
+		LOGGER.info("Há {} Jogadores na roda", jogadoresRecebidos.size());
 		this.posicaoAtual = 0;
-		LOGGER.info("Distribuindo cartas iniciais");
+		LOGGER.info("Iniciando distribuição de cartas iniciais");
 		for (int i = 0; i < this.jogadores.size(); i++) {
 			for (int j = 0; j < 7; j++) {
-				this.jogadores.get(i).comprar(entregarCarta());
+				Carta cartaAux = entregarCarta();
+				Jogador jogadorAux = this.jogadores.get(i);
+				jogadorAux.comprar(cartaAux);
+				LOGGER.info("Jogador {} recebeu Carta {}", jogadorAux, cartaAux);
 			}
 		}
-		LOGGER.info("Jogando primeira carta");
+		LOGGER.info("Comprando primeira carta do jogo");
+		Carta cartaAux;
 		do {
-			this.descarte.receberCarta(this.compra.comprarCarta());
-		} while (this.descarte.ultimaCarta() instanceof CartaEspecialSemCor);
+			cartaAux = entregarCarta();
+			this.descarte.receberCarta(cartaAux);
+			if(cartaAux instanceof CartaEspecialSemCor)
+				LOGGER.info("{} foi a carta retirada, comprando mais uma", cartaAux);
+		} while (cartaAux instanceof CartaEspecialSemCor);
+		LOGGER.info("{} é a primeira carta do jogo", cartaAux);
 
 	}
 
@@ -112,7 +117,7 @@ public class Roda {
 	 * @param recebida Carta recebida para inserir no monte de descarte.
 	 */
 	public void descartarCarta(Carta recebida) {
-		LOGGER.info("Descartando carta");
+		LOGGER.info("Descartando carta {}", recebida);
 		this.descarte.receberCarta(recebida);
 	}
 
@@ -121,11 +126,13 @@ public class Roda {
 	 * @return Primeira carta do monte de compra.
 	 */
 	public Carta entregarCarta() {
-		LOGGER.info("Entregando carta");
+		Carta cartaAux;
 		if (this.compra.getCartas().size() < 1) {
-			transformaDescarte();
+			this.transformaDescarte();
 		}
-		return this.compra.comprarCarta();
+		cartaAux = this.compra.comprarCarta();
+		LOGGER.info("Entregando carta {}", cartaAux);
+		return cartaAux;
 	}
 
 	/**
@@ -151,6 +158,7 @@ public class Roda {
 	 * Dobra o sentido.
 	 */
 	public void pular() {
+		LOGGER.info("Dobrando sentido");
 		this.sentido *= 2;
 	}
 
@@ -160,20 +168,23 @@ public class Roda {
 	 * @return Posição do jogador na roda
 	 */
 	public Jogador jogadorDaVez() {
-		LOGGER.info("Jogador da vez");
 		int proxPosicao;
 		proxPosicao = (this.posicaoAtual + this.sentido) % this.jogadores.size();
 		if(sentido%2==0)
+			LOGGER.info("Sentido voltou ao normal");
 			this.sentido/=2;
-		return this.jogadores.get(proxPosicao);
+		Jogador jogadorAux = this.jogadores.get(proxPosicao);
+		LOGGER.info("O jogador da vez é {}", jogadorAux);
+		return jogadorAux;
 	}
 
 	/**
 	 * @return Ultima carta do baralho de descarte.
 	 */
 	public Carta getUltimaCarta() {
-		LOGGER.info("Get ultima carta");
-		return this.descarte.ultimaCarta();
+		Carta cartaAux = this.descarte.ultimaCarta();
+		LOGGER.info("A ultima carta é {}", cartaAux);
+		return cartaAux;
 	}
 
 	/**
@@ -182,7 +193,7 @@ public class Roda {
 	 * @param jogador Jogador que vai comprar.
 	 */
 	public void comprar(int qtd, Jogador jogador) {
-		LOGGER.info("Comprando carta");
+		LOGGER.info("Comprando {} carta(s) ao jogador {}", qtd, jogador);
 		for (int i = 0; i < qtd; i++) {
 			jogador.comprar(entregarCarta());
 		}
