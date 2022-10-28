@@ -150,16 +150,16 @@ public class Roda {
 	 * Altera o sentido do jogo(horário e anti-horário).
 	 */
 	public void inverter() {
-		LOGGER.info("Invertendo sentido");
 		this.sentido *= -1;
+		LOGGER.info("Sentido invertido: {}", this.sentido);
 	}
 
 	/**
 	 * Dobra o sentido.
 	 */
 	public void pular() {
-		LOGGER.info("Dobrando sentido");
 		this.sentido *= 2;
+		LOGGER.info("Sentido dobrado: {}", this.sentido);
 	}
 
 	/**
@@ -170,9 +170,10 @@ public class Roda {
 	public Jogador jogadorDaVez() {
 		int proxPosicao;
 		proxPosicao = (this.posicaoAtual + this.sentido) % this.jogadores.size();
-		if(sentido%2==0)
+		if(sentido%2==0){
 			LOGGER.info("Sentido voltou ao normal");
 			this.sentido/=2;
+		}
 		Jogador jogadorAux = this.jogadores.get(proxPosicao);
 		LOGGER.info("O jogador da vez é {}", jogadorAux);
 		return jogadorAux;
@@ -199,5 +200,20 @@ public class Roda {
 		}
 	}
 
+	/**
+	 * Método sobrescrito que adiciona informaçoes importantes sobre a Roda.
+	 * @return String com informações sobre um objeto da classe Roda.
+	 */
+	@Override
+	public String toString(){
+		String sent;
+		if(this.sentido > 0)
+			sent = "Positivo";
+		else
+			sent = "Negativo";
+		return "Roda: Posição atual: " + this.posicaoAtual + ", Sentido: " + sent 
+			   + ", Num cartas compra: " + this.compra.quantCarta() + ", Num cartas descarte: " 
+			   + this.descarte.quantCarta();
+	}
 }
 
