@@ -23,7 +23,6 @@ public class Jogo {
 	private ArrayList<Jogador> jogadores = new ArrayList<>();
 	public static Roda roda;
 	private Jogador jogadorAtual;
-	private ArrayList<Acao> acumulo = new ArrayList<>();
 
 	/**
 	 * Prepara o jogo, instanciando o baralho e a roda
