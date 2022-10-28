@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class Acao {
-  protected static final Logger LOGGER = LoggerFactory.getLogger(SimulUnoOO.class);
+  protected static final Logger LOGGER = LoggerFactory.getLogger(Acao.class);
   /**
    * Função que serve para padronizar a forma dos métodos da ação.
    * Bloqueio pula o próximo jogador da roda.
