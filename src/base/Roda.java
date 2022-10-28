@@ -10,7 +10,7 @@ public class Roda {
 	/**
 	 * Logger da classe Roda.
 	 */
-	private static final java.util.logging.Logger LOGGER = LoggerFactory.getLogger(Roda.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Roda.class);
 
 	/**
 	 * Baralho de compra.
