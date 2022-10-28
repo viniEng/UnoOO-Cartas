@@ -32,7 +32,8 @@ public class MaoCartas extends Baralho{
     public MaoCartas(){
         super(Baralho.NORMAL);
         LOGGER.info("Instanciando objeto de MaoCartas com nenhuma carta");
-
+        
+        this.cartas = new ArrayList<>();
     }
 
     /**

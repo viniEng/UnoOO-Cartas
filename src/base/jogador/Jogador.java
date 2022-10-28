@@ -11,21 +11,6 @@ public class Jogador {//implements Jogada{
     private MaoCartas maoJogador;
 
     /**
-     * Construtor que recebe um nome para o jogador e um objeto de MaoCartas
-     * @see MaoCartas
-     * @param nome
-     * @param maoInicial
-     */
-    public Jogador(String nome, MaoCartas maoInicial){
-        LOGGER.info("Instânciando objeto de Jogador a partir de nome e MaoCartas inicial");
-
-        this.nome = nome.toLowerCase().trim();
-        this.maoJogador = maoInicial;
-
-        if (LOGGER.isDebugEnabled()) {LOGGER.debug("Jogador :\n" + this.toString());}
-    }
-
-    /**
      * Construtor que recebe o nome do jogador
      * e inicializa uma maoJogador (objeto de MaoCartas) sem
      * nenhuma carta.
@@ -33,13 +18,12 @@ public class Jogador {//implements Jogada{
      * @see MaoCartas
      */
     public Jogador(String nome){
-        LOGGER.info("Instânciando objeto de Jogador a partir de nome e"
-        +"instanciando MaoCartas vazia em objeto");
+        LOGGER.info("Instânciando objeto de Jogador a partir de nome e instanciando MaoCartas vazia em objeto");
 
-        this.nome = nome.toLowerCase().trim();
+        this.nome = nome.trim();
         this.inicializarMao();
 
-        if (LOGGER.isDebugEnabled()) {LOGGER.debug("Jogador :\n" + this.toString());}
+        LOGGER.info("Jogador :\n{}",this.toString());
     }
 
     // ArrayList<Carta> maoJogador = new ArrayList<Carta>();
@@ -50,7 +34,7 @@ public class Jogador {//implements Jogada{
      */
     public String getNome() {
         LOGGER.info("Retornando nome de jogador");
-        if (LOGGER.isDebugEnabled()) {LOGGER.debug("Nome retornado:" + nome);}
+        LOGGER.info("Nome retornado: {}", nome);
         return nome;
     }
 
@@ -62,7 +46,7 @@ public class Jogador {//implements Jogada{
         int qtdCartas = this.maoJogador.getQuantidadeCartas();
 
         LOGGER.info("Retornando quantidade de cartas");
-        if (LOGGER.isDebugEnabled()) {LOGGER.debug("Quantidade de cartas :" + qtdCartas);}
+        LOGGER.info("Quantidade de cartas: {}", qtdCartas);
 
         return qtdCartas;
     }
@@ -73,9 +57,9 @@ public class Jogador {//implements Jogada{
      */
     public void setNome(String nome) {
         LOGGER.info("Alterando nome de jogador");
-        this.nome = nome.toLowerCase().trim();;
+        this.nome = nome.trim();
 
-        if (LOGGER.isDebugEnabled()) {LOGGER.debug("Nome setado:" + this.nome);}
+        LOGGER.info("Nome setado: {}", this.nome);
     }
 
     /**
@@ -121,7 +105,7 @@ public class Jogador {//implements Jogada{
         LOGGER.info("Comprando (recebendo) uma carta");
 
         this.maoJogador.receberCarta(carta);
-        if (LOGGER.isDebugEnabled()) {LOGGER.debug("Carta adicionada :" + carta.toString());}
+        LOGGER.info("Carta adicionada: {}", carta.toString());
     }
 
      /**
