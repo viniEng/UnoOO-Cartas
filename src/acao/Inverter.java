@@ -15,6 +15,7 @@ public class Inverter extends Acao {
 
   public void realizar(Roda roda) {
     roda.inverter();
+    LOGGER.info("Direção invertida");
   }
 
   
