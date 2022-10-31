@@ -1,6 +1,5 @@
 package acao;
 import base.Roda;
-
 /**
  * @author Lucas Patrizi
  * @version 3.0
@@ -19,6 +18,7 @@ public class Bloqueio extends Acao {
    */
   public void realizar(Roda roda) {
     roda.pular();
+    LOGGER.info("Jogador pulado\n");
   }
 
 }

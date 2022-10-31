@@ -15,6 +15,7 @@ public class Mais2 extends Acao {
 
   public void realizar (Roda roda) {
     roda.comprar(2, roda.jogadorDaVez());
+    LOGGER.info("2 cartas compradas\n");
     return;
   }
 }
