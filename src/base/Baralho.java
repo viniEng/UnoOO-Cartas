@@ -114,7 +114,7 @@ public class Baralho {
 	 * @return o tamanhho do arraylist cartas
 	 */
 	public int quantCarta() { // para verificar a quantidade de cartas
-		if LOGGER.isDebugEnable() {
+		if (LOGGER.isDebugEnable()) {
 			LOGGER.debug("Quantidade de cartas retornada: {}", cartas.size());
 		}
 
@@ -126,7 +126,7 @@ public class Baralho {
 	 * @return a última carta do baralho
 	 */
 	public Carta ultimaCarta() { // para verificar a última carta
-		if LOGGER.isDebugEnable() {
+		if (LOGGER.isDebugEnable()) {
 			LOGGER.debug("Última carta retornada: {}", cartas.get(cartas.size() - 1));
 		}
 
@@ -137,7 +137,7 @@ public class Baralho {
 	 * @return the baralho
 	 */
 	public ArrayList<Carta> getCartas() {
-		if LOGGER.isDebugEnable() {
+		if (LOGGER.isDebugEnable()) {
 			LOGGER.debug("Cartas retornadas: {}", cartas);
 		}
 
@@ -157,7 +157,7 @@ public class Baralho {
 	 * @return the tipo
 	 */
 	public boolean isTipo() {
-		if LOGGER.isDebugEnable() {
+		if (LOGGER.isDebugEnable()) {
 			LOGGER.debug("Tipo retornado: {}", tipo);
 		}
 
