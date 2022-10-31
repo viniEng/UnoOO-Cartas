@@ -65,8 +65,8 @@ public class Jogador {//implements Jogada{
     **/
     public void inicializarMao(ArrayList<Carta> cartasIniciais){
         LOGGER.trace("Instanciando objeto de MaoCartas a partir de lista de cartas");
-
         this.maoJogador = new MaoCartas(cartasIniciais);
+        LOGGER.info("MaoCartas iniciada: {}", this.maoJogador.toString());
     }
 
     /**
@@ -75,7 +75,7 @@ public class Jogador {//implements Jogada{
     * @see MaoCartas
     **/
     private void inicializarMao(){
-        LOGGER.info("Instanciando objeto de MaoCartas vazia");
+        LOGGER.trace("Instanciando objeto de MaoCartas vazia");
 
         this.maoJogador = new MaoCartas();
     }
@@ -87,8 +87,7 @@ public class Jogador {//implements Jogada{
     **/
     //@Override
     public void comprar(ArrayList<Carta> listaCartas){
-        LOGGER.info("Comprando (recebendo) lista de cartas");
-
+        LOGGER.trace("Comprando (recebendo) lista de cartas");
         this.maoJogador.receberCartas(listaCartas);
     }
 
@@ -99,8 +98,6 @@ public class Jogador {//implements Jogada{
     **/
     //@Override
     public void comprar(Carta carta){
-        LOGGER.info("Comprando (recebendo) uma carta");
-
         this.maoJogador.receberCarta(carta);
         LOGGER.info("Carta adicionada: {}", carta.toString());
     }
@@ -113,7 +110,7 @@ public class Jogador {//implements Jogada{
     **/
     //@Override
     public void descartar(){
-        LOGGER.info("Descartando carta");
+        LOGGER.trace("Descartando carta");
 
         //
     }
@@ -127,7 +124,7 @@ public class Jogador {//implements Jogada{
      */
      //@Override
     public void realizarJogada(){
-        LOGGER.info("Realizando jogada");
+        LOGGER.trace("Realizando jogada");
 
     }
 
