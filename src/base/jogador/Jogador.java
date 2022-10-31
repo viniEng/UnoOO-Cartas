@@ -1,3 +1,4 @@
+//Somos nós, os amigos de todos vós
 package base.jogador;
 
 import java.util.ArrayList;
