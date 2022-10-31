@@ -1,3 +1,4 @@
+//Somos nós, os amigos de todos vós
 package base.jogador;
 
 import java.util.ArrayList;
@@ -84,6 +85,7 @@ public class Jogador {//implements Jogada{
     * Compra uma lista de cartas, adicionando-as a maoJogador
     * @see MaoCartas
     **/
+    //@Override
     public void comprar(ArrayList<Carta> listaCartas){
         LOGGER.info("Comprando (recebendo) lista de cartas");
 
@@ -95,6 +97,7 @@ public class Jogador {//implements Jogada{
     * Compra uma carta, adicionando uma carta a maoJogador,
     * @see MaoCartas
     **/
+    //@Override
     public void comprar(Carta carta){
         LOGGER.info("Comprando (recebendo) uma carta");
 
@@ -122,6 +125,7 @@ public class Jogador {//implements Jogada{
      * @see Jogo
      * @see Acao
      */
+     //@Override
     public void realizarJogada(){
         LOGGER.info("Realizando jogada");
 
