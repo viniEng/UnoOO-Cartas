@@ -1,4 +1,6 @@
 package base.jogador;
+import cartas.*;
+import java.util.ArrayList;
 
 public interface Jogada{
 
