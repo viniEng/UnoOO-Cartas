@@ -1,8 +1,8 @@
 package base;
 import java.util.ArrayList;
-import cartas.Carta;
-import cartas.CartaEspecialSemCor;
+import cartas.*;
 import base.jogador.Jogador;
+import acao.Acao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +27,11 @@ public class Roda {
 	 */
 	private ArrayList<Jogador> jogadores;
 
+  	/**
+	 * Arraylist de acumulo de +2 e +4.
+	 */
+	private ArrayList<Acao> acumulo;
+  
 	/**
 	 * Sentido da roda (positivo ou negativo).
 	 */
@@ -113,12 +118,41 @@ public class Roda {
 	}
 
 	/**
-	 * Insere uma carta no monte de descarte.
+	 * Verifica a carta jogada e se for compatível, insere uma carta no monte de descarte.
 	 * @param recebida Carta recebida para inserir no monte de descarte.
 	 */
-	public void descartarCarta(Carta recebida) {
+	public void descartarCarta(Carta recebida) throws CartaSemNumero, CartaSemAcao {
 		LOGGER.info("Descartando carta {}", recebida);
-		this.descarte.receberCarta(recebida);
+		Carta ultima = getUltimaCarta();
+		if(recebida instanceof CartaEspecialSemCor || ultima instanceof CartaEspecialSemCor ){
+			descarte.receberCarta(recebida);
+			if(recebida.getAcao() == Carta.MAIS4){
+				this.acumulo.add(recebida.getAcao());
+				LOGGER.info("A carta {} foi acumulada", recebida);
+			}
+		}
+		else if(recebida.getCor() == ultima.getCor()){
+			descarte.receberCarta(recebida);
+		}
+		else if(recebida instanceof CartaNormal && ultima instanceof CartaNormal){
+			if(recebida.getNumero() == ultima.getNumero()){
+				descarte.receberCarta(recebida);
+			}
+		}
+		else if(recebida instanceof CartaComAcao && ultima instanceof CartaComAcao){
+			if(recebida.getAcao() == ultima.getAcao()){
+				descarte.receberCarta(recebida);
+				if(recebida.getAcao() == Carta.MAIS2){
+					this.acumulo.add(recebida.getAcao());
+					LOGGER.info("A carta {} foi acumulada", recebida);
+				}
+			}
+		}
+
+		else{
+		LOGGER.info("A carta {} é incompatível com a última carta do descarte, que é {}",recebida, ultima);
+		this.jogadores.get(posicaoAtual).comprar(recebida);
+		}
 	}
 
 	/**
@@ -184,7 +218,7 @@ public class Roda {
 	 */
 	public Carta getUltimaCarta() {
 		Carta cartaAux = this.descarte.ultimaCarta();
-		LOGGER.info("A ultima carta é {}", cartaAux);
+		LOGGER.info("A ultima carta jogada foi {}", cartaAux);
 		return cartaAux;
 	}
 
@@ -199,7 +233,34 @@ public class Roda {
 			jogador.comprar(entregarCarta());
 		}
 	}
+  
+  /**
+	 * salva o acumulo em um ArrayList auxiliar, limpa o acumulo, e retorna o auxiliar
+	 * @return Acumulo de ações
+	 */
+  public ArrayList<Acao> desacumular(){
+    ArrayList<Acao> acumuloAux = this.acumulo;
+    this.acumulo.clear();
+    LOGGER.info("O acúmulo foi transferido");
+    return acumuloAux;
+  }
 
+  /**
+	 * Verifica o tamanho do acumulo
+	 * @return Se houver acúmulo retorna true, senão, retorna false
+	 */
+  public boolean temAcumulo(){
+    int tamanho = this.acumulo.size();
+    if(tamanho > 0){
+      LOGGER.info("Há {} cartas no acúmulo",tamanho);
+      return true;
+    }
+    else{
+      LOGGER.info("Não tem acúmulo");
+      return false;
+    }
+  }
+  
 	/**
 	 * Método sobrescrito que adiciona informaçoes importantes sobre a Roda.
 	 * @return String com informações sobre um objeto da classe Roda.
@@ -216,4 +277,3 @@ public class Roda {
 			   + this.descarte.quantCarta();
 	}
 }
-
