@@ -2,7 +2,7 @@ package acao;
 import base.Roda;
 /**
   * @author Pedro;
-  * @version 5.0;
+  * @version 5.1;
   */
 
 public class Inverter extends Acao {
@@ -13,11 +13,15 @@ public class Inverter extends Acao {
   * recebe o sentido e inverte, retornando a jogada para o jogador anterior;
   */
 
-  public void realizar(Roda roda) {
+  public void inverter(Roda roda) {
     roda.inverter();
     LOGGER.info("Direção invertida");
   }
 
-  
+  @Override
+
+  public String toString(){
+    return "INVERTER";
+  }
 
 }
