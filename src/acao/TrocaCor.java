@@ -1,6 +1,6 @@
 package acao;
 import base.Roda;
-//import cartas.*;
+//import cartas.Cor;
 //import java.util.Scanner;
 /**
  * @author Vinicius 
