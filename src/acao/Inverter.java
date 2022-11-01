@@ -1,6 +1,6 @@
 package acao;
 import base.Roda;
-import cartas.cor;
+import cartas.Cor;
 
 /**
   * @author Pedro;
@@ -42,9 +42,9 @@ public class Inverter extends Acao {
    * Informar uso incorreto da função
    * @param roda
    */
-  public void TrocaCor (Roda roda){
+  public Cor trocaCor (){
     LOGGER.info("Inverter não pode trocar cor\n");
-    return;
+    return Cor.SEMCOR;
   }
 
 
