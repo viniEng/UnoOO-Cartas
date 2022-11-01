@@ -121,37 +121,34 @@ public class Roda {
 	 * Verifica a carta jogada e se for compatível, insere uma carta no monte de descarte.
 	 * @param recebida Carta recebida para inserir no monte de descarte.
 	 */
-	public void descartarCarta(Carta recebida) throws CartaSemNumero, CartaSemAcao {
-		LOGGER.info("Descartando carta {}", recebida);
+	public void descartarCarta(Carta recebida) {
+		LOGGER.info("Descartando carta: {}", recebida);
 		Carta ultima = getUltimaCarta();
-		if(recebida instanceof CartaEspecialSemCor || ultima instanceof CartaEspecialSemCor ){
-			descarte.receberCarta(recebida);
-			if(recebida.getAcao() == Carta.MAIS4){
-				this.acumulo.add(recebida.getAcao());
-				LOGGER.info("A carta {} foi acumulada", recebida);
+		try{
+			if(recebida.getNumero() == ultima.getNumero() || recebida.getCor() == ultima.getCor()){
+				this.descarte.receberCarta(recebida);
 			}
-		}
-		else if(recebida.getCor() == ultima.getCor()){
-			descarte.receberCarta(recebida);
-		}
-		else if(recebida instanceof CartaNormal && ultima instanceof CartaNormal){
-			if(recebida.getNumero() == ultima.getNumero()){
-				descarte.receberCarta(recebida);
-			}
-		}
-		else if(recebida instanceof CartaComAcao && ultima instanceof CartaComAcao){
-			if(recebida.getAcao() == ultima.getAcao()){
-				descarte.receberCarta(recebida);
-				if(recebida.getAcao() == Carta.MAIS2){
-					this.acumulo.add(recebida.getAcao());
-					LOGGER.info("A carta {} foi acumulada", recebida);
+		}catch (CartaSemNumero a){
+			try{
+				Acao acaoAux = recebida.getAcao();
+				if(acaoAux == ultima.getAcao() || recebida.getCor() == ultima.getCor() || recebida instanceof CartaEspecialSemCor){
+					this.descarte.receberCarta(recebida);
+					if(acaoAux==Carta.MAIS2 || acaoAux==Carta.MAIS4){
+						this.acumulo.add(acaoAux);
+					}
+				}
+			}catch (CartaSemAcao b){
+				if(recebida.getCor() == ultima.getCor()){
+					this.descarte.receberCarta(recebida);
 				}
 			}
 		}
-
-		else{
-		LOGGER.info("A carta {} é incompatível com a última carta do descarte, que é {}",recebida, ultima);
-		this.jogadores.get(posicaoAtual).comprar(recebida);
+		finally{
+			ultima = getUltimaCarta();
+			if(recebida != ultima){
+				LOGGER.info("Jogada impossível. {} não compatível com {}", recebida, ultima);
+				throw new RuntimeException("Jogada impossível");
+			}
 		}
 	}
 
