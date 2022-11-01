@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 public class MaoCartas extends Baralho{
     private static final Logger LOGGER = LoggerFactory.getLogger(MaoCartas.class);
-    private ArrayList<Carta> cartas;
     public static final short tamInicial = 7;
     
     /**
@@ -20,7 +19,7 @@ public class MaoCartas extends Baralho{
      */
     public MaoCartas(ArrayList<Carta> cartasIniciais){
         super(Baralho.NORMAL);
-        LOGGER.info("Instanciando objeto de MaoCartas a partir de lista de cartas inicial");
+        LOGGER.trace("Instanciando objeto de MaoCartas a partir de lista de cartas inicial");
 
         this.inicializar(cartasIniciais);
     }
@@ -31,20 +30,7 @@ public class MaoCartas extends Baralho{
      */
     public MaoCartas(){
         super(Baralho.NORMAL);
-        LOGGER.info("Instanciando objeto de MaoCartas com nenhuma carta");
-        
-        this.cartas = new ArrayList<>();
-    }
-
-    /**
-     * Retorna a quantidade atual de cartas na lista de cartas
-     * de MaoCartas
-     * @return
-     */
-    public int getQuantidadeCartas() {
-        LOGGER.info("Retornando quantidade de cartas em lista de cartas interna");
-
-        return this.cartas.size();
+        LOGGER.trace("Instanciando objeto de MaoCartas com nenhuma carta");
     }
 
     /**
@@ -52,20 +38,9 @@ public class MaoCartas extends Baralho{
      * @param cartasIniciais - Lista de cartas iniciais de MaoCartas
      */
     private void inicializar(ArrayList<Carta> cartasIniciais){
-        LOGGER.info("Inicializando lista de cartas interna a partir de uma lista de cartas");
+        LOGGER.trace("Inicializando lista de cartas interna a partir de uma lista de cartas");
 
-        this.cartas = cartasIniciais;
-    }
-
-    /**
-     * Realiza a adição de uma carta na lista de cartas
-     * atuais no objeto de MaoCartas
-     * @param carta - Carta a ser adicionada em MaoCartas
-     */
-    public void receberCarta(Carta carta){
-        LOGGER.info("Adicionando carta em lista de cartas interna");
-
-        this.cartas.add(carta);
+        cartas = cartasIniciais;
     }
 
     /**
@@ -74,9 +49,9 @@ public class MaoCartas extends Baralho{
      * @param listaCartas - Lista de cartas a ser adicionada em MaoCartas
      */
     public void receberCartas(ArrayList<Carta> listaCartas){
-        LOGGER.info("Adicionando lista de cartas em lista de cartas interna");
+        LOGGER.trace("Adicionando lista de cartas em lista de cartas interna");
         
-        this.cartas.addAll(listaCartas);
+        cartas.addAll(listaCartas);
     }
 
 

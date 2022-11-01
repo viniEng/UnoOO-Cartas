@@ -48,6 +48,7 @@ public class Jogo {
 	 * ganhador se for o caso
 	 * 
 	 * @see Mao.java
+	 * @return tipo booleano: caso falso ele encerra o jogo, pois o jogador já não possui mais cartas e verdadeiro o jogo continua
 	 */
 	public boolean confereFim() {
 		if (baralho.quantCarta() == 0) {
@@ -59,6 +60,11 @@ public class Jogo {
 
 	/**
 	 * função que faz a execução do jogo
+	 * descreve o turno em si, com a troca de jogador e jogada
+	 * em sua última ação confere se a quantidade de cartas na mão do jogador é diferente de zero
+	 * Logger retorna as ações realizadas peo Jogador
+	 * @see Jogador.java
+	 * @see Roda.java
 	 */
 	public void run() {
 		while (true) {
@@ -88,7 +94,9 @@ public class Jogo {
 	}
 
 	/**
-	 * construtor da classe Jogo
+	 * construtor da classe Jogo,
+	 * chama os jogadores e prepara o jogo conforme a função prepararJogo
+	 * @see Jogo.java
 	 */
 	public Jogo(ArrayList<Jogador> j) {
 		this.jogadores = j;
