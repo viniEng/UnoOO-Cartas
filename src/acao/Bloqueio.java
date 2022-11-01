@@ -2,7 +2,7 @@ package acao;
 import base.Roda;
 /**
  * @author Lucas Patrizi
- * @version 3.0
+ * @version 4.0
  * @since 03/10/22
  * @see Roda
  */
@@ -16,9 +16,13 @@ public class Bloqueio extends Acao {
    * @return
    * 
    */
-  public void realizar(Roda roda) {
+  public void pular(Roda roda) {
     roda.pular();
     LOGGER.info("Jogador pulado\n");
   }
+  @Override
 
+  public String toString(){
+    return "BLOQUEIO";
+  }
 }
