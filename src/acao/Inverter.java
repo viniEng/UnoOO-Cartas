@@ -1,5 +1,7 @@
 package acao;
 import base.Roda;
+import cartas.cor;
+
 /**
   * @author Pedro;
   * @version 5.1;
@@ -15,8 +17,36 @@ public class Inverter extends Acao {
 
   public void inverter(Roda roda) {
     roda.inverter();
-    LOGGER.info("Direção invertida");
+    LOGGER.info("Direção invertida\n");
   }
+
+  /**
+   * Informar uso incorreto da função
+   * @param roda
+   */
+  public void comprar (Roda roda){
+    LOGGER.info("Inverter não pode comprar\n");
+    return;
+  }
+
+  /**
+   * Informar uso incorreto da função
+   * @param roda
+   */
+  public void pular (Roda roda){
+    LOGGER.info("Inverter não pode pular\n");
+    return;
+  }
+
+  /**
+   * Informar uso incorreto da função
+   * @param roda
+   */
+  public void TrocaCor (Roda roda){
+    LOGGER.info("Inverter não pode trocar cor\n");
+    return;
+  }
+
 
   @Override
 
