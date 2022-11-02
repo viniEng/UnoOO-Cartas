@@ -20,34 +20,34 @@ public class TrocaCor extends Acao {
     Scanner sc;
     String resposta;
     sc= new Scanner(System.in);
-
     System.out.println("Que cor?");
     resposta=sc.nextLine();
     resposta=resposta.toUpperCase();
 
     if(resposta=="AMARELO"){
-      trocacor.setCor(Cor.AMARELO);
-      LOGGER.info("Cor trocada \n");
+      LOGGER.info("Cor trocada para amarelo \n");
+      sc.close();
       return Cor.AMARELO;
     }
     else if(resposta=="AZUL"){
-      trocacor.setCor(Cor.AZUL);
-      LOGGER.info("Cor trocada \n");
+      LOGGER.info("Cor trocada para azul \n");
+      sc.close();
       return Cor.AZUL;
     }
     else if(resposta=="VERMELHO"){
-      trocacor.setCor(Cor.VERMELHO);
-      LOGGER.info("Cor trocada \n");
+      LOGGER.info("Cor trocada para vermelho \n");
+      sc.close();
       return Cor.VERMELHO;
     }
     else if(resposta=="VERDE"){
-      trocacor.setCor(Cor.VERDE);
-      LOGGER.info("Cor trocada\n");
+      LOGGER.info("Cor trocada para verde\n");
+      sc.close();
       return Cor.VERDE;
     }
     else{
       LOGGER.info("Essa cor não existe");
-      return Cor.SEMCOR
+      sc.close();
+      return Cor.SEMCOR;
     }
     
   }

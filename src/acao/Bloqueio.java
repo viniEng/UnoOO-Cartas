@@ -45,7 +45,7 @@ public class Bloqueio extends Acao {
    * Informar acesso indevido de função
    * @return Cor SEMCOR
    */
-  public abstract Cor trocaCor (){
+  public Cor trocaCor(){
     LOGGER.info("Bloqueio não pode trocar cor\n");
     return Cor.SEMCOR;
   }
