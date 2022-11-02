@@ -1,61 +1,87 @@
 package acao;
 import java.util.Scanner;
 import base.Roda;
-import cartas.Carta;
-//import cartas.*;
-//import java.util.Scanner;
+import cartas.Cor;
 /**
  * @author RobertoFortes
- * @since 17/10/2022
- * @version 4.0
+ * @since 31/10/2022
+ * @version 6.0
  */
 
 public class Mais4 extends Acao {
 /**
  * @deprecated
- * @param roda representa objeto do tipo referente a classe Roda que funciona de forma cíclica
  */
 
 
  /**
- * Resumo: O jogo ficou responsável de fazer a acumulação da quantidade de compras
+ * O jogo ficou responsável de fazer a acumulação da quantidade de compras
+ *
+ * Na função trocaCor, pergunta-se ao jogador a cor que ele desejará e retorna a mesma
  */
-  public void realizar(Roda roda) { /**trocar função de void para Carta*/
-    /**roda.mudarCor();*/
-    /**Carta trocacor;
+  public Cor trocaCor() { 
+
     Scanner sc;
     String resposta;
     sc= new Scanner(System.in);
-    trocacor=roda.getUltimaCarta();
     System.out.println("Que cor?");
     resposta=sc.nextLine();
     resposta=resposta.toUpperCase();
-    while(true){
-      if(resposta=="AMARELO"){
-       trocacor.setCor(Cor.AMARELO);
-       break;
-      }
-      else if(resposta=="AZUL"){
-        trocacor.setCor(Cor.AZUL);
-        break;
-      }
-     else if(resposta=="VERMELHO"){
-       trocacor.setCor(Cor.VERMELHO);
-       break;
-     }
-      else if(resposta=="VERDE"){
-        trocacor.setCor(Cor.VERDE);
-        break;
-      }
-      else{
-        System.out.println("Essa cor não existe");
-      }
-    LOGGER.info("Cor trocada");
-    return trocacor;
+  
+    if(resposta=="AMARELO"){
+      LOGGER.info("Cor trocada");
+      sc.close();
+      return Cor.AMARELO;
     }
-    */
-    /** Precisamos conversar com outros integrantes para realizar mudanças nessa etapa de mudarCor*/
+    else if(resposta=="AZUL"){
+      LOGGER.info("Cor trocada");
+      sc.close();
+      return Cor.AZUL;
+    }
+    else if(resposta=="VERMELHO"){
+      LOGGER.info("Cor trocada");
+      sc.close();
+      return Cor.VERMELHO;
+    }
+    else if(resposta=="VERDE"){
+      LOGGER.info("Cor trocada");
+      sc.close();
+      return Cor.VERDE;
+    }
+    else{
+      System.out.println("Essa cor não existe");
+      LOGGER.info("Cor trocada");
+      sc.close();
+      return Cor.SEMCOR;
+    }
+    
+  }
+  /** 
+  @param roda representa objeto do tipo referente a classe Roda
+  A função comprar retorna 4 cartas
+  */
+  public void comprar(Roda roda){
     roda.comprar(4, roda.jogadorDaVez()); /**indica a compra de quatro cartas para o jogador correspondente*/
     LOGGER.info("Jogador compra 4\n");
+  }
+
+  /** 
+  @param roda representa objeto do tipo referente a classe Roda
+  A função pular pula para o próximo jogador
+  */
+  public void pular(Roda roda){
+    roda.pular();
+    LOGGER.info("Pulou para o próximo jogador\n");
+  }
+
+  /** 
+  @param roda representa objeto do tipo referente a classe Roda
+  */
+  public void inverter(Roda roda){
+    LOGGER.info("MAIS4 não inverte\n");
+  }
+  @Override
+  public String toString(){
+    return "MAIS4";
   }
 }
