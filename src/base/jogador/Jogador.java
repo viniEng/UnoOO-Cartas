@@ -1,3 +1,4 @@
+//Somos nós, os amigos de todos vós
 package base.jogador;
 
 import java.util.ArrayList;
@@ -33,7 +34,6 @@ public class Jogador {//implements Jogada{
      * @return nome - nome atual do jogador
      */
     public String getNome() {
-        LOGGER.info("Retornando nome de jogador");
         LOGGER.info("Nome retornado: {}", nome);
         return nome;
     }
@@ -43,11 +43,8 @@ public class Jogador {//implements Jogada{
      * @return Quantidade de cartas que o jogador possui atualmente
      */
     public int getQuantidadeCartas(){
-        int qtdCartas = this.maoJogador.getQuantidadeCartas();
-
-        LOGGER.info("Retornando quantidade de cartas");
-        LOGGER.info("Quantidade de cartas: {}", qtdCartas);
-
+        int qtdCartas = this.maoJogador.quantCarta();
+        LOGGER.info("{} possui {} cartas",this.getNome(), qtdCartas);
         return qtdCartas;
     }
 
@@ -56,10 +53,8 @@ public class Jogador {//implements Jogada{
      * @param nome (nome a ser atualizado para o jogador)
      */
     public void setNome(String nome) {
-        LOGGER.info("Alterando nome de jogador");
+        LOGGER.info("{} alterou o nome para {}", this.getNome(), nome);
         this.nome = nome.trim();
-
-        LOGGER.info("Nome setado: {}", this.nome);
     }
 
     /**
@@ -69,9 +64,9 @@ public class Jogador {//implements Jogada{
     * @see MaoCartas
     **/
     public void inicializarMao(ArrayList<Carta> cartasIniciais){
-        LOGGER.info("Instanciando objeto de MaoCartas a partir de lista de cartas");
-
+        LOGGER.trace("Instanciando objeto de MaoCartas a partir de lista de cartas");
         this.maoJogador = new MaoCartas(cartasIniciais);
+        LOGGER.info("MaoCartas iniciada: {}", this.maoJogador.toString());
     }
 
     /**
@@ -80,7 +75,7 @@ public class Jogador {//implements Jogada{
     * @see MaoCartas
     **/
     private void inicializarMao(){
-        LOGGER.info("Instanciando objeto de MaoCartas vazia");
+        LOGGER.trace("Instanciando objeto de MaoCartas vazia");
 
         this.maoJogador = new MaoCartas();
     }
@@ -90,9 +85,9 @@ public class Jogador {//implements Jogada{
     * Compra uma lista de cartas, adicionando-as a maoJogador
     * @see MaoCartas
     **/
+    //@Override
     public void comprar(ArrayList<Carta> listaCartas){
-        LOGGER.info("Comprando (recebendo) lista de cartas");
-
+        LOGGER.trace("Comprando (recebendo) lista de cartas");
         this.maoJogador.receberCartas(listaCartas);
     }
 
@@ -101,9 +96,8 @@ public class Jogador {//implements Jogada{
     * Compra uma carta, adicionando uma carta a maoJogador,
     * @see MaoCartas
     **/
+    //@Override
     public void comprar(Carta carta){
-        LOGGER.info("Comprando (recebendo) uma carta");
-
         this.maoJogador.receberCarta(carta);
         LOGGER.info("Carta adicionada: {}", carta.toString());
     }
@@ -116,7 +110,7 @@ public class Jogador {//implements Jogada{
     **/
     //@Override
     public void descartar(){
-        LOGGER.info("Descartando carta");
+        LOGGER.trace("Descartando carta");
 
         //
     }
@@ -128,8 +122,9 @@ public class Jogador {//implements Jogada{
      * @see Jogo
      * @see Acao
      */
+     //@Override
     public void realizarJogada(){
-        LOGGER.info("Realizando jogada");
+        LOGGER.trace("Realizando jogada");
 
     }
 
