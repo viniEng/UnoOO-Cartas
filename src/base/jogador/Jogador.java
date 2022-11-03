@@ -2,10 +2,18 @@
 package base.jogador;
 
 import java.util.ArrayList;
-import base.*;
-import cartas.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import acao.Acao;
+import base.Jogo;
+import base.Roda;
+import cartas.Carta;
+import cartas.CartaEspecialComCor;
+import cartas.CartaEspecialSemCor;
+import cartas.CartaNormal;
+import cartas.CartaSemAcao;
 public class Jogador {//implements Jogada{
     private static final Logger LOGGER = LoggerFactory.getLogger(Jogador.class);
     private String nome;
@@ -109,10 +117,10 @@ public class Jogador {//implements Jogada{
     * @see MaoCartas
     **/
     //@Override
-    public void descartar(){
-        LOGGER.trace("Descartando carta");
-
-        //
+    public void descartar(Carta carta, Roda roda){
+        LOGGER.info("Descartando carta");
+        
+        this.maoJogador.descartarCarta(carta, roda);
     }
 
     /**
@@ -122,13 +130,80 @@ public class Jogador {//implements Jogada{
      * @see Jogo
      * @see Acao
      */
-     //@Override
-    public void realizarJogada(){
-        LOGGER.trace("Realizando jogada");
-
+    public void realizarJogada(Roda roda){
+        LOGGER.info("Realizando jogada");
+        
+        Carta carta = defineCartaDaJogada(roda);
+        
+        this.maoJogador.descartarCarta(carta, roda);
+        try {
+			carta.getAcao().realizar(roda);
+		} catch (CartaSemAcao e) {
+		}
     }
+    
+    private Carta defineCartaDaJogada(Roda roda)
+    {
+    	Carta ultimo = roda.getUltimaCarta();
+    	/*
+    	 * Sequência de uso das cartas:
+    	 * 1º carta especial com cor: bloqueio, reverso, +2
+    	 * 2º carta normal
+    	 * 3º carta especial sem cor: trocacor e +4
+    	 */
+    	
+    	// Busca bloqueio, reverso e +2
+    	for(Carta c : this.getMaoJogador().getCartas())
+    	{
+    		if(!(c instanceof CartaEspecialComCor))
+    			continue;
+    		
+    		CartaEspecialComCor ca = (CartaEspecialComCor)c;
+    		
+    		// Verifica se é a mesma cor ou se é a mesma ação pra poder jogar
+    		if(ca.getCor() == ultimo.getCor() || (ultimo instanceof CartaEspecialComCor && ca.getAcao() == ((CartaEspecialComCor)ultimo).getAcao()))
+    		{
+    			return ca;
+    		}
+    	}
+    	
+    	// Busca cartas normais
+    	for(Carta c : this.getMaoJogador().getCartas())
+    	{
+    		if(!(c instanceof CartaNormal))
+    			continue;
+    		
+    		CartaNormal cn = (CartaNormal)c;
+    		
+    		// Se for a mesma cor pode jogar
+    		if(cn.getCor() == ultimo.getCor())
+    			return c;
+    		
+    		// Se for o mesmo número também pode jogar
+    		if(ultimo instanceof CartaNormal && ((CartaNormal)ultimo).getNumero() == cn.getNumero())
+    			return c;
+    	}
+    	
+    	// Busca +4 e troca cor
+    	for(Carta c : this.getMaoJogador().getCartas())
+    	{
+    		if(!(c instanceof CartaEspecialSemCor))
+    			continue;
+    		
+    		// +4 e troca cor pode ser jogado de qualquer forma
+    		return c;
+    	}
+    	
+    	// Se não conseguir jogar nenhuma tem que comprar e tentar de novo
+    	roda.comprar(1, this);
+    	return this.defineCartaDaJogada(roda);
+    }
+    
+    public MaoCartas getMaoJogador() {
+		return maoJogador;
+	}
 
-    /**
+	/**
      * Retorna nome, quantidade de cartas e apresentação de todas
      * as cartas do objeto de Jogador em uma String
      * @return String com informações de Jogador.
