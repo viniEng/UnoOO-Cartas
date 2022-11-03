@@ -110,9 +110,9 @@ public class Roda {
 		do {
 			cartaAux = entregarCarta();
 			this.descarte.receberCarta(cartaAux);
-			if(cartaAux instanceof CartaEspecialSemCor)
+			if(cartaAux instanceof CartaEspecialSemCor || cartaAux instanceof CartaEspecialComCor)
 				LOGGER.info("{} foi a carta retirada, comprando mais uma", cartaAux);
-		} while (cartaAux instanceof CartaEspecialSemCor);
+		} while (cartaAux instanceof CartaEspecialSemCor || cartaAux instanceof CartaEspecialComCor);
 		LOGGER.info("{} é a primeira carta do jogo", cartaAux);
 
 	}
