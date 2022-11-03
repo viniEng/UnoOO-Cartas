@@ -1,71 +1,107 @@
+//UnoOO
+//Disciplina de LPOO 2022.2
+
 package base;
 
+import java.util.ArrayList;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import acao.Acao;
+import base.jogador.Jogador;
+
+/**
+ * @author Autores: Daniel Schutz, Felipe Pellissari, Fernanda Pessoa e José
+ *         Lucas. Classe destinada a inicializar a partida e verificar seu
+ *         término, bem como preparar o jogo - instanciando o baralho inicial,
+ *         jogadores e passando estes por parâmero a classe 'Roda'
+ */
 public class Jogo {
+	private static final Logger LOGGER = LoggerFactory.getLogger(Jogo.class);
 	private Baralho baralho;
-	private Jogador[] jogadores = new Jogador[8];
-	private Roda roda;
+	private ArrayList<Jogador> jogadores = new ArrayList<>();
+	public static Roda roda;
+	private Jogador jogadorAtual;
 
-	
-	public void iniciarBaralho() {
-	} // instancia baralho
-		// Baralho baralho = new Baralho();
+	/**
+	 * Prepara o jogo, instanciando o baralho e a roda
+	 * 
+	 * @see Baralho.java
+	 * @see Roda.java
+	 */
+	public void prepararJogo() {
+		/**
+		 * Inicia o baralho
+		 */
+		this.baralho = new Baralho(Baralho.INICIAL);
 
-	public void iniciarJogadores() {
-	} // instancia jogadores
-		// Jogador[] jogadores;
-		// (estrutura de repeticao){jogadores[index++] = new Jogador(atributos);
-
-	public void iniciarRoda() {
+		/**
+		 * instanciar a roda e mandar baralho e lista de jogadores
+		 */
+		LOGGER.info("Instanciando a roda");
+		roda = new Roda(this.baralho, this.jogadores);
 	}
-	// enviar para a roda o baralho e os jogadores
-	// roda = new Roda(baralho, jogadores)
 
-	public void definirCartaInicial() {
-	} // chama a função da roda para decidir a primeira carta do monte de descarte
-		// algo como roda.definirCartaInicial(); , ou essa função já vai automática na
-		// criação da roda
-
-	public void iniciarPartida() {
-	}
-	// parte que define a dinâmica entre os jogadores
-	// chama a Roda com alguma funcao dela para fazer isso
-	// ex:
-	// roda.iniciarJogada();
-	// roda.proximoJogador();
-	// ou serão funções executadas automaticamente pela própria roda
-
+	/**
+	 * Verifica se a quantida de cartas na mão do jogador é igual a 0 e define o
+	 * ganhador se for o caso
+	 * 
+	 * @see Mao.java
+	 * @return tipo booleano: caso falso ele encerra o jogo, pois o jogador já não possui mais cartas e verdadeiro o jogo continua
+	 */
 	public boolean confereFim() {
-		return false;
-	}
-	// confere se a mão de algum jogador está vazia para ver se inicia outra partida
-	// ou se declara Fim do jogo e o vencedor
-
-	public void FimDoJogo() {
-	}
-	// declara o vencedor e fecha o programa de acordo com o retono da funcao
-	// confereFim()
-
-	public Baralho getBaralho() {
-		return baralho;
+		if (baralho.quantCarta() == 0) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
-	public void setBaralho(Baralho baralho) {
-		this.baralho = baralho;
+	/**
+	 * função que faz a execução do jogo
+	 * descreve o turno em si, com a troca de jogador e jogada
+	 * em sua última ação confere se a quantidade de cartas na mão do jogador é diferente de zero
+	 * Logger retorna as ações realizadas peo Jogador
+	 * @see Jogador.java
+	 * @see Roda.java
+	 */
+	public void run() {
+		while (true) {
+
+			/**
+			 * define o próximo jogador
+			 */
+			LOGGER.info("Alterando para próximo jogador");
+			jogadorAtual = roda.jogadorDaVez();
+			/**
+			 * Jogador atual realiza a jogada (entra em contato com a roda para ver se há
+			 * acumulo e decide se compra, joga ou executa as ações acumuladas
+			 * 
+			 * @see Jogador.java
+			 */
+			LOGGER.info("Jogador realizando jogada");
+			jogadorAtual.realizarJogada();
+
+			LOGGER.info("Conferindo se acabou as cartas na mão do jogador");
+			if (confereFim() == false) {
+				System.out.printf("O jogador %S ganhou.",
+						jogadorAtual.getNome()); /* printar o jogador que ficou sem cartas na mão */
+				break;
+			}
+
+		}
 	}
 
-	public Jogador[] getJogadores() {
-		return jogadores;
-	}
+	/**
+	 * construtor da classe Jogo,
+	 * chama os jogadores e prepara o jogo conforme a função prepararJogo
+	 * @see Jogo.java
+	 */
+	public Jogo(ArrayList<Jogador> j) {
+		this.jogadores = j;
+		LOGGER.info("Preparando o jogo");
+		prepararJogo();
 
-	public void setJogadores(Jogador[] jogadores) {
-		this.jogadores = jogadores;
-	}
-
-	public Roda getRoda() {
-		return roda;
-	}
-
-	public void setRoda(Roda roda) {
-		this.roda = roda;
 	}
 }

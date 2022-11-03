@@ -1,126 +1,219 @@
 package base;
-
 import java.util.ArrayList;
-
 import cartas.Carta;
 import cartas.CartaEspecialSemCor;
+import base.jogador.Jogador;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * 
- * @author Luciano
- *
- */
 public class Roda {
-	Baralho compra;
-	Baralho descarte = new Baralho(Baralho.NORMAL);
+	/**
+	 * Logger da classe Roda.
+	 */
+	private static final Logger LOGGER = LoggerFactory.getLogger(Roda.class);
 
-	ArrayList<Jogador> jogadores;
+	/**
+	 * Baralho de compra.
+	 */
+	private Baralho compra;
 
+	/**
+	 * Baralho de descarte.
+	 */
+	private Baralho descarte = new Baralho(Baralho.NORMAL);
+
+	/**
+	 * Arraylist de jogadores.
+	 */
+	private ArrayList<Jogador> jogadores;
+
+	/**
+	 * Sentido da roda (positivo ou negativo).
+	 */
 	private int sentido;
 
+	/**
+	 * Posicao atual da roda.
+	 */
 	private int posicaoAtual;
 
 	/**
-	 * Método construtor: Cria o "monte de compra" e determina uma sequência para os
-	 * jogadores Distribui sete cartas para cada jogador. Define a primeira carta do
-	 * monte de descarte para que o jogo possa ser de fato inicializado. Verifica se
-	 * a primeria carta do monte de descarte é numérica e com cor.
-	 * 
-	 * @param recebido           Baralho inicial recebido pelo jogo
-	 * @param jogadoresRecebidos ArrayList<Jogador> recebido pelo jogo
+	 * Getter do baralho de compra.
+	 * @return Baralho de compra da roda.
+	 */
+	public Baralho getCompra(){
+		return this.compra;
+	}
+
+	/**
+	 * Getter do baralho de descarte.
+	 * @return Baralho de descarte da roda.
+	 */
+	public Baralho getDescarte(){
+		return this.descarte;
+	}
+
+	/**
+	 * Getter do arraylist dos jogadores.
+	 * @return Arraylist de jogadores da roda.
+	 */
+	public ArrayList<Jogador> getJogadores(){
+		return this.jogadores;
+	}
+
+	/**
+	 * Getter do sentido.
+	 * @return Sentido da roda.
+	 */
+	public int getSentido(){
+		return this.sentido;
+	}
+
+	/**
+	 * Getter da Posicao Atual.
+	 * @return Posicao Atual da roda.
+	 */
+	public int getPosicaoAtual(){
+		return this.posicaoAtual;
+	}
+
+	/**
+	 * Construtor:
+	 * Instancia a roda, distribui as cartas iniciais aos jogadores e joga a primeira carta
+	 * ao monte de descarte.
+	 * @param recebido Baralho inicial recebido pelo jogo.
+	 * @param jogadoresRecebidos ArrayList<Jogador> jogadores recebidos pelo jogo.
 	 */
 	public Roda(Baralho recebido, ArrayList<Jogador> jogadoresRecebidos) {
-		compra = recebido;
-		jogadores = jogadoresRecebidos;
+		LOGGER.info("Iniciando roda");
+		this.compra = recebido;
+		LOGGER.info("{} Cartas foram recebidas do baralho inicial", recebido.quantCarta());
+		this.jogadores = jogadoresRecebidos;
+		LOGGER.info("Há {} Jogadores na roda", jogadoresRecebidos.size());
 		this.posicaoAtual = 0;
-		for (int i = 0; i < jogadores.size(); i++) {
+		LOGGER.info("Iniciando distribuição de cartas iniciais");
+		for (int i = 0; i < this.jogadores.size(); i++) {
 			for (int j = 0; j < 7; j++) {
-				// jogadores.get(i).comprarCarta(compra.comprarCarta());
+				Carta cartaAux = entregarCarta();
+				Jogador jogadorAux = this.jogadores.get(i);
+				jogadorAux.comprar(cartaAux);
+				LOGGER.info("Jogador {} recebeu Carta {}", jogadorAux, cartaAux);
 			}
 		}
+		LOGGER.info("Comprando primeira carta do jogo");
+		Carta cartaAux;
 		do {
-			descarte.receberCarta(compra.comprarCarta());
-		} while (descarte.ultimaCarta() instanceof CartaEspecialSemCor);
+			cartaAux = entregarCarta();
+			this.descarte.receberCarta(cartaAux);
+			if(cartaAux instanceof CartaEspecialSemCor)
+				LOGGER.info("{} foi a carta retirada, comprando mais uma", cartaAux);
+		} while (cartaAux instanceof CartaEspecialSemCor);
+		LOGGER.info("{} é a primeira carta do jogo", cartaAux);
 
 	}
 
 	/**
 	 * Insere uma carta no monte de descarte.
-	 * 
-	 * @param recebida Carta recebida para inserir no monte de descarte
+	 * @param recebida Carta recebida para inserir no monte de descarte.
 	 */
 	public void descartarCarta(Carta recebida) {
-		descarte.receberCarta(recebida);
+		LOGGER.info("Descartando carta {}", recebida);
+		this.descarte.receberCarta(recebida);
 	}
 
 	/**
-	 * 
-	 * @return Primeira carta do monte de compra
+	 * Compra uma carta do baralho de compra.
+	 * @return Primeira carta do monte de compra.
 	 */
 	public Carta entregarCarta() {
-		if (compra.getCartas().size() < 1) {
-			transformaDescarte();
+		Carta cartaAux;
+		if (this.compra.getCartas().size() < 1) {
+			this.transformaDescarte();
 		}
-		return compra.comprarCarta();
-	}
-
-	public void transformaDescarte() {
-		for (int i = 0; i < descarte.getCartas().size() - 1; i++) {
-			compra.receberCarta(descarte.comprarCarta());
-		}
-		compra.embaralhar();
+		cartaAux = this.compra.comprarCarta();
+		LOGGER.info("Entregando carta {}", cartaAux);
+		return cartaAux;
 	}
 
 	/**
-	 * Altera o sentido do jogo(horário e anti-horário)
+	 * Transforma o baralho de descarte no baralho de compra.
+	 */
+	public void transformaDescarte() {
+		LOGGER.info("Transformando monte de descarte em monte de compra");
+		for (int i = 0; i < this.descarte.getCartas().size() - 1; i++) {
+			this.compra.receberCarta(this.descarte.comprarCarta());
+		}
+		this.compra.embaralhar();
+	}
+
+	/**
+	 * Altera o sentido do jogo(horário e anti-horário).
 	 */
 	public void inverter() {
-		sentido *= -1;
+		this.sentido *= -1;
+		LOGGER.info("Sentido invertido: {}", this.sentido);
 	}
 
 	/**
-	 * Verifica se a posição atual não extrapola o tamanho do vetor de jogadores
-	 * 
-	 * @param i Posição atual
-	 * @return Índice do próximo jogador
-	 */
-	public int proximo(int i) {
-		int x = i + sentido;
-		if (x > jogadores.size()) {
-			x = x - jogadores.size();
-		}
-		if (x < 0) {
-			x = x + jogadores.size();
-		}
-		return x;
-	}
-
-	/**
-	 * Método chamado pela classe ação para informar que pulou um jogador
+	 * Dobra o sentido.
 	 */
 	public void pular() {
-		sentido *= 2;
+		this.sentido *= 2;
+		LOGGER.info("Sentido dobrado: {}", this.sentido);
 	}
 
 	/**
+	 * Determina qual é o jogador responsavel por jogar no turno.
 	 * @param jogadorRecebido Jogador
 	 * @return Posição do jogador na roda
 	 */
 	public Jogador jogadorDaVez() {
 		int proxPosicao;
 		proxPosicao = (this.posicaoAtual + this.sentido) % this.jogadores.size();
-
-		return jogadores.get(proxPosicao);
+		if(sentido%2==0){
+			LOGGER.info("Sentido voltou ao normal");
+			this.sentido/=2;
+		}
+		Jogador jogadorAux = this.jogadores.get(proxPosicao);
+		LOGGER.info("O jogador da vez é {}", jogadorAux);
+		return jogadorAux;
 	}
 
+	/**
+	 * @return Ultima carta do baralho de descarte.
+	 */
 	public Carta getUltimaCarta() {
-		return this.descarte.ultimaCarta();
+		Carta cartaAux = this.descarte.ultimaCarta();
+		LOGGER.info("A ultima carta é {}", cartaAux);
+		return cartaAux;
 	}
 
+	/**
+	 * Compra um numero de cartas e entrega a um jogador.
+	 * @param qtd Quantidade de cartas a serem compradas.
+	 * @param jogador Jogador que vai comprar.
+	 */
 	public void comprar(int qtd, Jogador jogador) {
+		LOGGER.info("Comprando {} carta(s) ao jogador {}", qtd, jogador);
 		for (int i = 0; i < qtd; i++) {
-			// jogador.comprarCarta(compra.comprarCarta());
+			jogador.comprar(entregarCarta());
 		}
 	}
 
+	/**
+	 * Método sobrescrito que adiciona informaçoes importantes sobre a Roda.
+	 * @return String com informações sobre um objeto da classe Roda.
+	 */
+	@Override
+	public String toString(){
+		String sent;
+		if(this.sentido > 0)
+			sent = "Positivo";
+		else
+			sent = "Negativo";
+		return "Roda: Posição atual: " + this.posicaoAtual + ", Sentido: " + sent 
+			   + ", Num cartas compra: " + this.compra.quantCarta() + ", Num cartas descarte: " 
+			   + this.descarte.quantCarta();
+	}
 }
+
