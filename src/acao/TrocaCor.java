@@ -1,7 +1,7 @@
 package acao;
 import base.Roda;
-//import cartas.*;
-//import java.util.Scanner;
+import cartas.*;
+import java.util.Scanner;
 /**
  * @author Vinicius 
  * @version 3.5
@@ -13,41 +13,58 @@ public class TrocaCor extends Acao {
    * @deprecated 
    *
    *
-   * Função realizar que ira pegar um clone de cor do troca cor e alterar sua cor
+   * Função recebe uma cor que deseja alterar e retorna ela
    */
-  public void realizar (Roda roda) { // trocar função de void para Carta
-  /**
-    Carta trocacor;
+  public Cor trocaCor () { // 
+  
     Scanner sc;
     String resposta;
     sc= new Scanner(System.in);
-    trocacor=roda.getUltimaCarta();
     System.out.println("Que cor?");
     resposta=sc.nextLine();
     resposta=resposta.toUpperCase();
-    while(true){
-     if(resposta=="AMARELO"){
-       trocacor.setCor(Cor.AMARELO);
-       break;
-      }
-      else if(resposta=="AZUL"){
-        trocacor.setCor(Cor.AZUL);
-        break;
-      }
-     else if(resposta=="VERMELHO"){
-       trocacor.setCor(Cor.VERMELHO);
-       break;
-     }
-      else if(resposta=="VERDE"){
-        trocacor.setCor(Cor.VERDE);
-        break;
-      }
-      else{
-        System.out.println("Essa cor não existe");
-      }
+
+    if(resposta=="AMARELO"){
+      LOGGER.info("Cor trocada para amarelo \n");
+      sc.close();
+      return Cor.AMARELO;
     }
-    LOGGER.info("Cor trocada\n");
-    return trocacor;
-  */
+    else if(resposta=="AZUL"){
+      LOGGER.info("Cor trocada para azul \n");
+      sc.close();
+      return Cor.AZUL;
+    }
+    else if(resposta=="VERMELHO"){
+      LOGGER.info("Cor trocada para vermelho \n");
+      sc.close();
+      return Cor.VERMELHO;
+    }
+    else if(resposta=="VERDE"){
+      LOGGER.info("Cor trocada para verde\n");
+      sc.close();
+      return Cor.VERDE;
+    }
+    else{
+      LOGGER.info("Essa cor não existe");
+      sc.close();
+      return Cor.SEMCOR;
+    }
+    
+  }
+  public void pular (Roda roda){
+    LOGGER.info("TrocaCor não pode pular a vez");
+   }
+
+  public void inverter (Roda roda){
+    LOGGER.info("TrocaCor não pode inverter");
+   }
+  
+  public void comprar (Roda roda){
+    LOGGER.info("TrocaCor não pode comprar");
+  }
+
+  @Override
+  public String toString(){
+    return "TROCACOR";
   }
 }
