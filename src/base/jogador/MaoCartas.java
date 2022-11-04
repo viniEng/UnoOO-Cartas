@@ -66,10 +66,10 @@ public class MaoCartas extends Baralho{
         cartas.addAll(listaCartas);
     }
 
-    public void descartarCarta(Carta carta, Roda roda)
+    public void descartarCarta(Carta carta)
     {
     	this.cartas.remove(carta);
-    	roda.descartarCarta(carta);
+    	Jogo.roda.descartarCarta(carta);
     }
 
     public ArrayList<Carta> getCartas() {

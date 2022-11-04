@@ -2,11 +2,17 @@
 package base.jogador;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import acao.Acao;
+import acao.Bloqueio;
+import acao.Inverter;
+import acao.Mais2;
+import acao.Mais4;
+import acao.TrocaCor;
 import base.Jogo;
 import base.Roda;
 import cartas.Carta;
@@ -14,6 +20,7 @@ import cartas.CartaEspecialComCor;
 import cartas.CartaEspecialSemCor;
 import cartas.CartaNormal;
 import cartas.CartaSemAcao;
+import cartas.Cor;
 public class Jogador {//implements Jogada{
     private static final Logger LOGGER = LoggerFactory.getLogger(Jogador.class);
     private String nome;
@@ -34,8 +41,6 @@ public class Jogador {//implements Jogada{
 
         LOGGER.info("Jogador :\n{}",this.toString());
     }
-
-    // ArrayList<Carta> maoJogador = new ArrayList<Carta>();
 
     /**
      * Retorna o nome do jogador
@@ -117,39 +122,90 @@ public class Jogador {//implements Jogada{
     * @see MaoCartas
     **/
     //@Override
-    public void descartar(Carta carta, Roda roda){
-        LOGGER.info("Descartando carta");
+    public void descartar(Carta carta){
+        LOGGER.info("Jogador {} descartando carta: {}", this.getNome(), carta.toString());
         
-        this.maoJogador.descartarCarta(carta, roda);
+        this.maoJogador.descartarCarta(carta);
+    }
+
+    private Carta defineCartaParaAcumulo(Acao acaoDoAcumulo){
+        for(Carta c : this.getMaoJogador().getCartas()){
+            try{
+                if(c.getAcao() == acaoDoAcumulo){
+                    return c;
+                }
+            }catch(CartaSemAcao e){}
+        }
+        return null;
+    }
+
+    /*
+     * Realiza a compra de todas as ações acumuladas na roda
+     */
+    private void comprarCartasAcumuladas(ArrayList<Acao> acumulos){
+        for(Acao acumulo : acumulos){
+            acumulo.comprar(Jogo.roda);
+        }
     }
 
     /**
      * Realiza uma jogada a partir da analize da situação atual
-     * da Roda do Jogo.
+     * da Roda do Jogo. A função busca uma carta adequada para ser
+     * jogada. Se encontra uma carta adequada, ele a descarta e, caso
+     * a carta possua uma Ação, ele a 'realiza'. Se não encontra
+     * nenhuma carta adequada, o jogador adquire uma carta, adiciona
+     * ela em sua MaoCartas, e 'passa a vez'.
      * @see Roda
      * @see Jogo
      * @see Acao
+     * @see Carta
+     * @see MaoCartas
      */
-    public void realizarJogada(Roda roda){
-        LOGGER.info("Realizando jogada");
-        
-        Carta carta = defineCartaDaJogada(roda);
-        
-        this.maoJogador.descartarCarta(carta, roda);
-        try {
-			carta.getAcao().realizar(roda);
-		} catch (CartaSemAcao e) {
-		}
+    public void realizarJogada(){
+        Carta carta = null;
+        if(Jogo.roda.temAcumulo()){
+            //Aguardando respostas de grupo Acao sobre diversos problemas encontrados
+            carta = defineCartaParaAcumulo(null);
+            if(carta == null){
+                comprarCartasAcumuladas(null);
+            }else{
+                this.maoJogador.descartarCarta(carta);
+            }
+        }else{
+            carta = defineCartaDaJogada();
+            if(carta != null){
+                try {
+                    Acao acaoCarta = carta.getAcao();
+                    realizarAcaoDaCarta(acaoCarta);
+                } catch (CartaSemAcao e) {
+                }
+                this.maoJogador.descartarCarta(carta);
+            }
+        }
     }
+
+
     
-    private Carta defineCartaDaJogada(Roda roda)
+    /**
+     * Função responsável por buscar carta adequada em
+     * MaoCartas do jogador para ser descartada,no caso de não haver acúmulo
+     * (cartas de compras acumuladas na roda)
+     * 
+     * <h4>Sequência de escolha padrão:</h4>
+     * <ul>
+     * <li>1º carta especial com cor: bloqueio, reverso, +2;</li>
+     * <li>2º carta normal;</li>
+     * <li>3º carta especial sem cor: trocacor e +4;</li>
+     * </ul>
+     * 
+     * @return Carta definida para ser jogada (descartada)
+     */
+    private Carta defineCartaDaJogada()
     {
-    	Carta ultimo = roda.getUltimaCarta();
+    	Carta ultimo = Jogo.roda.getUltimaCarta();
     	/*
     	 * Sequência de uso das cartas:
-    	 * 1º carta especial com cor: bloqueio, reverso, +2
-    	 * 2º carta normal
-    	 * 3º carta especial sem cor: trocacor e +4
+
     	 */
     	
     	// Busca bloqueio, reverso e +2
@@ -194,12 +250,50 @@ public class Jogador {//implements Jogada{
     		return c;
     	}
     	
-    	// Se não conseguir jogar nenhuma tem que comprar e tentar de novo
-    	roda.comprar(1, this);
-    	return this.defineCartaDaJogada(roda);
+    	// Se não conseguir jogar nenhuma tem que comprar
+    	Jogo.roda.comprar(1, this);
+        return null;
+    	//return this.defineCartaDaJogada();
+    }
+
+   /**
+    * Realiza a ação de uma carta descartada pelo jogador
+    * @param acaoCarta - A ação da carta descartada
+    */
+    private void realizarAcaoDaCarta(Acao acaoCarta){
+        if(acaoCarta instanceof Bloqueio){
+            acaoCarta.pular(Jogo.roda);
+        }else if(acaoCarta instanceof Inverter){
+            acaoCarta.inverter(Jogo.roda);
+        }else if(acaoCarta instanceof Mais4 || acaoCarta instanceof TrocaCor){
+            acaoCarta.trocaCor();
+            //acaoCarta.trocaCor(sorteiaCor());
+        }
+        LOGGER.trace("Ação da carta realizada");
+    }
+    /**
+     * Sorteia uma cor válida para realizar
+     * a ação de troca de cor.
+     * @see Acao
+     * @see TrocaCor
+     * @see Mais4
+     * @return Cor sorteada pela função
+     */
+    private Cor sorteiaCor(){
+        Random r = new Random();
+        Cor[] cores = {Cor.AMARELO, Cor.AZUL, Cor.VERDE, Cor.VERMELHO};
+        Cor corSorteada = cores[r.nextInt(4)];
+        LOGGER.info("Cor sorteada: {}", corSorteada);
+        return corSorteada;
     }
     
+    /**
+     * Retorna a mão de cartas do jogador
+     * @see MaoCartas
+     * @return Mão do jogador
+     */
     public MaoCartas getMaoJogador() {
+        LOGGER.trace("maoJogador retornada");
 		return maoJogador;
 	}
 
