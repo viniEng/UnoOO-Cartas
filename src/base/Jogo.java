@@ -84,7 +84,7 @@ public class Jogo {
 			jogadorAtual.realizarJogada();
 
 			LOGGER.info("Conferindo se acabou as cartas na mão do jogador");
-			if (confereFim() == false) {
+			if (confereFim(jogadorAtual) == false) {
 				System.out.printf("O jogador %S ganhou.",
 						jogadorAtual.getNome()); /* printar o jogador que ficou sem cartas na mão */
 				break;
