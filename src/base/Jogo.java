@@ -51,7 +51,7 @@ public class Jogo {
 	 * @return tipo booleano: caso falso ele encerra o jogo, pois o jogador já não possui mais cartas e verdadeiro o jogo continua
 	 */
 	public boolean confereFim() {
-		if (baralho.quantCarta() == 0) {
+		if (jogadorAtual.getQuantidadeCartas(jogadorAtual) == 0) {
 			return false;
 		} else {
 			return true;
