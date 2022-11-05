@@ -16,6 +16,7 @@ import acao.TrocaCor;
 import base.Jogo;
 import base.Roda;
 import cartas.Carta;
+import cartas.CartaComAcao;
 import cartas.CartaEspecialComCor;
 import cartas.CartaEspecialSemCor;
 import cartas.CartaNormal;
@@ -115,32 +116,45 @@ public class Jogador {//implements Jogada{
         LOGGER.info("Carta adicionada: {}", carta.toString());
     }
 
-     /**
+    /**
     *
     * Descarta uma carta, retirando uma carta de maoJogador,
     * adicionando-a ao monte de descarte
     * @see MaoCartas
     **/
-    //@Override
     public void descartar(Carta carta){
         LOGGER.info("Jogador {} descartando carta: {}", this.getNome(), carta.toString());
         
         this.maoJogador.descartarCarta(carta);
     }
 
+    /**
+     * Realiza a busca de uma carta de Acao igual
+     * a do acúmulo atual em Roda, a fim de descartá-la,
+     * e não ter que acumular as cartas no acúmulo 
+     * @param acaoDoAcumulo - Ação atual do acúmulo em Roda
+     * @return Carta para ser acumulada, ou 'null' (no caso de nenhuma 
+     * carta compatível com o acúmulo ter sido encontrada)
+     * @see Acao
+     * @see Carta
+     */
     private Carta defineCartaParaAcumulo(Acao acaoDoAcumulo){
         for(Carta c : this.getMaoJogador().getCartas()){
             try{
-                if(c.getAcao() == acaoDoAcumulo){
-                    return c;
-                }
-            }catch(CartaSemAcao e){}
+                if(c instanceof CartaComAcao)
+                    if(c.getAcao() == acaoDoAcumulo){
+                        return c;
+                    }
+            }catch(CartaSemAcao e){
+                LOGGER.error("Erro ao tentar comparar ação de carta com ação de acúmulo: {}", e);
+            }
         }
         return null;
     }
 
-    /*
+    /**
      * Realiza a compra de todas as ações acumuladas na roda
+     * @param acumulos - Acúmulo da roda
      */
     private void comprarCartasAcumuladas(ArrayList<Acao> acumulos){
         for(Acao acumulo : acumulos){
@@ -149,7 +163,7 @@ public class Jogador {//implements Jogada{
     }
 
     /**
-     * Realiza uma jogada a partir da analize da situação atual
+     * Realiza uma jogada a partir da análise da situação atual
      * da Roda do Jogo. A função busca uma carta adequada para ser
      * jogada. Se encontra uma carta adequada, ele a descarta e, caso
      * a carta possua uma Ação, ele a 'realiza'. Se não encontra
@@ -164,10 +178,13 @@ public class Jogador {//implements Jogada{
     public void realizarJogada(){
         Carta carta = null;
         if(Jogo.roda.temAcumulo()){
-            //Aguardando respostas de grupo Acao sobre diversos problemas encontrados
-            carta = defineCartaParaAcumulo(null);
+            try{
+                carta = defineCartaParaAcumulo(Jogo.roda.getUltimaCarta().getAcao());
+            }catch (CartaSemAcao e) {
+                LOGGER.error("Erro ao tentar definir carta de acúmulo: {}", e);
+            }
             if(carta == null){
-                comprarCartasAcumuladas(null);
+                comprarCartasAcumuladas(Jogo.roda.desacumular());
             }else{
                 this.maoJogador.descartarCarta(carta);
             }
@@ -178,6 +195,7 @@ public class Jogador {//implements Jogada{
                     Acao acaoCarta = carta.getAcao();
                     realizarAcaoDaCarta(acaoCarta);
                 } catch (CartaSemAcao e) {
+                    //Carta não possui acao
                 }
                 this.maoJogador.descartarCarta(carta);
             }
@@ -188,7 +206,7 @@ public class Jogador {//implements Jogada{
     
     /**
      * Função responsável por buscar carta adequada em
-     * MaoCartas do jogador para ser descartada,no caso de não haver acúmulo
+     * MaoCartas de jogador para ser descartada, no caso de não haver acúmulo
      * (cartas de compras acumuladas na roda)
      * 
      * <h4>Sequência de escolha padrão:</h4>
@@ -198,7 +216,8 @@ public class Jogador {//implements Jogada{
      * <li>3º carta especial sem cor: trocacor e +4;</li>
      * </ul>
      * 
-     * @return Carta definida para ser jogada (descartada)
+     * @return Carta definida para ser jogada (descartada), ou 'null' (caso nenhuma
+     * carta adequada seja encontrada)
      */
     private Carta defineCartaDaJogada()
     {
