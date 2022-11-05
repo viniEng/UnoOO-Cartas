@@ -50,8 +50,8 @@ public class Jogo {
 	 * @see Mao.java
 	 * @return tipo booleano: caso falso ele encerra o jogo, pois o jogador já não possui mais cartas e verdadeiro o jogo continua
 	 */
-	public boolean confereFim() {
-		if (baralho.quantCarta() == 0) {
+	public boolean confereFim(Jogador jogadorAtual) {
+		if (jogadorAtual.getQuantidadeCartas() == 0) {
 			return false;
 		} else {
 			return true;
@@ -84,13 +84,20 @@ public class Jogo {
 			jogadorAtual.realizarJogada();
 
 			LOGGER.info("Conferindo se acabou as cartas na mão do jogador");
-			if (confereFim() == false) {
+			if (confereFim(jogadorAtual) == false) {
 				System.out.printf("O jogador %S ganhou.",
 						jogadorAtual.getNome()); /* printar o jogador que ficou sem cartas na mão */
 				break;
 			}
 
 		}
+	}
+	/**
+	 * Método toString()
+	 */
+	@Override
+	public String toString() {
+		return String.format("O jogador %s ganhou\n", jogadorAtual.getNome());
 	}
 
 	/**
