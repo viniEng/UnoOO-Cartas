@@ -30,7 +30,19 @@ public class MaoCartas extends Baralho{
      */
     public MaoCartas(){
         super(Baralho.NORMAL);
-        LOGGER.trace("Instanciando objeto de MaoCartas com nenhuma carta");
+        LOGGER.info("Instanciando objeto de MaoCartas com nenhuma carta");
+        this.inicializar(new ArrayList<>());
+    }
+
+    /**
+     * Retorna a quantidade atual de cartas na lista de cartas
+     * de MaoCartas
+     * @return
+     */
+    public int getQuantidadeCartas() {
+        LOGGER.info("Retornando quantidade de cartas em lista de cartas interna");
+
+        return this.cartas.size();
     }
 
     /**
@@ -54,8 +66,17 @@ public class MaoCartas extends Baralho{
         cartas.addAll(listaCartas);
     }
 
+    public void descartarCarta(Carta carta)
+    {
+    	this.cartas.remove(carta);
+    	Jogo.roda.descartarCarta(carta);
+    }
 
-    /**
+    public ArrayList<Carta> getCartas() {
+		return cartas;
+	}
+
+	/**
      * Retorna uma String que contem todas as cartas de MaoCartas
      * @return String com todas as cartas no objeto de MaoCartas
      * @see Carta

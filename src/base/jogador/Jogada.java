@@ -2,6 +2,8 @@ package base.jogador;
 import cartas.*;
 import java.util.ArrayList;
 
+import cartas.Carta;
+
 public interface Jogada{
 
     // Descrição Antiga >>> jogada de compra: caso o jogador não detiver de nenhuma carta que combine com a que está na 
