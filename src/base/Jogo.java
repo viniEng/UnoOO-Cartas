@@ -92,6 +92,13 @@ public class Jogo {
 
 		}
 	}
+	/**
+	 * Método toString()
+	 */
+	@Override
+	public String toString() {
+		return String.format("O jogador %s ganhou\n", jogadorAtual.getNome());
+	}
 
 	/**
 	 * construtor da classe Jogo,
