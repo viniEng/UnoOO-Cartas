@@ -323,8 +323,8 @@ public class Jogador {//implements Jogada{
      */
     @Override
     public String toString(){
-        return String.format("Nome jogador:%s\nQuantidade de cartas:%d\nCartas:%s",
-                            this.nome, this.getQuantidadeCartas(), this.maoJogador.toString());
+        return String.format("Nome jogador:%s, Quantidade de cartas:%d",
+                            this.nome, this.getQuantidadeCartas());
     }
 
 }
