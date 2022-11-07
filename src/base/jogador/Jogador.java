@@ -7,21 +7,12 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import acao.Acao;
-import acao.Bloqueio;
-import acao.Inverter;
-import acao.Mais2;
-import acao.Mais4;
+import acao.*;
 import acao.TrocaCor;
 import base.Jogo;
 import base.Roda;
-import cartas.Carta;
-import cartas.CartaComAcao;
-import cartas.CartaEspecialComCor;
-import cartas.CartaEspecialSemCor;
-import cartas.CartaNormal;
-import cartas.CartaSemAcao;
-import cartas.Cor;
+import cartas.*;
+
 public class Jogador {//implements Jogada{
     protected static final Logger LOGGER = LoggerFactory.getLogger(Jogador.class);
     protected String nome;
@@ -37,7 +28,7 @@ public class Jogador {//implements Jogada{
     public Jogador(String nome){
         LOGGER.trace("Instânciando objeto de Jogador a partir de nome e instanciando MaoCartas vazia em objeto");
 
-        this.nome = nome.trim();
+        this.nome = nome;
         this.inicializarMao();
 
         LOGGER.info("Jogador criado com o nome:\n{}",this.toString());
