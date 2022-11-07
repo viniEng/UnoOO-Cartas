@@ -35,12 +35,12 @@ public class Jogador {//implements Jogada{
      * @see MaoCartas
      */
     public Jogador(String nome){
-        LOGGER.info("Instânciando objeto de Jogador a partir de nome e instanciando MaoCartas vazia em objeto");
+        LOGGER.trace("Instânciando objeto de Jogador a partir de nome e instanciando MaoCartas vazia em objeto");
 
         this.nome = nome.trim();
         this.inicializarMao();
 
-        LOGGER.info("Jogador :\n{}",this.toString());
+        LOGGER.info("Jogador criado com o nome:\n{}",this.toString());
     }
 
     /**
@@ -140,13 +140,13 @@ public class Jogador {//implements Jogada{
      */
     protected Carta defineCartaParaAcumulo(Acao acaoDoAcumulo){
         for(Carta c : this.getMaoJogador().getCartas()){
-            try{
-                if(c instanceof CartaComAcao)
-                    if(c.getAcao() == acaoDoAcumulo){
+            if(c instanceof CartaComAcao){
+                try{                    
+                    if(c.getAcao() == acaoDoAcumulo)
                         return c;
-                    }
-            }catch(CartaSemAcao e){
-                LOGGER.error("Erro ao tentar comparar ação de carta com ação de acúmulo: {}", e);
+                }catch(CartaSemAcao e){
+                    LOGGER.error("Erro ao tentar comparar ação de carta com ação de acúmulo: {}", e);
+                }
             }
         }
         return null;
@@ -191,11 +191,13 @@ public class Jogador {//implements Jogada{
         }else{
             carta = defineCartaDaJogada();
             if(carta != null){
-                try {
-                    Acao acaoCarta = carta.getAcao();
-                    realizarAcaoDaCarta(acaoCarta);
-                } catch (CartaSemAcao e) {
-                    //Carta não possui acao
+                if(carta instanceof CartaComAcao){
+                    try {
+                        Acao acaoCarta = carta.getAcao();
+                        realizarAcaoDaCarta(acaoCarta);
+                    } catch (CartaSemAcao e) {
+                        LOGGER.error("ERRO: Carta não possui acao!");
+                    }
                 }
                 this.maoJogador.descartarCarta(carta);
             }
