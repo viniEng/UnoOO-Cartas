@@ -23,9 +23,9 @@ import cartas.CartaNormal;
 import cartas.CartaSemAcao;
 import cartas.Cor;
 public class Jogador {//implements Jogada{
-    private static final Logger LOGGER = LoggerFactory.getLogger(Jogador.class);
-    private String nome;
-    private MaoCartas maoJogador;
+    protected static final Logger LOGGER = LoggerFactory.getLogger(Jogador.class);
+    protected String nome;
+    protected MaoCartas maoJogador;
 
     /**
      * Construtor que recebe o nome do jogador
@@ -88,7 +88,7 @@ public class Jogador {//implements Jogada{
     * Inicializa a maoJogador sem nenhuma carta
     * @see MaoCartas
     **/
-    private void inicializarMao(){
+    protected void inicializarMao(){
         LOGGER.trace("Instanciando objeto de MaoCartas vazia");
 
         this.maoJogador = new MaoCartas();
@@ -138,7 +138,7 @@ public class Jogador {//implements Jogada{
      * @see Acao
      * @see Carta
      */
-    private Carta defineCartaParaAcumulo(Acao acaoDoAcumulo){
+    protected Carta defineCartaParaAcumulo(Acao acaoDoAcumulo){
         for(Carta c : this.getMaoJogador().getCartas()){
             try{
                 if(c instanceof CartaComAcao)
@@ -156,7 +156,7 @@ public class Jogador {//implements Jogada{
      * Realiza a compra de todas as ações acumuladas na roda
      * @param acumulos - Acúmulo da roda
      */
-    private void comprarCartasAcumuladas(ArrayList<Acao> acumulos){
+    protected void comprarCartasAcumuladas(ArrayList<Acao> acumulos){
         for(Acao acumulo : acumulos){
             acumulo.comprar(Jogo.roda);
         }
@@ -219,7 +219,7 @@ public class Jogador {//implements Jogada{
      * @return Carta definida para ser jogada (descartada), ou 'null' (caso nenhuma
      * carta adequada seja encontrada)
      */
-    private Carta defineCartaDaJogada()
+    protected Carta defineCartaDaJogada()
     {
     	Carta ultimo = Jogo.roda.getUltimaCarta();
     	/*
@@ -279,7 +279,7 @@ public class Jogador {//implements Jogada{
     * Realiza a ação de uma carta descartada pelo jogador
     * @param acaoCarta - A ação da carta descartada
     */
-    private void realizarAcaoDaCarta(Acao acaoCarta){
+    protected void realizarAcaoDaCarta(Acao acaoCarta){
         if(acaoCarta instanceof Bloqueio){
             acaoCarta.pular(Jogo.roda);
         }else if(acaoCarta instanceof Inverter){
@@ -298,7 +298,7 @@ public class Jogador {//implements Jogada{
      * @see Mais4
      * @return Cor sorteada pela função
      */
-    private Cor sorteiaCor(){
+    protected Cor sorteiaCor(){
         Random r = new Random();
         Cor[] cores = {Cor.AMARELO, Cor.AZUL, Cor.VERDE, Cor.VERMELHO};
         Cor corSorteada = cores[r.nextInt(4)];
