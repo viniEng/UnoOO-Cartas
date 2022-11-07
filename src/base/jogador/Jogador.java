@@ -39,7 +39,7 @@ public class Jogador {//implements Jogada{
      * @return nome - nome atual do jogador
      */
     public String getNome() {
-        LOGGER.info("Nome retornado: {}", nome);
+        LOGGER.trace("Nome retornado: {}", nome);
         return nome;
     }
 
@@ -49,7 +49,7 @@ public class Jogador {//implements Jogada{
      */
     public int getQuantidadeCartas(){
         int qtdCartas = this.maoJogador.quantCarta();
-        LOGGER.info("{} possui {} cartas",this.getNome(), qtdCartas);
+        LOGGER.trace("{} possui {} cartas",this.getNome(), qtdCartas);
         return qtdCartas;
     }
 
@@ -295,7 +295,7 @@ public class Jogador {//implements Jogada{
         Random r = new Random();
         Cor[] cores = {Cor.AMARELO, Cor.AZUL, Cor.VERDE, Cor.VERMELHO};
         Cor corSorteada = cores[r.nextInt(4)];
-        LOGGER.info("Cor sorteada: {}", corSorteada);
+        LOGGER.trace("Cor sorteada: {}", corSorteada);
         return corSorteada;
     }
     
