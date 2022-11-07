@@ -1,9 +1,9 @@
 package base.jogador;
 
 import java.util.ArrayList;
-import base.*;
+import base.Baralho;
+import base.Jogo;
 import cartas.*;
-import acao.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

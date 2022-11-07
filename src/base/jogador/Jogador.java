@@ -7,25 +7,16 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import acao.Acao;
-import acao.Bloqueio;
-import acao.Inverter;
-import acao.Mais2;
-import acao.Mais4;
+import acao.*;
 import acao.TrocaCor;
 import base.Jogo;
 import base.Roda;
-import cartas.Carta;
-import cartas.CartaComAcao;
-import cartas.CartaEspecialComCor;
-import cartas.CartaEspecialSemCor;
-import cartas.CartaNormal;
-import cartas.CartaSemAcao;
-import cartas.Cor;
+import cartas.*;
+
 public class Jogador {//implements Jogada{
-    private static final Logger LOGGER = LoggerFactory.getLogger(Jogador.class);
-    private String nome;
-    private MaoCartas maoJogador;
+    protected static final Logger LOGGER = LoggerFactory.getLogger(Jogador.class);
+    protected String nome;
+    protected MaoCartas maoJogador;
 
     /**
      * Construtor que recebe o nome do jogador
@@ -35,12 +26,12 @@ public class Jogador {//implements Jogada{
      * @see MaoCartas
      */
     public Jogador(String nome){
-        LOGGER.info("Instânciando objeto de Jogador a partir de nome e instanciando MaoCartas vazia em objeto");
+        LOGGER.trace("Instânciando objeto de Jogador a partir de nome e instanciando MaoCartas vazia em objeto");
 
-        this.nome = nome.trim();
+        this.nome = nome;
         this.inicializarMao();
 
-        LOGGER.info("Jogador :\n{}",this.toString());
+        LOGGER.info("Jogador criado com o nome:\n{}",this.toString());
     }
 
     /**
@@ -48,7 +39,7 @@ public class Jogador {//implements Jogada{
      * @return nome - nome atual do jogador
      */
     public String getNome() {
-        LOGGER.info("Nome retornado: {}", nome);
+        LOGGER.trace("Nome retornado: {}", nome);
         return nome;
     }
 
@@ -58,7 +49,7 @@ public class Jogador {//implements Jogada{
      */
     public int getQuantidadeCartas(){
         int qtdCartas = this.maoJogador.quantCarta();
-        LOGGER.info("{} possui {} cartas",this.getNome(), qtdCartas);
+        LOGGER.trace("{} possui {} cartas",this.getNome(), qtdCartas);
         return qtdCartas;
     }
 
@@ -88,7 +79,7 @@ public class Jogador {//implements Jogada{
     * Inicializa a maoJogador sem nenhuma carta
     * @see MaoCartas
     **/
-    private void inicializarMao(){
+    protected void inicializarMao(){
         LOGGER.trace("Instanciando objeto de MaoCartas vazia");
 
         this.maoJogador = new MaoCartas();
@@ -138,15 +129,15 @@ public class Jogador {//implements Jogada{
      * @see Acao
      * @see Carta
      */
-    private Carta defineCartaParaAcumulo(Acao acaoDoAcumulo){
+    protected Carta defineCartaParaAcumulo(Acao acaoDoAcumulo){
         for(Carta c : this.getMaoJogador().getCartas()){
-            try{
-                if(c instanceof CartaComAcao)
-                    if(c.getAcao() == acaoDoAcumulo){
+            if(c instanceof CartaComAcao){
+                try{                    
+                    if(c.getAcao() == acaoDoAcumulo)
                         return c;
-                    }
-            }catch(CartaSemAcao e){
-                LOGGER.error("Erro ao tentar comparar ação de carta com ação de acúmulo: {}", e);
+                }catch(CartaSemAcao e){
+                    LOGGER.error("Erro ao tentar comparar ação de carta com ação de acúmulo: {}", e);
+                }
             }
         }
         return null;
@@ -156,7 +147,7 @@ public class Jogador {//implements Jogada{
      * Realiza a compra de todas as ações acumuladas na roda
      * @param acumulos - Acúmulo da roda
      */
-    private void comprarCartasAcumuladas(ArrayList<Acao> acumulos){
+    protected void comprarCartasAcumuladas(ArrayList<Acao> acumulos){
         for(Acao acumulo : acumulos){
             acumulo.comprar(Jogo.roda);
         }
@@ -191,11 +182,13 @@ public class Jogador {//implements Jogada{
         }else{
             carta = defineCartaDaJogada();
             if(carta != null){
-                try {
-                    Acao acaoCarta = carta.getAcao();
-                    realizarAcaoDaCarta(acaoCarta);
-                } catch (CartaSemAcao e) {
-                    //Carta não possui acao
+                if(carta instanceof CartaComAcao){
+                    try {
+                        Acao acaoCarta = carta.getAcao();
+                        realizarAcaoDaCarta(acaoCarta);
+                    } catch (CartaSemAcao e) {
+                        LOGGER.error("ERRO: Carta não possui acao!");
+                    }
                 }
                 this.maoJogador.descartarCarta(carta);
             }
@@ -219,7 +212,7 @@ public class Jogador {//implements Jogada{
      * @return Carta definida para ser jogada (descartada), ou 'null' (caso nenhuma
      * carta adequada seja encontrada)
      */
-    private Carta defineCartaDaJogada()
+    protected Carta defineCartaDaJogada()
     {
     	Carta ultimo = Jogo.roda.getUltimaCarta();
     	/*
@@ -279,14 +272,13 @@ public class Jogador {//implements Jogada{
     * Realiza a ação de uma carta descartada pelo jogador
     * @param acaoCarta - A ação da carta descartada
     */
-    private void realizarAcaoDaCarta(Acao acaoCarta){
+    protected void realizarAcaoDaCarta(Acao acaoCarta){
         if(acaoCarta instanceof Bloqueio){
             acaoCarta.pular(Jogo.roda);
         }else if(acaoCarta instanceof Inverter){
             acaoCarta.inverter(Jogo.roda);
         }else if(acaoCarta instanceof Mais4 || acaoCarta instanceof TrocaCor){
             acaoCarta.trocaCor();
-            //acaoCarta.trocaCor(sorteiaCor());
         }
         LOGGER.trace("Ação da carta realizada");
     }
@@ -298,11 +290,11 @@ public class Jogador {//implements Jogada{
      * @see Mais4
      * @return Cor sorteada pela função
      */
-    private Cor sorteiaCor(){
+    public Cor sorteiaCor(){
         Random r = new Random();
         Cor[] cores = {Cor.AMARELO, Cor.AZUL, Cor.VERDE, Cor.VERMELHO};
         Cor corSorteada = cores[r.nextInt(4)];
-        LOGGER.info("Cor sorteada: {}", corSorteada);
+        LOGGER.trace("Cor sorteada: {}", corSorteada);
         return corSorteada;
     }
     
