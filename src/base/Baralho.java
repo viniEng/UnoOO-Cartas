@@ -15,7 +15,7 @@ import cartas.Cor;
 /**
  * Representa a abstração de um conjunto de cartas
  *
- * @author luciano.silva
+ * @author grupo Baralho
  *
  */
 public class Baralho {
@@ -155,5 +155,18 @@ public class Baralho {
 	
 		return tipo;
 	}
+	
+	/**
+	 * método toString
+	 * @return cartas do baralho
+	 */
+	public String toString(){
+		String s = "Baralho\n";
+		for(Carta carta: cartas){
+			s+= "[" + carta + "]\n";
+		}
+		return s;
+	}
+
 
 }
