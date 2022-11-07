@@ -25,22 +25,27 @@ public class Roda {
 	/**
 	 * Arraylist de jogadores.
 	 */
-	private ArrayList<Jogador> jogadores;
+	private ArrayList<Jogador> jogadores = new ArrayList<>();
 
   	/**
 	 * Arraylist de acumulo de +2 e +4.
 	 */
-	private ArrayList<Acao> acumulo;
+	private ArrayList<Acao> acumulo = new ArrayList<>();
   
 	/**
 	 * Sentido da roda (positivo ou negativo).
 	 */
-	private int sentido;
+	private int sentido = 1;
 
 	/**
 	 * Posicao atual da roda.
 	 */
-	private int posicaoAtual;
+	private int posicaoAtual =  0;
+
+	/**
+	 * Variável que armazena momentaneamente a cor recebida em "trocarCor"
+	 */
+	private Cor corEscolhida;
 
 	/**
 	 * Getter do baralho de compra.
@@ -211,12 +216,27 @@ public class Roda {
 	}
 
 	/**
+	 * altera a cor armazenada
+	 */
+	public void mudarCor(cor recebida) {
+		corEscolhida = recebida;
+	}
+
+	/**
 	 * @return Ultima carta do baralho de descarte.
 	 */
 	public Carta getUltimaCarta() {
 		Carta cartaAux = this.descarte.ultimaCarta();
-		LOGGER.info("A ultima carta jogada foi {}", cartaAux);
-		return cartaAux;
+		if (this.corEscolhida == null){
+			LOGGER.info("A ultima carta jogada foi {}", cartaAux);
+			return cartaAux;
+		}
+		else{
+			LOGGER.info("A ultima carta jogada foi {} e a cor escolhida foi{}", cartaAux,corEscolhida);
+			cartaAux.setCor(corEscolhida);
+			corEscolhida = null;
+			return cartaAux;
+		}
 	}
 
 	/**
