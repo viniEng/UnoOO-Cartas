@@ -279,7 +279,6 @@ public class Jogador {//implements Jogada{
             acaoCarta.inverter(Jogo.roda);
         }else if(acaoCarta instanceof Mais4 || acaoCarta instanceof TrocaCor){
             acaoCarta.trocaCor();
-            //acaoCarta.trocaCor(sorteiaCor());
         }
         LOGGER.trace("Ação da carta realizada");
     }
@@ -291,7 +290,7 @@ public class Jogador {//implements Jogada{
      * @see Mais4
      * @return Cor sorteada pela função
      */
-    protected Cor sorteiaCor(){
+    public Cor sorteiaCor(){
         Random r = new Random();
         Cor[] cores = {Cor.AMARELO, Cor.AZUL, Cor.VERDE, Cor.VERMELHO};
         Cor corSorteada = cores[r.nextInt(4)];
