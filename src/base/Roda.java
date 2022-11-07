@@ -45,7 +45,7 @@ public class Roda {
 	/**
 	 * Variável que armazena momentaneamente a cor recebida em "trocarCor"
 	 */
-	private Cor corEscolhida;
+	private Cor corEscolhida = null;
 
 	/**
 	 * Getter do baralho de compra.
@@ -100,7 +100,6 @@ public class Roda {
 		LOGGER.info("{} Cartas foram recebidas do baralho inicial", recebido.quantCarta());
 		this.jogadores = jogadoresRecebidos;
 		LOGGER.info("Há {} Jogadores na roda", jogadoresRecebidos.size());
-		this.posicaoAtual = 0;
 		LOGGER.info("Iniciando distribuição de cartas iniciais");
 		for (int i = 0; i < this.jogadores.size(); i++) {
 			for (int j = 0; j < 7; j++) {
@@ -129,30 +128,49 @@ public class Roda {
 	public void descartarCarta(Carta recebida) {
 		LOGGER.info("Descartando carta: {}", recebida);
 		Carta ultima = getUltimaCarta();
+		int nRecebida = -1;
+		int  nUltima = -1;
+		Acao aRecebida = null
+		Acao aUltima = null;
+		Cor cRecebida = recebida.getCor();
+		Cor cUltima = ultima.getCor();
+			
 		try{
-			if(recebida.getNumero() == ultima.getNumero() || recebida.getCor() == ultima.getCor()){
-				this.descarte.receberCarta(recebida);
-			}
+			nRecebida = recebida.getNumero();
 		}catch (CartaSemNumero a){
-			try{
-				Acao acaoAux = recebida.getAcao();
-				if(acaoAux == ultima.getAcao() || recebida.getCor() == ultima.getCor() || recebida instanceof CartaEspecialSemCor){
-					this.descarte.receberCarta(recebida);
-					if(acaoAux==Carta.MAIS2 || acaoAux==Carta.MAIS4){
-						this.acumulo.add(acaoAux);
-					}
-				}
-			}catch (CartaSemAcao b){
-				if(recebida.getCor() == ultima.getCor()){
-					this.descarte.receberCarta(recebida);
-				}
-			}
+			LOGGER.trace("a carta {} não possui número", recebida);
 		}
-		finally{
-			ultima = getUltimaCarta();
-			if(recebida != ultima){
-				LOGGER.info("Jogada impossível. {} não compatível com {}", recebida, ultima);
-				throw new RuntimeException("Jogada impossível");
+		try{
+			aRecebida = recebida.getAcao();
+		}catch (CartaSemAcao b){
+			LOGGER.trace("a carta {} não possui ação", recebida);
+		}
+
+		try{
+			nUltima = ultima.getNumero();
+		}catch (CartaSemNumero a){
+			LOGGER.trace("a última carta do descarte {} não possui número", ultima);
+		}
+		try{
+			aUltima = ultima.getAcao();
+		}catch (CartaSemAcao b){
+			LOGGER.trace(" última carta do descarte {} não possui ação", ultima);
+		}
+
+		if(aRecebida == Carta.MAIS4){
+			this.descarte.receberCarta(recebida);
+			acumulo.add(aRecebida);
+			corEscolhida = null;
+		}
+		else if(aRecebida == Carta.TROCACOR && temAcumulo() == false){
+			this.descarte.receberCarta(recebida);
+			corEscolhida = null;
+		}
+		else if(nRecebida == nUltima || cRecebida == cUltima || aUltima == aRecebida){
+			this.descarte.receberCarta(recebida);
+			corEscolhida = null;
+			if(aRecebida == Carta.MAIS2){
+				acumulo.add(aRecebida);
 			}
 		}
 	}
@@ -204,15 +222,19 @@ public class Roda {
 	 * @return Posição do jogador na roda
 	 */
 	public Jogador jogadorDaVez() {
-		int proxPosicao;
-		proxPosicao = (this.posicaoAtual + this.sentido) % this.jogadores.size();
+		LOGGER.info("O jogador da vez é {}", this.jogadores.get(posicaoAtual));
+		return this.jogadores.get(posicaoAtual);
+	}
+
+	/**
+	 * Determina qual é o jogador responsavel por jogar na próxima rodada.
+	 */
+	public void proximoJogador(){
+		posicaoAtual = (this.posicaoAtual + this.sentido) % this.jogadores.size();
 		if(sentido%2==0){
 			LOGGER.info("Sentido voltou ao normal");
 			this.sentido/=2;
 		}
-		Jogador jogadorAux = this.jogadores.get(proxPosicao);
-		LOGGER.info("O jogador da vez é {}", jogadorAux);
-		return jogadorAux;
 	}
 
 	/**
@@ -234,7 +256,6 @@ public class Roda {
 		else{
 			LOGGER.info("A ultima carta jogada foi {} e a cor escolhida foi{}", cartaAux,corEscolhida);
 			cartaAux.setCor(corEscolhida);
-			corEscolhida = null;
 			return cartaAux;
 		}
 	}
