@@ -15,7 +15,7 @@ public class TrocaCor extends Acao {
    * Função recebe uma cor que deseja alterar e retorna ela
    */
    public void acaoInstantanea() { /**Trocar função void para Cor*/
-    Jogo.roda.trocarCor(Jogo.roda.jogadorDaVez().sorteiaCor());
+    Jogo.roda.mudarCor(Jogo.roda.jogadorDaVez().sorteiaCor());
     LOGGER.info("Cor trocada\n");
     return;
   }
