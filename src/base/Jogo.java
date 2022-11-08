@@ -91,7 +91,7 @@ public class Jogo {
 			}
 
 		}
-			jogadorAtual = roda.proximoJogador();
+			roda.proximoJogador();
 	}
 	/**
 	 * Método toString()
