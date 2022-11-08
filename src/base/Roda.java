@@ -116,7 +116,7 @@ public class Roda {
 			this.descarte.receberCarta(cartaAux);
 			if(cartaAux instanceof CartaEspecialSemCor || cartaAux instanceof CartaEspecialComCor)
 				LOGGER.info("{} foi a carta retirada, comprando mais uma", cartaAux);
-		} while (cartaAux instanceof CartaEspecialSemCor || cartaAux instanceof CartaEspecialComCor);/*caso a carta não possuir cor ou número, ou seja, for uma instância da classe "CartaEspecialSemCor" ou da classe "CartaEsce, devemos pegar outra carta para que o primeiro jogador possa fazer sua jogada */
+		} while (cartaAux instanceof CartaEspecialSemCor || cartaAux instanceof CartaEspecialComCor);/*caso a carta não possuir cor ou número, ou seja, for uma instância da classe "CartaEspecialSemCor" ou da classe "CartaEspecialComCor", devemos pegar outra carta para que o primeiro jogador possa fazer sua jogada */
 		LOGGER.info("{} é a primeira carta do jogo", cartaAux);
 
 	}
