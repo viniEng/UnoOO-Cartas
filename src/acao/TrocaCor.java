@@ -1,11 +1,10 @@
 package acao;
-import base.Roda;
-import cartas.*;
-import java.util.Scanner;
+import base.Jogo;
+import java.lang.System.Logger;
 /**
  * @author Vinicius 
- * @version 3.5
- * @since 26/10/2022
+ * @version 4.0
+ * @since 07/11/2022
  */
 
 public class TrocaCor extends Acao {
@@ -15,54 +14,20 @@ public class TrocaCor extends Acao {
    *
    * Função recebe uma cor que deseja alterar e retorna ela
    */
-  public Cor trocaCor () { // 
-  
-    Scanner sc;
-    String resposta;
-    sc= new Scanner(System.in);
-    System.out.println("Que cor?");
-    resposta=sc.nextLine();
-    resposta=resposta.toUpperCase();
-
-    if(resposta=="AMARELO"){
-      LOGGER.info("Cor trocada para amarelo \n");
-      sc.close();
-      return Cor.AMARELO;
-    }
-    else if(resposta=="AZUL"){
-      LOGGER.info("Cor trocada para azul \n");
-      sc.close();
-      return Cor.AZUL;
-    }
-    else if(resposta=="VERMELHO"){
-      LOGGER.info("Cor trocada para vermelho \n");
-      sc.close();
-      return Cor.VERMELHO;
-    }
-    else if(resposta=="VERDE"){
-      LOGGER.info("Cor trocada para verde\n");
-      sc.close();
-      return Cor.VERDE;
-    }
-    else{
-      LOGGER.info("Essa cor não existe");
-      sc.close();
-      return Cor.SEMCOR;
-    }
-    
-  }
-  public void pular (Roda roda){
-    LOGGER.info("TrocaCor não pode pular a vez");
-   }
-
-  public void inverter (Roda roda){
-    LOGGER.info("TrocaCor não pode inverter");
-   }
-  
-  public void comprar (Roda roda){
-    LOGGER.info("TrocaCor não pode comprar");
+   public void acaoInstantanea() { /**Trocar função void para Cor*/
+    Jogo.roda.trocarCor(Jogo.roda.jogadorDaVez().sorteiaCor());
+    LOGGER.info("Cor trocada\n");
+    return;
   }
 
+  /**
+  * @param roda
+  * Função de compra
+  */
+    public void acaoAcumulada(){
+    LOGGER.info("Troca Cor não realiza ações acumuladas\n");
+    return;
+  }
   @Override
   public String toString(){
     return "TROCACOR";
