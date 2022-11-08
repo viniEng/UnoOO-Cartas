@@ -179,7 +179,7 @@ public class Roda {
 		/*
 		 * se a carta for numérica, e tiver o mesmo número da última carta vigente, ela pode ser jogada
 		 */
-		else if(nRecebida == nUltima && nRecebida != -1){
+		else if(nRecebida != -1 && nRecebida == nUltima){
 			this.descarte.receberCarta(recebida);
 			status = true;
 		}
@@ -187,7 +187,7 @@ public class Roda {
 		/*
 		 * se a carta tiver cor, e tiver a mesma cor da última carta vigente, ela pode ser jogada
 		 */
-		else if(cRecebida == cUltima && cRecebida != Cor.SEMCOR){
+		else if(cRecebida != Cor.SEMCOR && cRecebida == cUltima){
 			this.descarte.receberCarta(recebida);
 			status = true;
 		}
@@ -195,7 +195,7 @@ public class Roda {
 		/*
 		 * se a carta possuir ação, e tiver a mesma ação da última carta vigente, ela pode ser jogada
 		 */
-		else if(aRecebida == aUltima && aRecebida != null){
+		else if(aRecebida != null && aRecebida == aUltima){
 			this.descarte.receberCarta(recebida);
 			status = true;
 			if(aRecebida == Carta.MAIS2){
@@ -207,7 +207,7 @@ public class Roda {
 		 * se a carta não for compatível, uma exceção deev ser lançada para que o jogador tome alguma providência
 		 */
 		else{
-			throw new JogadaImpossivel();
+			throw new JogadaImpossivel("Não foi possível realizar a jogada");
 		}
 
 		/*
@@ -286,7 +286,7 @@ public class Roda {
 	 * @param Cor determinada pelo jogador, recebida através da ação
 	 * Recebe uma cor e a armazena temporariamente (até que alguma carta seja descartada ou comprada)
 	 */
-	public void mudarCor(cor recebida) {
+	public void mudarCor(Cor recebida) {
 		corEscolhida = recebida;
 		LOGGER.info("A cor escolhida foi: {}",corEscolhida);
 	}
@@ -361,14 +361,5 @@ public class Roda {
 		return "Roda: Posição atual: " + this.posicaoAtual + ", Sentido: " + sent 
 			   + ", Num cartas compra: " + this.compra.quantCarta() + ", Num cartas descarte: " 
 			   + this.descarte.quantCarta();
-	}
-}
-
-/*Exceção gerada quando um jogada é incorreta, ou seja, a carta jogada não é compatível com a última carta do monte de descarte. Teoricamente, esta exceção retorna ao jogador, que deve tomar alguma providência a respeito */
-/*Dúvida: Não seria mais correto retornar a carta ao jogador, e então lançar a exceção? que é o que de fato acontece no jogo.Aí no caso o jogador tomaria a decisão de jogar uma jogada apropriada, seja compra ou descarte */
-public class JogadaImpossivel extends Exception{
-	@Override
-	public String getMessage(){
-		return "Jogada impossível";
 	}
 }
