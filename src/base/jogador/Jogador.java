@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import acao.*;
 import acao.TrocaCor;
+import base.JogadaImpossivel;
 import base.Jogo;
 import base.Roda;
 import cartas.*;
@@ -115,8 +116,11 @@ public class Jogador {//implements Jogada{
     **/
     public void descartar(Carta carta){
         LOGGER.info("Jogador {} descartando carta: {}", this.getNome(), carta.toString());
-        
-        this.maoJogador.descartarCarta(carta);
+        try{
+            this.maoJogador.descartarCarta(carta);
+        }catch(JogadaImpossivel e){
+            LOGGER.error("ERRO, a carta jogada não é compatível com o estado atual de roda: {}", e);
+        }
     }
 
     /**
@@ -177,7 +181,7 @@ public class Jogador {//implements Jogada{
             if(carta == null){
                 comprarCartasAcumuladas(Jogo.roda.desacumular());
             }else{
-                this.maoJogador.descartarCarta(carta);
+                descartar(carta);
             }
         }else{
             carta = defineCartaDaJogada();
@@ -190,7 +194,7 @@ public class Jogador {//implements Jogada{
                         LOGGER.error("ERRO: Carta não possui acao!");
                     }
                 }
-                this.maoJogador.descartarCarta(carta);
+                descartar(carta);
             }
         }
     }
