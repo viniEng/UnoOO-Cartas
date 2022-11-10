@@ -50,6 +50,7 @@ public class SimulUnoOO {
 			}
 
 		}
+		partida.run();
 	}
 
 	public static void criarJogadores(int nJogadores) {

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import acao.*;
 import acao.TrocaCor;
+import base.JogadaImpossivel;
 import base.Jogo;
 import base.Roda;
 import cartas.*;
@@ -115,8 +116,11 @@ public class Jogador {//implements Jogada{
     **/
     public void descartar(Carta carta){
         LOGGER.info("Jogador {} descartando carta: {}", this.getNome(), carta.toString());
-        
-        this.maoJogador.descartarCarta(carta);
+        try{
+            this.maoJogador.descartarCarta(carta);
+        }catch(JogadaImpossivel e){
+            LOGGER.error("ERRO, a carta jogada não é compatível com o estado atual de roda: {}", e);
+        }
     }
 
     /**
@@ -166,36 +170,52 @@ public class Jogador {//implements Jogada{
      * @see Carta
      * @see MaoCartas
      */
-    public void realizarJogada(){
+    public Jogada realizarJogada(){
+        LOGGER.trace("Jogador {} realizando jogada", this.getNome());
         Carta carta = null;
+        Jogada jogadaRealizada = null;
         if(Jogo.roda.temAcumulo()){
             try{
                 carta = defineCartaParaAcumulo(Jogo.roda.getUltimaCarta().getAcao());
             }catch (CartaSemAcao e) {
                 LOGGER.error("Erro ao tentar definir carta de acúmulo: {}", e);
             }
+
             if(carta == null){
+                LOGGER.trace("Jogador {} comprando acúmulo", this.getNome());
                 comprarCartasAcumuladas(Jogo.roda.desacumular());
+                jogadaRealizada = Jogada.COMPRAR_ACUMULADO;
+                LOGGER.info("Jogador {} comprou acúmulo. Ficou com {} cartas", this.getNome(), this.getQuantidadeCartas());
+
             }else{
-                this.maoJogador.descartarCarta(carta);
+                descartar(carta);
+                LOGGER.info("Jogador {} descartou {} para o acúmulo", this.getNome(), carta.toString());
+                jogadaRealizada = Jogada.DESCARTAR;
             }
         }else{
             carta = defineCartaDaJogada();
+
             if(carta != null){
                 if(carta instanceof CartaComAcao){
                     try {
                         Acao acaoCarta = carta.getAcao();
-                        realizarAcaoDaCarta(acaoCarta);
+                        if(!(acaoCarta instanceof Mais2 || acaoCarta instanceof Mais4))
+                            realizarAcaoDaCarta(acaoCarta);
                     } catch (CartaSemAcao e) {
                         LOGGER.error("ERRO: Carta não possui acao!");
                     }
                 }
-                this.maoJogador.descartarCarta(carta);
+                descartar(carta);
+                jogadaRealizada = Jogada.DESCARTAR;
+
+            }else{
+                LOGGER.info("Jogador {} precisou comprar uma carta", this.getNome());
+            	Jogo.roda.comprar(1, this);
+                jogadaRealizada = Jogada.COMPRAR;
             }
         }
+        return jogadaRealizada;
     }
-
-
     
     /**
      * Função responsável por buscar carta adequada em
@@ -263,7 +283,6 @@ public class Jogador {//implements Jogada{
     	}
     	
     	// Se não conseguir jogar nenhuma tem que comprar
-    	Jogo.roda.comprar(1, this);
         return null;
     	//return this.defineCartaDaJogada();
     }
@@ -273,6 +292,7 @@ public class Jogador {//implements Jogada{
     * @param acaoCarta - A ação da carta descartada
     */
     protected void realizarAcaoDaCarta(Acao acaoCarta){
+        LOGGER.info("Jogador {} realizando ação {}", this.getNome(), acaoCarta.toString());
         if(acaoCarta instanceof Bloqueio){
             acaoCarta.pular(Jogo.roda);
         }else if(acaoCarta instanceof Inverter){
