@@ -190,6 +190,9 @@ public class Roda {
 		else if(cRecebida != Cor.SEMCOR && cRecebida == cUltima){
 			this.descarte.receberCarta(recebida);
 			status = true;
+			if(aRecebida == Carta.MAIS2){
+				acumulo.add(aRecebida);
+			}
 		}
 
 		/*
@@ -227,9 +230,6 @@ public class Roda {
 	 */
 	public Carta entregarCarta() {
 		Carta cartaAux;
-		if (this.compra.getCartas().size() < 1) {
-			this.transformaDescarte();
-		}
 		cartaAux = this.compra.comprarCarta();
 		LOGGER.info("Entregando carta {}", cartaAux);
 		return cartaAux;
@@ -314,16 +314,27 @@ public class Roda {
 	}
 
 	/**
-	 * Compra um numero de cartas e entrega a um jogador. Foi criada com o intuito de faciliar quando houver a necessidade de comprar cartas acumuladas, e que devem ser atribuídas a um jogador específico
+	 * Compra um numero de cartas e entrega a um jogador. Foi criada com o intuito de faciliar quando houver a necessidade de comprar cartas acumuladas, e que devem ser atribuídas a um jogador específico.Quando a quantidade de cartas a serem compradas for superior há disponível, transforma o descarte em compra. Caso ainda não seja possível, executa o mínimo possível e passa para o próximo
 	 * @param qtd Quantidade de cartas a serem compradas.
 	 * @param jogador Jogador que vai comprar.
 	 */
 	public void comprar(int qtd, Jogador jogador) {
 		LOGGER.info("Comprando {} carta(s) ao jogador {}", qtd, jogador);
-		for (int i = 0; i < qtd; i++) {
-			jogador.comprar(entregarCarta());
+		if (this.compra.getCartas().size() < qtd) {
+			this.transformaDescarte();
 		}
-		corEscolhida = null;
+		if(this.compra.getCartas().size() < qtd) {
+			LOGGER.info("Só foi possível comprar {} cartas",this.compra.getCartas().size());
+			for (int i = 0; i < this.compra.getCartas().size(); i++) {
+				jogador.comprar(entregarCarta());
+			}
+		}
+		else {
+			for (int i = 0; i < qtd; i++) {
+				jogador.comprar(entregarCarta());
+			}
+			LOGGER.info("O jogador {} comprou {} cartas", jogador, qtd);
+		}
 	}
   
   /**
