@@ -154,6 +154,7 @@ public class Jogador {//implements Jogada{
     protected void comprarCartasAcumuladas(ArrayList<Acao> acumulos){
         for(Acao acumulo : acumulos){
             acumulo.comprar(Jogo.roda);
+            //acumulo.acaoAcumulada();
         }
     }
 
@@ -199,7 +200,6 @@ public class Jogador {//implements Jogada{
                 if(carta instanceof CartaComAcao){
                     try {
                         Acao acaoCarta = carta.getAcao();
-                        if(!(acaoCarta instanceof Mais2 || acaoCarta instanceof Mais4))
                             realizarAcaoDaCarta(acaoCarta);
                     } catch (CartaSemAcao e) {
                         LOGGER.error("ERRO: Carta não possui acao!");
@@ -290,6 +290,7 @@ public class Jogador {//implements Jogada{
    /**
     * Realiza a ação de uma carta descartada pelo jogador
     * @param acaoCarta - A ação da carta descartada
+    * @deprecated
     */
     protected void realizarAcaoDaCarta(Acao acaoCarta){
         LOGGER.info("Jogador {} realizando ação {}", this.getNome(), acaoCarta.toString());
@@ -302,6 +303,17 @@ public class Jogador {//implements Jogada{
         }
         LOGGER.trace("Ação da carta realizada");
     }
+
+    /**
+    * Realiza a ação de uma carta descartada pelo jogador
+    * @param acaoCarta - A ação da carta descartada
+    */
+    // protected void realizarAcaoDaCarta(Acao acaoCarta){
+    //     LOGGER.info("Jogador {} realizando ação {}", this.getNome(), acaoCarta.toString());
+    //     acaoCarta.acaoInstantanea();
+    //     LOGGER.trace("Ação da carta realizada");
+    // }
+
     /**
      * Sorteia uma cor válida para realizar
      * a ação de troca de cor.
