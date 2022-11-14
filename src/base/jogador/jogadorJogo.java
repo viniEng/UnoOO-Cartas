@@ -1,5 +1,5 @@
 package base.jogador;
 
-public class jogadorJogo {
+public class jogadorJogo extends Jogador {
     
 }
