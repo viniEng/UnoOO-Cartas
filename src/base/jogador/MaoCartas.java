@@ -2,6 +2,7 @@ package base.jogador;
 
 import java.util.ArrayList;
 import base.Baralho;
+import base.JogadaImpossivel;
 import base.Jogo;
 import cartas.*;
 import org.slf4j.Logger;
@@ -66,7 +67,7 @@ public class MaoCartas extends Baralho{
         cartas.addAll(listaCartas);
     }
 
-    public void descartarCarta(Carta carta)
+    public void descartarCarta(Carta carta) throws JogadaImpossivel
     {
     	this.cartas.remove(carta);
     	Jogo.roda.descartarCarta(carta);
@@ -75,19 +76,5 @@ public class MaoCartas extends Baralho{
     public ArrayList<Carta> getCartas() {
 		return cartas;
 	}
-
-	/**
-     * Retorna uma String que contem todas as cartas de MaoCartas
-     * @return String com todas as cartas no objeto de MaoCartas
-     * @see Carta
-     */
-    @Override
-    public String toString(){
-        String cartasEmString = "";
-        for(Carta carta : this.cartas){
-            cartasEmString=carta.toString()+"\n";
-        }
-        return cartasEmString;
-    }
 
 }

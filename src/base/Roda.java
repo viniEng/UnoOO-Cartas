@@ -116,7 +116,7 @@ public class Roda {
 			this.descarte.receberCarta(cartaAux);
 			if(cartaAux instanceof CartaEspecialSemCor || cartaAux instanceof CartaEspecialComCor)
 				LOGGER.info("{} foi a carta retirada, comprando mais uma", cartaAux);
-		} while (cartaAux instanceof CartaEspecialSemCor || cartaAux instanceof CartaEspecialComCor);/*caso a carta não possuir cor ou número, ou seja, for uma instância da classe "CartaEspecialSemCor", devemos pegar outra carta para que o primeiro jogador possa fazer sua jogada */
+		} while (cartaAux instanceof CartaEspecialSemCor || cartaAux instanceof CartaEspecialComCor);/*caso a carta não possuir cor ou número, ou seja, for uma instância da classe "CartaEspecialSemCor" ou da classe "CartaEspecialComCor", devemos pegar outra carta para que o primeiro jogador possa fazer sua jogada */
 		LOGGER.info("{} é a primeira carta do jogo", cartaAux);
 
 	}
@@ -160,9 +160,9 @@ public class Roda {
 		}
 
 		/*
-		 * Se a carta for um mais 4, ele pode ser jogada a qualquer momento, exceto se a ultima carta jogada acumuluda foi um +4
+		 * Se a carta for um mais 4, ele pode ser jogada a qualquer momento, exceto se a ultima carta jogada for um +4 e seu acúmulo ainda estiver vigente (é permitido jogar um +4 em cima de outro quando o anterior já foi comprado)
 		 */
-		if(aRecebida == Carta.MAIS4 && acumulo.get(acumulo.size() - 1) != Carta.MAIS4){
+		if(aRecebida == Carta.MAIS4 && (aUltima != Carta.MAIS4 || (aUltima == Carta.MAIS4 && temAcumulo() == false))){
 			this.descarte.receberCarta(recebida);
 			acumulo.add(aRecebida);
 			status = true;
@@ -190,6 +190,9 @@ public class Roda {
 		else if(cRecebida != Cor.SEMCOR && cRecebida == cUltima){
 			this.descarte.receberCarta(recebida);
 			status = true;
+			if(aRecebida == Carta.MAIS2){
+				acumulo.add(aRecebida);
+			}
 		}
 
 		/*
@@ -227,9 +230,6 @@ public class Roda {
 	 */
 	public Carta entregarCarta() {
 		Carta cartaAux;
-		if (this.compra.getCartas().size() < 1) {
-			this.transformaDescarte();
-		}
 		cartaAux = this.compra.comprarCarta();
 		LOGGER.info("Entregando carta {}", cartaAux);
 		return cartaAux;
@@ -275,7 +275,13 @@ public class Roda {
 	 * Determina qual é o jogador responsavel por jogar na próxima rodada.
 	 */
 	public void proximoJogador(){
-		posicaoAtual = (this.posicaoAtual + this.sentido) % this.jogadores.size();
+		posicaoAtual = this.posicaoAtual + this.sentido;
+		if (posicaoAtual < 0) {
+			posicaoAtual += (jogadores.size()-1); 
+		}
+		else if(posicaoAtual >= jogadores.size()) {
+			posicaoAtual -= (jogadores.size()); 
+		}
 		if(sentido%2==0){/*caso um jogador tenha sido pulado anteriormente... */
 			LOGGER.info("Um foi jogador pulado");
 			this.sentido/=2;/*...retorna o incremento ao seu valor original para voltar o jogo ao fluxo comum */
@@ -308,16 +314,27 @@ public class Roda {
 	}
 
 	/**
-	 * Compra um numero de cartas e entrega a um jogador. Foi criada com o intuito de faciliar quando houver a necessidade de comprar cartas acumuladas, e que devem ser atribuídas a um jogador específico
+	 * Compra um numero de cartas e entrega a um jogador. Foi criada com o intuito de faciliar quando houver a necessidade de comprar cartas acumuladas, e que devem ser atribuídas a um jogador específico.Quando a quantidade de cartas a serem compradas for superior há disponível, transforma o descarte em compra. Caso ainda não seja possível, executa o mínimo possível e passa para o próximo
 	 * @param qtd Quantidade de cartas a serem compradas.
 	 * @param jogador Jogador que vai comprar.
 	 */
 	public void comprar(int qtd, Jogador jogador) {
 		LOGGER.info("Comprando {} carta(s) ao jogador {}", qtd, jogador);
-		for (int i = 0; i < qtd; i++) {
-			jogador.comprar(entregarCarta());
+		if (this.compra.getCartas().size() < qtd) {
+			this.transformaDescarte();
 		}
-		corEscolhida = null;
+		if(this.compra.getCartas().size() < qtd) {
+			LOGGER.info("Só foi possível comprar {} cartas",this.compra.getCartas().size());
+			for (int i = 0; i < this.compra.getCartas().size(); i++) {
+				jogador.comprar(entregarCarta());
+			}
+		}
+		else {
+			for (int i = 0; i < qtd; i++) {
+				jogador.comprar(entregarCarta());
+			}
+			LOGGER.info("O jogador {} comprou {} cartas", jogador, qtd);
+		}
 	}
   
   /**

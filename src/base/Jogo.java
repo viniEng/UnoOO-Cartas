@@ -82,7 +82,7 @@ public class Jogo {
 			 */
 			LOGGER.info("Jogador realizando jogada");
 			jogadorAtual.realizarJogada();
-
+			roda.proximoJogador();
 			LOGGER.info("Conferindo se acabou as cartas na mão do jogador");
 			if (confereFim(jogadorAtual) == false) {
 				System.out.printf("O jogador %S ganhou.",
@@ -91,6 +91,7 @@ public class Jogo {
 			}
 
 		}
+			
 	}
 	/**
 	 * Método toString()
