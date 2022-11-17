@@ -60,7 +60,7 @@ public class Jogador {//implements Jogada{
      */
     public void setNome(String nome) {
         LOGGER.info("{} alterou o nome para {}", this.getNome(), nome);
-        this.nome = nome.trim();
+        this.nome = nome;
     }
 
     /**
@@ -153,8 +153,8 @@ public class Jogador {//implements Jogada{
      */
     protected void comprarCartasAcumuladas(ArrayList<Acao> acumulos){
         for(Acao acumulo : acumulos){
-            acumulo.comprar(Jogo.roda);
-            //acumulo.acaoAcumulada();
+            //acumulo.comprar(Jogo.roda);
+            acumulo.acaoAcumulada();
         }
     }
 
@@ -287,32 +287,15 @@ public class Jogador {//implements Jogada{
     	//return this.defineCartaDaJogada();
     }
 
-   /**
-    * Realiza a ação de uma carta descartada pelo jogador
-    * @param acaoCarta - A ação da carta descartada
-    * @deprecated
-    */
-    protected void realizarAcaoDaCarta(Acao acaoCarta){
-        LOGGER.info("Jogador {} realizando ação {}", this.getNome(), acaoCarta.toString());
-        if(acaoCarta instanceof Bloqueio){
-            acaoCarta.pular(Jogo.roda);
-        }else if(acaoCarta instanceof Inverter){
-            acaoCarta.inverter(Jogo.roda);
-        }else if(acaoCarta instanceof Mais4 || acaoCarta instanceof TrocaCor){
-            acaoCarta.trocaCor();
-        }
-        LOGGER.trace("Ação da carta realizada");
-    }
-
     /**
     * Realiza a ação de uma carta descartada pelo jogador
     * @param acaoCarta - A ação da carta descartada
     */
-    // protected void realizarAcaoDaCarta(Acao acaoCarta){
-    //     LOGGER.info("Jogador {} realizando ação {}", this.getNome(), acaoCarta.toString());
-    //     acaoCarta.acaoInstantanea();
-    //     LOGGER.trace("Ação da carta realizada");
-    // }
+    protected void realizarAcaoDaCarta(Acao acaoCarta){
+        LOGGER.info("Jogador {} realizando ação {}", this.getNome(), acaoCarta.toString());
+        acaoCarta.acaoInstantanea();
+        LOGGER.trace("Ação da carta realizada");
+    }
 
     /**
      * Sorteia uma cor válida para realizar
