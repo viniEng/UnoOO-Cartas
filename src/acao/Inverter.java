@@ -1,50 +1,36 @@
 package acao;
-import base.Roda;
-import cartas.Cor;
+import java.lang.System.Logger;
+
+import base.Jogo; 
+
 
 /**
   * @author Pedro;
-  * @version 5.1;
+  * @version 6.0;
+  * @see Jogo
   */
 
 public class Inverter extends Acao {
  /**
-  * @deprecated;
-  * Função para inverter o sentido do jogo;
-  * @param Roda representa objeto referente a classe Roda;
+  * Ação instantânea que inverte o setido da roda (roda.inverter);
+  *
   * recebe o sentido e inverte, retornando a jogada para o jogador anterior;
   */
 
-  public void inverter(Roda roda) {
-    roda.inverter();
-    LOGGER.info("Direção invertida\n");
-  }
-
-  /**
-   * Informar uso incorreto da função
-   * @param roda
-   */
-  public void comprar (Roda roda){
-    LOGGER.info("Inverter não pode comprar\n");
+   public void acaoInstantanea(){
+    Jogo.roda.inverter();
+    LOGGER.info("Sentido Invertido\n");
     return;
   }
 
   /**
-   * Informar uso incorreto da função
-   * @param roda
-   */
-  public void pular (Roda roda){
-    LOGGER.info("Inverter não pode pular\n");
-    return;
-  }
+  *
+  * Logger para avisar que inverter não pode acumular ação;
+  */
 
-  /**
-   * Informar uso incorreto da função
-   * @param roda
-   */
-  public Cor trocaCor (){
-    LOGGER.info("Inverter não pode trocar cor\n");
-    return Cor.SEMCOR;
+  public void acaoAcumulada(){
+    LOGGER.info("Inverter não pode acumular\n");
+    return;
   }
 
 

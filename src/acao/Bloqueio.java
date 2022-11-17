@@ -1,57 +1,36 @@
 package acao;
-import base.Roda;
-import cartas.Cor;
+import java.lang.System.Logger;
+import base.Jogo;
 /**
  * @author Lucas Patrizi
- * @version 4.0
- * @since 31/10/22
+ * @version 5.0
+ * @since 07/11/22
  * @see Roda
  */
 
 public class Bloqueio extends Acao {
   /**
-   * Pula a jogada de um jogador, usando a função pular da roda
-   * (roda.pular())
-   * 
+   * Ação que será chamada e vai instantaneamente bloquear o próximo jogador.
    * @param roda - é a roda usada no próprio jogo
    * @return
    * 
    */
-  public void pular(Roda roda) {
-    roda.pular();
+  public void acaoInstantanea(){
+    Jogo.roda.pular();
     LOGGER.info("Jogador pulado\n");
     return;
   }
-
   /**
-   * Informar acesso indevido de função
-   * @param roda
+   * 
    */
-  public void inverter (Roda roda){
-    LOGGER.info("Bloqueio não pode inverter\n");
+  public void acaoAcumulada(){
+    LOGGER.info("Um bloqueio não pode acumular\n");
     return;
-  }
-
-  /**
-   * Informar acesso indevido de função
-   * @param roda
-   */
-  public void comprar (Roda roda){
-    LOGGER.info("Bloqueio não pode comprar\n");
-    return;
-  }
-
-  /**
-   * Informar acesso indevido de função
-   * @return Cor SEMCOR
-   */
-  public Cor trocaCor(){
-    LOGGER.info("Bloqueio não pode trocar cor\n");
-    return Cor.SEMCOR;
   }
 
   @Override
   public String toString(){
     return "BLOQUEIO";
   }
+
 }
