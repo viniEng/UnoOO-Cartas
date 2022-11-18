@@ -13,9 +13,9 @@ import cartas.CartaNormal;
 import cartas.Cor;
 
 /**
- * Representa a abstração de um conjunto de cartas
+ * Representa a abstração de um conjunto de cartas.
  *
- * @author Jecelen Adriane Campos, Guilherme Bispo Cupertino, Dener Fernandes, Joao P. Karpinski e Deivid. Integrantes do grupo Baralho
+ * @author Jecelen Adriane Campos, Guilherme Bispo Cupertino, Dener Fernandes, Joao P. Karpinski e Deivid Schiitz. Integrantes do grupo Baralho.
  *
  */
 public class Baralho {
