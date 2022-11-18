@@ -134,7 +134,8 @@ public class Baralho {
 	}
 
 	/**
-	 * @return the baralho
+	 * Função que retorna o conjunto de cartas gerado.
+	 * @return o baralho.
 	 */
 	public ArrayList<Carta> getCartas() {
 		LOGGER.info("Cartas retornadas: {}", cartas);
@@ -143,7 +144,8 @@ public class Baralho {
 	}
 
 	/**
-	 * @param cartas the baralho to set
+	 * A função recebe o conjunto gerado como parâmetro
+	 * @param c representa o baralho.
 	 */
 	public void setCartas(ArrayList<Carta> c) {
 		LOGGER.info("Cartas setadas: {}", c);
@@ -152,8 +154,8 @@ public class Baralho {
 	}
 
 	/**
-	 * @return the tipo
 	 * função que retorna o tipo do baralho recebido: Inicial ou Normal para a realização das funções associadas a cada um dos tipos.
+	 * @return the tipo
 	 */
 	public boolean isTipo() {
 		LOGGER.info("Tipo retornado: {}", tipo);
