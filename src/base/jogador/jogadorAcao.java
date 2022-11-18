@@ -11,8 +11,12 @@ public class jogadorAcao extends Jogador{
         super(nome);
         this.inicializarMao();
     }
-    public int[] corPrioritaria(){
+    public int[] freqCor(){
         int[] lsCor= new int[4];
+        lsCor[0]=0;
+        lsCor[1]=0;
+        lsCor[2]=0;
+        lsCor[3]=0;
         for(Carta c: this.getMaoJogador().getCartas()){
             if(c instanceof CartaComCor){
                 if(c.getCor()==Cor.AMARELO){
@@ -32,6 +36,7 @@ public class jogadorAcao extends Jogador{
         return  lsCor;
     }
     public Cor maiorCor(int[] lsCor){
+        lsCor=new int[4];
         int big=0;
         Cor cartasCor=null;
         if(big<lsCor[0]){
@@ -66,10 +71,11 @@ public class jogadorAcao extends Jogador{
         return cartasCor;
     }
     public Carta defineCartaParaAcumulo(Acao acaoDoAcumulo){
-        int[] lsCor = corPrioritaria();
+        int[] lsCor = freqCor();
+        Cor mCor;
         if(Jogo.roda.getUltimaCarta() instanceof CartaEspecialSemCor){
             for(Carta c : this.getMaoJogador().getCartas()){
-                
+
                 if(c instanceof CartaComAcao){
                     try{                    
                         if(c.getAcao() == acaoDoAcumulo)
@@ -82,17 +88,35 @@ public class jogadorAcao extends Jogador{
         }
         else{
             for(Carta c : this.getMaoJogador().getCartas()){
-                if(c instanceof CartaComAcao){
-                    try{                    
-                        if(c.getAcao() == acaoDoAcumulo)
-                            return c;
-                    }catch(CartaSemAcao e){
-                        LOGGER.error("Erro ao tentar comparar ação de carta com ação de acúmulo: {}", e);
+                for(int cont=0;cont<4;cont++){
+                    mCor=maiorCor(lsCor);
+                    if(c instanceof CartaComAcao && c.getCor()==mCor){
+                        try{                    
+                            if(c.getAcao() == acaoDoAcumulo)
+                                return c;
+                        }catch(CartaSemAcao e){
+                            LOGGER.error("Erro ao tentar comparar ação de carta com ação de acúmulo: {}", e);
+                        }
                     }
                 }
             }
         }
         return null;
+    }
+    /*
+        - Jogar as cartas da cor que o bot mais possue na mão
+        - Cartas sem cores possuem a menor prioridade
+        - Se possuir só uma carta de cor na mão, priorizar as sem cor
+        - Se próximo jogador tiver apenas uma carta na mão, priorizar carta especial
+     */
+    
+    public Cor sorteiaCor(){
+        int[] lst;
+        lst = freqCor();
+        Cor maiorCor;
+        maiorCor = maiorCor(lst);
+        return maiorCor;
+    }
 }
     //defineCartaDaJogada();
     //escolhaCor();
