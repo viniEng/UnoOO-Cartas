@@ -104,12 +104,155 @@ public class jogadorAcao extends Jogador{
         return null;
     }
     /*
-        - Jogar as cartas da cor que o bot mais possue na mão
-        - Cartas sem cores possuem a menor prioridade
-        - Se possuir só uma carta de cor na mão, priorizar as sem cor
-        - Se próximo jogador tiver apenas uma carta na mão, priorizar carta especial
+        1 - prox bot 1 carta - se possível lançar urgentemente carta de acumulo; (feito)
+        2 - prox prox bot 1 carta - se possível não lançar carta de ação; (feito)
+        3 - se só 2 cartas na mão priorizar carta sem cor; (feito)
+        4 - Cartas sem cores possuem a menor prioridade; (feito)
+        5 - Jogar as cartas da cor que o bot mais possue na mão; (feito)
      */
-    
+    public Carta defineCartaDaJogada()
+    {
+    	Carta ultimo = Jogo.roda.getUltimaCarta();
+        ArrayList<Jogador> lJogadores = Jogo.roda.getJogadores();
+        int[] lfreqCor = freqCor();
+        Cor corFreq;
+        int cont;
+        if(lJogadores.get(Jogo.roda.getPosicaoAtual()+1).getQuantidadeCartas()==1){
+            for(Carta c : this.getMaoJogador().getCartas())
+    	    {
+    		if(!(c instanceof CartaEspecialComCor))
+    			continue;
+    		
+    		CartaEspecialComCor ca = (CartaEspecialComCor)c;
+    		
+    		// Verifica se é a mesma cor ou se é a mesma ação pra poder jogar
+    		if(ca.getCor() == ultimo.getCor() || (ultimo instanceof CartaEspecialComCor && ca.getAcao() == ((CartaEspecialComCor)ultimo).getAcao()))
+    		{
+    		    	return ca;
+    		}
+    	    }
+            for(Carta c : this.getMaoJogador().getCartas())
+    	    {
+                if(c instanceof CartaEspecialSemCor){
+
+                    CartaEspecialSemCor ca = (CartaEspecialSemCor)c;
+        
+                            return ca;
+                }
+    		
+    		}
+    	}
+        else if(this.getQuantidadeCartas()==2){
+            for(Carta c:this.getMaoJogador().getCartas()){
+                if(c instanceof CartaEspecialSemCor){
+                    return c;
+                }
+            }
+            for(cont=0;cont<4;cont++)
+            {
+                corFreq=maiorCor(lfreqCor);
+            for(Carta c : this.getMaoJogador().getCartas())
+                {
+                    if(c.getCor()==ultimo.getCor()){
+                        if(!(c instanceof CartaNormal))
+                            continue;
+                        
+                        CartaNormal cn = (CartaNormal)c;
+                        
+                        // Se for a mesma cor pode jogar
+                        if(cn.getCor() == ultimo.getCor())
+                            return c;
+                        
+                        // Se for o mesmo número também pode jogar
+                        if(ultimo instanceof CartaNormal && ((CartaNormal)ultimo).getNumero() == cn.getNumero())
+                            return c;
+                    }
+                }
+            for(cont=0;cont<4;cont++){
+                corFreq=maiorCor(lfreqCor);
+                for(Carta c:this.getMaoJogador().getCartas()){
+                    if(c instanceof CartaEspecialComCor){
+                        if(c.getCor()==corFreq){
+                            if(c.getCor()==ultimo.getCor() || ultimo instanceof CartaEspecialComCor){
+                                return c;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+        else{
+            for(cont=0;cont<4;cont++)
+            {
+                corFreq=maiorCor(lfreqCor);
+            for(Carta c : this.getMaoJogador().getCartas())
+                {
+                    if(c.getCor()==ultimo.getCor()){
+                        if(!(c instanceof CartaNormal))
+                            continue;
+                        
+                        CartaNormal cn = (CartaNormal)c;
+                        
+                        // Se for a mesma cor pode jogar
+                        if(cn.getCor() == ultimo.getCor())
+                            return c;
+                        
+                        // Se for o mesmo número também pode jogar
+                        if(ultimo instanceof CartaNormal && ((CartaNormal)ultimo).getNumero() == cn.getNumero())
+                            return c;
+                    }
+                }
+            for(cont=0;cont<4;cont++){
+                corFreq=maiorCor(lfreqCor);
+                for(Carta c:this.getMaoJogador().getCartas()){
+                    if(c instanceof CartaEspecialComCor){
+                        if(c.getCor()==corFreq){
+                            if(c.getCor()==ultimo.getCor() || ultimo instanceof CartaEspecialComCor){
+                                return c;
+                            }
+                        }
+                    }
+                }
+            }
+            for(Carta c:this.getMaoJogador().getCartas()){
+                if(c instanceof CartaEspecialSemCor){
+                    return c;
+                }
+            }
+        }
+    }
+    	// Busca cartas normais
+    	for(Carta c : this.getMaoJogador().getCartas())
+    	{
+    		if(!(c instanceof CartaNormal))
+    			continue;
+    		
+    		CartaNormal cn = (CartaNormal)c;
+    		
+    		// Se for a mesma cor pode jogar
+    		if(cn.getCor() == ultimo.getCor())
+    			return c;
+    		
+    		// Se for o mesmo número também pode jogar
+    		if(ultimo instanceof CartaNormal && ((CartaNormal)ultimo).getNumero() == cn.getNumero())
+    			return c;
+    	}
+    	
+    	// Busca +4 e troca cor
+    	for(Carta c : this.getMaoJogador().getCartas())
+    	{
+    		if(!(c instanceof CartaEspecialSemCor))
+    			continue;
+    		
+    		// +4 e troca cor pode ser jogado de qualquer forma
+    		return c;
+    	}
+    	
+    	// Se não conseguir jogar nenhuma tem que comprar
+    	//return this.defineCartaDaJogada();
+        return null;
+    }
     public Cor sorteiaCor(){
         int[] lst;
         lst = freqCor();
