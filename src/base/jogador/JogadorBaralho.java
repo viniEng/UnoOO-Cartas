@@ -7,7 +7,10 @@ import cartas.CartaComAcao;
 import cartas.CartaSemAcao;
 
 /**
- * Subclasse da superclasse 'Jogador' que representa o jogador criado pelo grupo baralho
+ * Subclasse da superclasse 'Jogador' que representa o jogador criado pelo grupo baralho.
+ *
+ * @author Jecelen Adriane Campos e Guilherme Bispo Cupertino. Grupo Baralho.
+ * 
  * 
  */
 public class JogadorBaralho extends Jogador{
