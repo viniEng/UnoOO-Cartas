@@ -1,5 +1,6 @@
 package base.jogador;
 
+
 import acao.Acao;
 import base.Jogo;
 import cartas.Carta;
@@ -16,12 +17,15 @@ import cartas.CartaSemAcao;
 public class JogadorBaralho extends Jogador{
 	/**
 	 * Método construtor que recebe como parâmetro o nome do jogador que representa o grupo baralho.
-	 * @param nome
+	 * E também a jogada que será realizada pelo jogador.
+	 * @param nome 
+	 * @param jogadaRealizada
 	 */
 	public JogadorBaralho(String nome){
 		super(nome);
 		LOGGER.info("JogadorBaralho criado com sucesso\n");
 	}
+
  /**
   * Recebe como parametro a última jogada realizada e retorna a jogada a ser realizada pelo JogadorBaralho
   * @param jogadaRealizada
@@ -71,6 +75,12 @@ public class JogadorBaralho extends Jogador{
         }
         LOGGER.info("Jogada do JogadorBaralho realizada\n");
         return jogadaRealizada;
+
+	
+	public Jogada realizarJogada(Jogada jogadaRealizada){
+		super(jogadaRealizada);
+		LOGGER.info("Jogada do JogadorBaralho realizada\n");
+
 		
 	}
 }
