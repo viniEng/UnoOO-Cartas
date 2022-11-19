@@ -1,4 +1,5 @@
 package base.jogador;
+
 /**
  * Subclasse da superclasse 'Jogador' que representa o jogador criado pelo grupo baralho
  * 
@@ -8,11 +9,18 @@ package base.jogador;
 public class JogadorBaralho extends Jogador{
 	/**
 	 * Método construtor que recebe como parâmetro o nome do jogador que representa o grupo baralho.
-	 * @param nome
+	 * E também a jogada que será realizada pelo jogador.
+	 * @param nome 
+	 * @param jogadaRealizada
 	 */
 	public JogadorBaralho(String nome){
 		super(nome);
 		LOGGER.info("JogadorBaralho criado com sucesso\n");
 	}
 	
+	public Jogada realizarJogada(Jogada jogadaRealizada){
+		super(jogadaRealizada);
+		LOGGER.info("Jogada do JogadorBaralho realizada\n");
+		
+	}
 }
