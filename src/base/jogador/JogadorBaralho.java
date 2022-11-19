@@ -1,6 +1,5 @@
 package base.jogador;
 
-
 import acao.Acao;
 import base.Jogo;
 import cartas.Carta;
@@ -8,31 +7,28 @@ import cartas.CartaComAcao;
 import cartas.CartaSemAcao;
 
 /**
- * Subclasse da superclasse 'Jogador' que representa o jogador criado pelo grupo baralho.
- *
- * @author Jecelen Adriane Campos e Guilherme Bispo Cupertino. Grupo Baralho.
+ * Subclasse da superclasse 'Jogador' que representa o jogador criado pelo grupo baralho
  * 
+ * @author Jecelen Adriane Campos e Guilherme Bispo Cupertino. Grupo Baralho.
  * 
  */
 public class JogadorBaralho extends Jogador{
 	/**
-	 * Método construtor que recebe como parâmetro o nome do jogador que representa o grupo baralho.
-	 * E também a jogada que será realizada pelo jogador.
-	 * @param nome 
-	 * @param jogadaRealizada
+	 * Método construtor que recebe como parâmetro o nome do jogador que representa o grupo baralho e inicializa a mao do jogador.
+	 * @param nome
 	 */
 	public JogadorBaralho(String nome){
 		super(nome);
+		super.inicializarMao();
 		LOGGER.info("JogadorBaralho criado com sucesso\n");
 	}
-
  /**
-  * Recebe como parametro a última jogada realizada e retorna a jogada a ser realizada pelo JogadorBaralho
-  * @param jogadaRealizada
+  * Retorna a jogada a ser realizada pelo JogadorBaralho com base na última carta jogada no monte de descarte ou acumulo de cartas e as cartas na mão do jogador
   * @return a jogada do JogadorBaralho.
   */
-	public Jogada realizarJogada(Jogada jogadaRealizada){
+	public Jogada realizarJogada(){
         LOGGER.trace("Jogador {} realizando jogada", this.getNome());
+        Jogada jogadaRealizada = null;
         Carta carta = null;
         if(Jogo.roda.temAcumulo()){
             try{
@@ -75,12 +71,6 @@ public class JogadorBaralho extends Jogador{
         }
         LOGGER.info("Jogada do JogadorBaralho realizada\n");
         return jogadaRealizada;
-
-	
-	public Jogada realizarJogada(Jogada jogadaRealizada){
-		super(jogadaRealizada);
-		LOGGER.info("Jogada do JogadorBaralho realizada\n");
-
 		
 	}
 }
