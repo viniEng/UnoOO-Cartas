@@ -9,7 +9,7 @@ import java.lang.System.Logger;
 public class Mais2 extends Acao {
 
   /**
-   * A função vai ser chamada instantaneamente que blockeia/pula o proximo jogador
+   * Mais 2 não tem ação instantanea
    */
   public void acaoInstantanea(){
     return;
