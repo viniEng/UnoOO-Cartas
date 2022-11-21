@@ -12,8 +12,6 @@ public class Mais2 extends Acao {
    * A função vai ser chamada instantaneamente que blockeia/pula o proximo jogador
    */
   public void acaoInstantanea(){
-    Jogo.roda.pular();
-    LOGGER.info("Jogador pulado\n");
     return;
   }
 
