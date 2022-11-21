@@ -282,7 +282,7 @@ public class Roda {
 		else if(posicaoAtual >= jogadores.size()) {
 			posicaoAtual -= (jogadores.size()); 
 		}
-		if(sentido%2==0){/*caso um jogador tenha sido pulado anteriormente... */
+		if(Math.abs(sentido)%2==0){/*caso um jogador tenha sido pulado anteriormente... */
 			LOGGER.info("Um foi jogador pulado");
 			this.sentido/=2;/*...retorna o incremento ao seu valor original para voltar o jogo ao fluxo comum */
 		}
@@ -355,11 +355,11 @@ public class Roda {
   public boolean temAcumulo(){
     int tamanho = this.acumulo.size();
     if(tamanho > 0){
-      LOGGER.info("Há {} cartas no acúmulo",tamanho);
+      LOGGER.trace("Há {} cartas no acúmulo",tamanho);
       return true;
     }
     else{
-      LOGGER.info("Não tem acúmulo");
+      LOGGER.trace("Não tem acúmulo");
       return false;
     }
   }
