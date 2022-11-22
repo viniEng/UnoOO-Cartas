@@ -1,9 +1,9 @@
 package base.jogador;
 import java.util.ArrayList;
 import cartas.*;
+import cartas.Carta;
 import acao.*;
 import base.*;
-
 
 /**
  * Subclasse da superclasse 'Jogador' que representa o jogador criado pelo grupo baralho
@@ -25,21 +25,25 @@ public class JogadorBaralho extends Jogador{
 	public Cor maisCor(){
 		int quantidadePorCor[] = new int[4];
 		quantidadePorCor[0] = quantidadePorCor[1] = quantidadePorCor[2] = quantidadePorCor[3] = 0;
+		ArrayList<Carta> conta;
+		conta = this.maoJogador.getCartas();
 		
-		for(Carta cartas: this.getMaoJogador().getCartas()) {
-			if (cartas instanceof CartaComCor) {
-				if (cartas.getCor() == Cor.AMARELO) {
+		for (int j = 0; j < conta.size(); j++) { //Irá contar a quantidade de cartas que o jogador possui na mão.
+			switch (conta.get(j).getCor()) {
+				case AMARELO:
 					quantidadePorCor[0] = quantidadePorCor[0] + 1;
-				}
-				else if(cartas.getCor() == Cor.AZUL) {
+					break;
+				case AZUL:
 					quantidadePorCor[1] = quantidadePorCor[1] + 1;
-				}
-				else if(cartas.getCor() == Cor.VERDE) {
+					break;
+				case VERDE:
 					quantidadePorCor[2] = quantidadePorCor[2] + 1;
-				}
-				else if(cartas.getCor() == Cor.VERMELHO) {
+					break;
+				case VERMELHO:
 					quantidadePorCor[3] = quantidadePorCor[3] + 1;
-				}
+					break;
+				default:
+					break;
 			}
 		}
 		Cor maiorCor; 
@@ -279,20 +283,12 @@ public class JogadorBaralho extends Jogador{
 	  */
 	
 	public Cor sorteiaCor(){
-		Cor corSorteada; 
-		if(maisCor() == Cor.AZUL)
-			corSorteada = Cor.AMARELO;
-		else if(maisCor() == Cor.AMARELO)
-			corSorteada = Cor.VERDE;
-		else if(maisCor() == Cor.VERDE)
-			corSorteada = Cor.VERMELHO;
-		else
-			corSorteada = Cor.AZUL;
+		Cor corSorteada = maisCor(); 
 		LOGGER.trace("A cor escolhida do JogadorBaralho foi {}", corSorteada);
 		return corSorteada;
 	}
 	/**
-	 * Método que retorna a cor que o jogador escolheu (uma cor diferente da que ele mais possui, tentando fazer de estratégia).
+	 * Método que retorna a cor que o jogador escolheu (que é a cor que ele mais possui).
 	 * @return corSorteada
 	 */
 }
