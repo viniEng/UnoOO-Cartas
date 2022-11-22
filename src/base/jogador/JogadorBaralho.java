@@ -70,27 +70,7 @@ public class JogadorBaralho extends Jogador{
 	 * @param quantidadePorCor[] e maiorCor
 	 * @return maiorCor
 	 */
-
-	public Cor sorteiaCor(){
-		Cor corSorteada; 
-		if(maisCor() == Cor.AZUL)
-			corSorteada = Cor.AMARELO;
-		else if(maisCor() == Cor.AMARELO)
-			corSorteada = Cor.VERDE;
-		else if(maisCor() == Cor.VERDE)
-			corSorteada = Cor.VERMELHO;
-		else
-			corSorteada = Cor.AZUL;
-		LOGGER.trace("A cor escolhida do JogadorBaralho foi {}", corSorteada);
-		return corSorteada;
-	}
-	/**
-	 * Método que retorna a cor que o jogador escolheu (uma cor diferente da que ele mais possui, tentando fazer de estratégia).
-	 * @return escolheCor
-	 */
-	
-	
-	
+			
 	public Carta defineCartaDaJogada() {
 		
 		Carta ultCarta = Jogo.roda.getUltimaCarta();
@@ -297,5 +277,23 @@ public class JogadorBaralho extends Jogador{
 	  * Retorna a jogada a ser realizada pelo JogadorBaralho com base na última carta jogada no monte de descarte ou acumulo de cartas e as cartas na mão do jogador
 	  * @return a jogada do JogadorBaralho.
 	  */
+	
+	public Cor sorteiaCor(){
+		Cor corSorteada; 
+		if(maisCor() == Cor.AZUL)
+			corSorteada = Cor.AMARELO;
+		else if(maisCor() == Cor.AMARELO)
+			corSorteada = Cor.VERDE;
+		else if(maisCor() == Cor.VERDE)
+			corSorteada = Cor.VERMELHO;
+		else
+			corSorteada = Cor.AZUL;
+		LOGGER.trace("A cor escolhida do JogadorBaralho foi {}", corSorteada);
+		return corSorteada;
+	}
+	/**
+	 * Método que retorna a cor que o jogador escolheu (uma cor diferente da que ele mais possui, tentando fazer de estratégia).
+	 * @return corSorteada
+	 */
 }
 
