@@ -13,9 +13,9 @@ import cartas.CartaNormal;
 import cartas.Cor;
 
 /**
- * Representa a abstração de um conjunto de cartas
+ * Representa a abstração de um conjunto de cartas.
  *
- * @author grupo Baralho
+ * @author Jecelen Adriane Campos, Guilherme Bispo Cupertino, Dener Fernandes, Joao P. Karpinski e Deivid Schiitz. Integrantes do grupo Baralho.
  *
  */
 public class Baralho {
@@ -28,7 +28,7 @@ public class Baralho {
 	private boolean tipo;
 
 	/**
-	 * 
+	 * Forma o conjunto de cartas de acordo com o paramento enviado pelas classe 'Jogo' que instancia o baralho.
 	 * @param tipo Baralho.INICIAL se for baralho inicial, ou Baralho.Normal para os
 	 *             demais tipos de baralho.
 	 */
@@ -43,7 +43,9 @@ public class Baralho {
 	}
 
 	/**
-	 * Esse método somente será chamado quando o baralho criado for do tipo inicial.
+	 * Esse método somente será chamado quando o baralho instanciando for do tipo inicial.
+	 * Instancia as cartas da classe 'Carta' e forma o conjunto abstrato inicial do UNO com a quantidade de cada uma predefinida por regras de jogo.
+	 * São geradas 112 cartas que compõe o baralho inicial. 
 	 */
 	public void gerarCartas() {
 		LOGGER.info("Gerando cartas normais. (4 de cada cor).");
@@ -83,6 +85,7 @@ public class Baralho {
 	
 	/**
 	 * Esse método somente será chamado quando o baralho criado for do tipo inicial.
+	 * O conjunto de cartas gerado no baralho inicial é embaralhado. O conjunto enviado à classe mensageira não encontra-se mais ordenado.
 	 */
 	public void embaralhar() {
 		LOGGER.info("Embaralhando cartas.");
@@ -91,7 +94,7 @@ public class Baralho {
 	}
 
 	/**
-	 * 
+	 * Função que retorna a carta comprada no monte pela classe 'Jogador'. Nesta função a primeira carta é removida do conjunto e seu valor é retornado a classe mensageira. 
 	 * @return a primeira carta do baralho
 	 */
 	public Carta comprarCarta() {
@@ -101,7 +104,7 @@ public class Baralho {
 	}
 
 	/**
-	 * 
+	 * Recebe as cartas descartadas no monte de descarte, uma a uma, pela classe 'Jogador'. Nesta função o parametro (carta) é enviado pela classe que solicitou a função.
 	 * @param c a carta.
 	 */
 	public void receberCarta(Carta c) {
@@ -110,36 +113,39 @@ public class Baralho {
 	}
 	
 	/**
-	 * 
+	 * Função que verifica a quantidade de cartas no baralho. Utilizada para perceber quando o monte de compras chega ao fim e para conseguir retornar o valor da ultima carta na fução 'UltimaCarta' desta classe.
 	 * @return o tamanhho do arraylist cartas
 	 */
 	public int quantCarta() { // para verificar a quantidade de cartas
-		LOGGER.debug("Quantidade de cartas retornada: {}", cartas.size());
+		LOGGER.trace("Quantidade de cartas retornada: {}", cartas.size());
 
 		return cartas.size();
 	}
 	
 	/**
-	 * 
+	 * Utiliza a função 'quantCarta' desta classe para realizar a busca pela última carta e retornar o valor dela para a classe 'Roda' quando solicitado.
+	 * Descobre o valor da ultima carta no monte de descarte.
 	 * @return a última carta do baralho
 	 */
 	public Carta ultimaCarta() { // para verificar a última carta
-		LOGGER.debug("Última carta retornada: {}", cartas.get(cartas.size() - 1));
+		LOGGER.info("Última carta retornada: {}", cartas.get(cartas.size() - 1));
 
 		return cartas.get(quantCarta() - 1);
 	}
 
 	/**
-	 * @return the baralho
+	 * Função que retorna o conjunto de cartas gerado.
+	 * @return o baralho.
 	 */
 	public ArrayList<Carta> getCartas() {
-		LOGGER.debug("Cartas retornadas: {}", cartas);
+		LOGGER.info("Cartas retornadas: {}", cartas);
 
 		return cartas;
 	}
 
 	/**
-	 * @param cartas the baralho to set
+	 * A função recebe o conjunto gerado como parâmetro
+	 * @param c representa o baralho.
 	 */
 	public void setCartas(ArrayList<Carta> c) {
 		LOGGER.info("Cartas setadas: {}", c);
@@ -148,10 +154,11 @@ public class Baralho {
 	}
 
 	/**
+	 * função que retorna o tipo do baralho recebido: Inicial ou Normal para a realização das funções associadas a cada um dos tipos.
 	 * @return the tipo
 	 */
 	public boolean isTipo() {
-		LOGGER.debug("Tipo retornado: {}", tipo);
+		LOGGER.info("Tipo retornado: {}", tipo);
 	
 		return tipo;
 	}
