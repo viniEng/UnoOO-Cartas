@@ -117,32 +117,7 @@ public class jogadorAcao extends Jogador{
         int[] lfreqCor = freqCor();
         Cor corFreq;
         int cont;
-        if(lJogadores.get(Jogo.roda.getPosicaoAtual()+1).getQuantidadeCartas()==1){
-            for(Carta c : this.getMaoJogador().getCartas())
-    	    {
-    		if(!(c instanceof CartaEspecialComCor))
-    			continue;
-    		
-    		CartaEspecialComCor ca = (CartaEspecialComCor)c;
-    		
-    		// Verifica se é a mesma cor ou se é a mesma ação pra poder jogar
-    		if(ca.getCor() == ultimo.getCor() || (ultimo instanceof CartaEspecialComCor && ca.getAcao() == ((CartaEspecialComCor)ultimo).getAcao()))
-    		{
-    		    	return ca;
-    		}
-    	    }
-            for(Carta c : this.getMaoJogador().getCartas())
-    	    {
-                if(c instanceof CartaEspecialSemCor){
-
-                    CartaEspecialSemCor ca = (CartaEspecialSemCor)c;
-        
-                            return ca;
-                }
-    		
-    		}
-    	}
-        else if(this.getQuantidadeCartas()==2){
+        if(this.getQuantidadeCartas()==2){
             for(Carta c:this.getMaoJogador().getCartas()){
                 if(c instanceof CartaEspecialSemCor){
                     return c;
@@ -168,6 +143,7 @@ public class jogadorAcao extends Jogador{
                             return c;
                     }
                 }
+            //
             for(cont=0;cont<4;cont++){
                 corFreq=maiorCor(lfreqCor);
                 for(Carta c:this.getMaoJogador().getCartas()){
@@ -183,6 +159,7 @@ public class jogadorAcao extends Jogador{
         }
     }
         else{
+            //busca cartas comuns
             for(cont=0;cont<4;cont++)
             {
                 corFreq=maiorCor(lfreqCor);
@@ -203,6 +180,7 @@ public class jogadorAcao extends Jogador{
                             return c;
                     }
                 }
+                //busca cartas especiais
             for(cont=0;cont<4;cont++){
                 corFreq=maiorCor(lfreqCor);
                 for(Carta c:this.getMaoJogador().getCartas()){
@@ -215,6 +193,7 @@ public class jogadorAcao extends Jogador{
                     }
                 }
             }
+            //busca cartas coringa
             for(Carta c:this.getMaoJogador().getCartas()){
                 if(c instanceof CartaEspecialSemCor){
                     return c;
