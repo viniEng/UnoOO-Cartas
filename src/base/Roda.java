@@ -86,6 +86,14 @@ public class Roda {
 	public int getPosicaoAtual(){
 		return this.posicaoAtual;
 	}
+	
+	/**
+	 *	Getter da cor escolhida no caso de um troca cor ou mais 4 ter sido jogado
+	 * @return A ultima cor que foi escolhida, caso a ultima carta tenha a ação de trocar a cor
+	 */
+	public Cor getCorEscolhida() {
+		return corEscolhida;
+	}
 
 	/**
 	 * Construtor:
@@ -158,6 +166,9 @@ public class Roda {
 		}catch (CartaSemAcao b){/*se não for possível, tratamos a exceção */
 			LOGGER.trace(" última carta do descarte {} não possui ação", ultima);
 		}
+		if(aUltima == Carta.MAIS4 || aUltima == Carta.TROCACOR) {
+			cUltima = corEscolhida;
+		}
 
 		/*
 		 * Se a carta for um mais 4, ele pode ser jogada a qualquer momento, exceto se a ultima carta jogada for um +4 e seu acúmulo ainda estiver vigente (é permitido jogar um +4 em cima de outro quando o anterior já foi comprado)
@@ -165,7 +176,7 @@ public class Roda {
 		if(aRecebida == Carta.MAIS4 && (aUltima != Carta.MAIS4 || (aUltima == Carta.MAIS4 && temAcumulo() == false))){
 			this.descarte.receberCarta(recebida);
 			acumulo.add(aRecebida);
-			status = true;
+			status = false;
 		}
 
 		/*
@@ -173,7 +184,7 @@ public class Roda {
 		 */
 		else if(aRecebida == Carta.TROCACOR && temAcumulo() == false){
 			this.descarte.receberCarta(recebida);
-			status = true;
+			status = false;
 		}
 
 		/*
@@ -216,9 +227,12 @@ public class Roda {
 		/*
 		 * Se alguma carta foi jogada, podemos zerar a cor temporária, e informamos que esta ação de jogar a carta foi realizada com sucesso
 		 */
+		if(recebida instanceof CartaEspecialSemCor) {
+			status = false;
+		}
 		if(status){
 			corEscolhida = null;
-			LOGGER.info("A carta {} foi descartada", recebida);
+			LOGGER.trace("A carta {} foi descartada", recebida);
 		}
 
 	}
@@ -231,7 +245,7 @@ public class Roda {
 	public Carta entregarCarta() {
 		Carta cartaAux;
 		cartaAux = this.compra.comprarCarta();
-		LOGGER.info("Entregando carta {}", cartaAux);
+		LOGGER.trace("Entregando carta {}", cartaAux);
 		return cartaAux;
 	}
 
@@ -251,7 +265,7 @@ public class Roda {
 	 */
 	public void inverter() {
 		this.sentido *= -1;
-		LOGGER.info("Sentido invertido: {}", this.sentido);
+		LOGGER.trace("Sentido invertido: {}", this.sentido);
 	}
 
 	/**
@@ -267,7 +281,18 @@ public class Roda {
 	 * @return Qual jogador que deve realizar a jogada
 	 */
 	public Jogador jogadorDaVez() {
-		LOGGER.info("O jogador da vez é {}", this.jogadores.get(posicaoAtual));
+		LOGGER.trace("O jogador da vez é {}", this.jogadores.get(posicaoAtual));
+		for(int i = 0; i < this.jogadores.size(); i++) {
+			if(i==posicaoAtual){
+				LOGGER.info("-> {}",this.jogadores.get(i).getNome());
+			}
+			else {
+				LOGGER.info("   {}",this.jogadores.get(i).getNome());
+			}
+		}
+		
+		
+		
 		return this.jogadores.get(posicaoAtual);
 	}
 
@@ -277,13 +302,13 @@ public class Roda {
 	public void proximoJogador(){
 		posicaoAtual = this.posicaoAtual + this.sentido;
 		if (posicaoAtual < 0) {
-			posicaoAtual += (jogadores.size()-1); 
+			posicaoAtual += (jogadores.size()); 
 		}
 		else if(posicaoAtual >= jogadores.size()) {
 			posicaoAtual -= (jogadores.size()); 
 		}
-		if(sentido%2==0){/*caso um jogador tenha sido pulado anteriormente... */
-			LOGGER.info("Um foi jogador pulado");
+		if(Math.abs(sentido)%2==0){/*caso um jogador tenha sido pulado anteriormente... */
+			LOGGER.trace("Um foi jogador pulado");
 			this.sentido/=2;/*...retorna o incremento ao seu valor original para voltar o jogo ao fluxo comum */
 		}
 	}
@@ -307,7 +332,7 @@ public class Roda {
 			return cartaAux;
 		}
 		else{
-			LOGGER.trace("A ultima carta jogada foi {} e a cor escolhida foi{}", cartaAux,corEscolhida);
+			LOGGER.info("A ultima carta jogada foi {} e a cor escolhida foi{}", cartaAux,corEscolhida);
 			cartaAux.setCor(corEscolhida);
 			return cartaAux;
 		}
@@ -319,12 +344,12 @@ public class Roda {
 	 * @param jogador Jogador que vai comprar.
 	 */
 	public void comprar(int qtd, Jogador jogador) {
-		LOGGER.info("Comprando {} carta(s) ao jogador {}", qtd, jogador);
+		LOGGER.trace("Comprando {} carta(s) ao jogador {}", qtd, jogador);
 		if (this.compra.getCartas().size() < qtd) {
 			this.transformaDescarte();
 		}
 		if(this.compra.getCartas().size() < qtd) {
-			LOGGER.info("Só foi possível comprar {} cartas",this.compra.getCartas().size());
+			LOGGER.trace("Só foi possível comprar {} cartas",this.compra.getCartas().size());
 			for (int i = 0; i < this.compra.getCartas().size(); i++) {
 				jogador.comprar(entregarCarta());
 			}
@@ -333,7 +358,7 @@ public class Roda {
 			for (int i = 0; i < qtd; i++) {
 				jogador.comprar(entregarCarta());
 			}
-			LOGGER.info("O jogador {} comprou {} cartas", jogador, qtd);
+			LOGGER.trace("O jogador {} comprou {} cartas", jogador, qtd);
 		}
 	}
   
@@ -344,7 +369,7 @@ public class Roda {
   public ArrayList<Acao> desacumular(){
     ArrayList<Acao> acumuloAux = this.acumulo;
     this.acumulo.clear();
-    LOGGER.info("O acúmulo foi transferido");
+    LOGGER.trace("O acúmulo foi transferido");
     return acumuloAux;
   }
 
@@ -355,11 +380,11 @@ public class Roda {
   public boolean temAcumulo(){
     int tamanho = this.acumulo.size();
     if(tamanho > 0){
-      LOGGER.info("Há {} cartas no acúmulo",tamanho);
+      LOGGER.trace("Há {} cartas no acúmulo",tamanho);
       return true;
     }
     else{
-      LOGGER.info("Não tem acúmulo");
+      LOGGER.trace("Não tem acúmulo");
       return false;
     }
   }
