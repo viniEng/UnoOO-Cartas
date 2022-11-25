@@ -307,7 +307,7 @@ public class Roda {
 		else if(posicaoAtual >= jogadores.size()) {
 			posicaoAtual -= (jogadores.size()); 
 		}
-		if(sentido%2==0){/*caso um jogador tenha sido pulado anteriormente... */
+		if(Math.abs(sentido)%2==0){/*caso um jogador tenha sido pulado anteriormente... */
 			LOGGER.trace("Um foi jogador pulado");
 			this.sentido/=2;/*...retorna o incremento ao seu valor original para voltar o jogo ao fluxo comum */
 		}
@@ -349,7 +349,7 @@ public class Roda {
 			this.transformaDescarte();
 		}
 		if(this.compra.getCartas().size() < qtd) {
-			LOGGER.info("Só foi possível comprar {} cartas",this.compra.getCartas().size());
+			LOGGER.trace("Só foi possível comprar {} cartas",this.compra.getCartas().size());
 			for (int i = 0; i < this.compra.getCartas().size(); i++) {
 				jogador.comprar(entregarCarta());
 			}
@@ -369,7 +369,7 @@ public class Roda {
   public ArrayList<Acao> desacumular(){
     ArrayList<Acao> acumuloAux = this.acumulo;
     this.acumulo.clear();
-    LOGGER.info("O acúmulo foi transferido");
+    LOGGER.trace("O acúmulo foi transferido");
     return acumuloAux;
   }
 
@@ -380,7 +380,7 @@ public class Roda {
   public boolean temAcumulo(){
     int tamanho = this.acumulo.size();
     if(tamanho > 0){
-      LOGGER.info("Há {} cartas no acúmulo",tamanho);
+      LOGGER.trace("Há {} cartas no acúmulo",tamanho);
       return true;
     }
     else{
