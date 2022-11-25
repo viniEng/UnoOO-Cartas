@@ -99,6 +99,9 @@ public class JogadorRoda extends Jogador {
         } catch (CartaSemAcao b) {/* se não for possível, tratamos a exceção */
             LOGGER.trace(" última carta do descarte {} não possui ação", ultima);
         }
+        if(aUltima == Carta.MAIS4 || aUltima == Carta.TROCACOR) {
+        	cUltima = Jogo.roda.getCorEscolhida();
+        }
 
         for (int k = 0; k < verificar.size(); k++) {
             try {/* tentamos pegar o número da carta a ser comparada */
