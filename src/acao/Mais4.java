@@ -23,8 +23,7 @@ public class Mais4 extends Acao {
   public void acaoInstantanea() {
     Jogo.roda.mudarCor((Jogo.roda.jogadorDaVez()).sorteiaCor());
     LOGGER.info("Cor alterada\n");
-    Jogo.roda.pular();
-    LOGGER.info("Vez pulada\n");
+    return;
     
   }
 
