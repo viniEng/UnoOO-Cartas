@@ -7,10 +7,30 @@ import cartas.*;
 import cartas.CartaNormal;
 
 public class jogadorAcao extends Jogador{
+    /**
+     * Bot jogador, subclasse de jogador, implementado pelo grupo de Ação
+     * @author Grupo Ação
+     * @since 23/11/2022
+     * @version 3.0
+    */
+
+
+
+    /**
+     * Método Contrutor para o bot
+     * @param nome
+     */
     public jogadorAcao(String nome) {
         super(nome);
         this.inicializarMao();
+        LOGGER.info("JogadorRoda criado com sucesso\n");
     }
+
+    /**
+     * Método que cria uma lista com a frequencia das cores
+     * Onde a posição da lista representa uma cor diferente
+     * @return
+     */
     public int[] freqCor(){
         int[] lsCor= new int[4];
         lsCor[0]=0;
@@ -35,6 +55,14 @@ public class jogadorAcao extends Jogador{
         }
         return  lsCor;
     }
+    /**
+     * O método serve para encontrar a cor com maior frequencia na lista
+     * para que o jogador sempre possa jogar a cor de maior frequencia no jogo
+     * quando o jogador descobrir a cor de maior repetição ele ira deletar essa cor da lista, para que não haja problemas em consultas repetidas
+     * ou algum possivel loop
+     * @param lsCor
+     * @return
+     */
     public Cor maiorCor(int[] lsCor){
         lsCor=new int[4];
         int big=0;
@@ -70,6 +98,10 @@ public class jogadorAcao extends Jogador{
         }
         return cartasCor;
     }
+    /**
+     * Método que procura uma carta de compra para jogar, caso a carta que criou acumulo seja uma CECC o jogador
+     * dara prioridade a jogar uma CECC com sua maior cor disponivel e valida para a jogada
+     */
     public Carta defineCartaParaAcumulo(Acao acaoDoAcumulo){
         int[] lsCor = freqCor();
         Cor mCor;
@@ -104,22 +136,41 @@ public class jogadorAcao extends Jogador{
         return null;
     }
     /*
-        1 - prox bot 1 carta - se possível lançar urgentemente carta de acumulo; (feito)
-        2 - prox prox bot 1 carta - se possível não lançar carta de ação; (feito)
-        3 - se só 2 cartas na mão priorizar carta sem cor; (feito)
-        4 - Cartas sem cores possuem a menor prioridade; (feito)
-        5 - Jogar as cartas da cor que o bot mais possue na mão; (feito)
+        1 - se só 2 cartas na mão priorizar carta sem cor; (feito)
+        2 - Cartas sem cores possuem a menor prioridade; (feito)
+        3 - Jogar as cartas da cor que o bot mais possue na mão; (feito)
+     */
+
+
+    /**
+     * O método serve para o jogador ter uma tomada de decisão ao arremessar uma carta, onde ele dara 
+     * maior prioridade a cartas normais, que ele tenha mais cores disponiveis para jogar, caso ele não encontre ele procura alguma carta de cor de maior
+     * frequencia, caso ele não encontre ele ira procurar a alguma CESC caso encontre ele a jogara,
+     * se jogador tiver duas cartas em sua mão ele dara uma prioridade maior a cartas CESC para ele poder descarta-las e mudar a cor do jogo ao seu favor
      */
     public Carta defineCartaDaJogada()
     {
     	Carta ultimo = Jogo.roda.getUltimaCarta();
-        ArrayList<Jogador> lJogadores = Jogo.roda.getJogadores();
         int[] lfreqCor = freqCor();
         Cor corFreq;
+        Cor corjogo;
         int cont;
+        /*
+         * Correção para problema de leitura de cor
+         * onde logo no inicio do algoritmo o bot já descobre se a ultima carta lançada for uma CESC
+         * caso seja o bot vai usar a função get cor escolhida de roda para conseguir a cor escolhida pelo ultimo jogador e evitar erros
+         */
+        corjogo=ultimo.getCor();
+        if(ultimo instanceof CartaEspecialSemCor){
+            corjogo=Jogo.roda.getCorEscolhida();
+        }
+        /*
+         * Verificar se jogador esta no fim da mão caso sim o jogador vai verificar se sua ultima carta
+         */
         if(this.getQuantidadeCartas()==2){
             for(Carta c:this.getMaoJogador().getCartas()){
                 if(c instanceof CartaEspecialSemCor){
+                    LOGGER.trace("JogadorRoda gritou Uno\n");
                     return c;
                 }
             }
@@ -128,28 +179,29 @@ public class jogadorAcao extends Jogador{
                 corFreq=maiorCor(lfreqCor);
             for(Carta c : this.getMaoJogador().getCartas())
                 {
-                    if(c.getCor()==ultimo.getCor()){
+                    if(c.getCor()==corjogo){
                         if(!(c instanceof CartaNormal))
                             continue;
-                        
                         CartaNormal cn = (CartaNormal)c;
-                        
-                        // Se for a mesma cor pode jogar
-                        if(cn.getCor() == ultimo.getCor())
+                        if(cn.getCor() == corjogo)
+                        {
+                            LOGGER.trace("JogadorRoda gritou Uno\n");
                             return c;
-                        
-                        // Se for o mesmo número também pode jogar
+                        }
                         if(ultimo instanceof CartaNormal && ((CartaNormal)ultimo).getNumero() == cn.getNumero())
+                        {
+                            LOGGER.trace("JogadorRoda gritou Uno\n");
                             return c;
+                        }
                     }
                 }
-            //
             for(cont=0;cont<4;cont++){
                 corFreq=maiorCor(lfreqCor);
                 for(Carta c:this.getMaoJogador().getCartas()){
                     if(c instanceof CartaEspecialComCor){
                         if(c.getCor()==corFreq){
-                            if(c.getCor()==ultimo.getCor() || ultimo instanceof CartaEspecialComCor){
+                            if(c.getCor()==corjogo || ultimo instanceof CartaEspecialComCor){
+                                LOGGER.trace("JogadorRoda gritou Uno\n");
                                 return c;
                             }
                         }
@@ -158,42 +210,40 @@ public class jogadorAcao extends Jogador{
             }
         }
     }
+    /*
+     * Jogada padrão do jogador caso ele não tenha poucas cartas ele realizara essa ação
+     * que dara prioridade crescente para descartas cartas especiais sem cor, especiais com cor e normais
+     * caso ele jogue alguma carta diferente de CESC ele dara prioriadade a jogar suas cores de maior frequencaia
+     */
         else{
-            //busca cartas comuns
             for(cont=0;cont<4;cont++)
             {
                 corFreq=maiorCor(lfreqCor);
             for(Carta c : this.getMaoJogador().getCartas())
                 {
-                    if(c.getCor()==ultimo.getCor()){
+                    if(c.getCor()==corjogo){
                         if(!(c instanceof CartaNormal))
                             continue;
                         
                         CartaNormal cn = (CartaNormal)c;
-                        
-                        // Se for a mesma cor pode jogar
-                        if(cn.getCor() == ultimo.getCor())
+                        if(cn.getCor() == corjogo)
                             return c;
-                        
-                        // Se for o mesmo número também pode jogar
                         if(ultimo instanceof CartaNormal && ((CartaNormal)ultimo).getNumero() == cn.getNumero())
                             return c;
                     }
                 }
-                //busca cartas especiais
             for(cont=0;cont<4;cont++){
                 corFreq=maiorCor(lfreqCor);
                 for(Carta c:this.getMaoJogador().getCartas()){
                     if(c instanceof CartaEspecialComCor){
                         if(c.getCor()==corFreq){
-                            if(c.getCor()==ultimo.getCor() || ultimo instanceof CartaEspecialComCor){
+                            if(c.getCor()==corjogo|| ultimo instanceof CartaEspecialComCor){
                                 return c;
                             }
                         }
                     }
                 }
             }
-            //busca cartas coringa
             for(Carta c:this.getMaoJogador().getCartas()){
                 if(c instanceof CartaEspecialSemCor){
                     return c;
@@ -201,42 +251,32 @@ public class jogadorAcao extends Jogador{
             }
         }
     }
-    	// Busca cartas normais
     	for(Carta c : this.getMaoJogador().getCartas())
     	{
     		if(!(c instanceof CartaNormal))
     			continue;
-    		
     		CartaNormal cn = (CartaNormal)c;
-    		
-    		// Se for a mesma cor pode jogar
-    		if(cn.getCor() == ultimo.getCor())
+    		if(cn.getCor() == corjogo)
     			return c;
-    		
-    		// Se for o mesmo número também pode jogar
     		if(ultimo instanceof CartaNormal && ((CartaNormal)ultimo).getNumero() == cn.getNumero())
     			return c;
     	}
-    	
-    	// Busca +4 e troca cor
     	for(Carta c : this.getMaoJogador().getCartas())
     	{
     		if(!(c instanceof CartaEspecialSemCor))
     			continue;
-    		
-    		// +4 e troca cor pode ser jogado de qualquer forma
     		return c;
     	}
-    	
-    	// Se não conseguir jogar nenhuma tem que comprar
-    	//return this.defineCartaDaJogada();
+        LOGGER.trace("JogadorRoda não encontrou carta adequada\n");
         return null;
     }
+    // Método de sorteio inteligente onde jogador ira sortear uma cor sua que mais se repete no jogo
     public Cor sorteiaCor(){
         int[] lst;
         lst = freqCor();
         Cor maiorCor;
         maiorCor = maiorCor(lst);
+        LOGGER.trace("JogadorRoda escolhendo cor {}\n", maiorCor);
         return maiorCor;
     }
 }
