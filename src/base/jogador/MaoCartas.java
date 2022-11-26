@@ -67,12 +67,24 @@ public class MaoCartas extends Baralho{
         cartas.addAll(listaCartas);
     }
 
+    /**
+     * Realiza o descarte de uma carta específica, retirando-a da
+     * mão de cartas de Jogador e inserindo-a no baralho de descarte
+     * de Roda.
+     * @param carta - Carta a ser descartada de MaoCartas
+     * @see Roda 
+     */
     public void descartarCarta(Carta carta) throws JogadaImpossivel
     {
     	this.cartas.remove(carta);
     	Jogo.roda.descartarCarta(carta);
     }
 
+    /**
+     * Retorna todas as cartas existentes na lista interna de cartas
+     * de MaoCartas.
+     * @return cartas - ArrayList de cartas existentes na MãoCartas.
+     */
     public ArrayList<Carta> getCartas() {
 		return cartas;
 	}

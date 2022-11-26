@@ -117,7 +117,7 @@ public class Baralho {
 	 * @return o tamanhho do arraylist cartas
 	 */
 	public int quantCarta() { // para verificar a quantidade de cartas
-		LOGGER.info("Quantidade de cartas retornada: {}", cartas.size());
+		LOGGER.trace("Quantidade de cartas retornada: {}", cartas.size());
 
 		return cartas.size();
 	}
